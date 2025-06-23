@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
+
+package chinesehistory;
+
+// 枚举：图层类型
+enum LayerType {
+  UNKNOWN = 0;
+  CITY = 1;
+  EVENT = 2;
+  TERRITORY = 3;
+  ROUTE = 4;
+}
+
+// 请求结构：按时间+类型获取图层
+message GetLayersRequest {
+  string start_date = 1; // 格式建议 YYYY-MM-DD，可用于表示阳历/公元
+  string end_date = 2;   // 可与 start_date 相同表示单一时间点
+  repeated LayerType layerTypes = 3;
+}
+
+// 图层元素结构
+message LayerItem {
+  string id = 1;
+  string name = 2;
+  LayerType type = 3;
+  string geometry_json = 4;
+  string start_date = 5;
+  string end_date = 6;
+  repeated string tags = 7;
+}
+
+// 返回结构
+message GetLayersResponse {
+  repeated LayerItem items = 1;
+}
+
+service LayerService {
+  rpc GetLayers(GetLayersRequest) returns (GetLayersResponse);
+} 

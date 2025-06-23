@@ -18,6 +18,11 @@ const props = withDefaults(defineProps<{
   zoom: 12
 })
 
+// 定义事件
+const emit = defineEmits<{
+  'map-ready': [service: MapService]
+}>()
+
 onMounted(async () => {
   if (mapContainer.value) {
     mapService = new MapService(mapContainer.value)
@@ -32,6 +37,9 @@ onMounted(async () => {
     try {
       await mapService.initMap(mapOptions)
       console.log('百度地图初始化成功')
+      
+      // 触发map-ready事件，传递mapService实例
+      emit('map-ready', mapService)
     } catch (error) {
       console.error('百度地图初始化失败:', error)
     }

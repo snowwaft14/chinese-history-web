@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
 
-package greet;
+package chinesehistory;
 
 // The greeting service definition.
 service Greeter {
