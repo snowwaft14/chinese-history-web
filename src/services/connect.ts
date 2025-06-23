@@ -3,7 +3,7 @@ import { createGrpcWebTransport } from '@connectrpc/connect-web'
 // 创建gRPC-Web传输
 export const transport = createGrpcWebTransport({
   // gRPC服务器基地址
-  baseUrl: 'https://localhost:5001',
+  baseUrl: 'https://localhost:5002',
   
   // 使用二进制格式，因为不是所有gRPC-web实现都支持JSON
   useBinaryFormat: true,

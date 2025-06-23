@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { MapService, XI_AN_CENTER } from '@/services/map'
+import { MapService, XI_AN_CENTER } from '@/utils/map'
 import type { BaiduMapOptions } from '@/models/map'
 
 const mapContainer = ref<HTMLElement>()

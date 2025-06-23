@@ -1,8 +1,8 @@
 import { createClient } from '@connectrpc/connect'
 import { transport } from './connect'
-import { Greeter } from '../connects/src/protos/greet_pb'
+import { Greeter } from '../connects/greet_pb'
 import { create } from '@bufbuild/protobuf'
-import { HelloRequestSchema, type HelloReply } from '../connects/src/protos/greet_pb'
+import { HelloRequestSchema, type HelloReply } from '../connects/greet_pb'
 
 // 创建gRPC客户端
 const client = createClient(Greeter, transport)
