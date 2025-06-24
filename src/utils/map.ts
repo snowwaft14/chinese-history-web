@@ -68,6 +68,7 @@ export class MapService {
 
     layers.forEach(layer => {
       try {
+        console.log(`开始渲染图层：${layer.type} - ${layer.name}:`)
         this.renderLayer(layer)
       } catch (error) {
         console.error(`渲染图层失败 ${layer.name}:`, error)

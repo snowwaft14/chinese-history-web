@@ -17,7 +17,6 @@ enum LayerType {
 message GetLayersRequest {
   string start_date = 1; // 格式建议 YYYY-MM-DD，可用于表示阳历/公元
   string end_date = 2;   // 可与 start_date 相同表示单一时间点
-  repeated LayerType layerTypes = 3;
 }
 
 // 图层元素结构

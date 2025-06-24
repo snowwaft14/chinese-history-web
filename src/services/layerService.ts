@@ -18,15 +18,13 @@ export class LayerServiceClient {
    */
   async getLayers(
     startDate: string,
-    endDate: string,
-    layerTypes: LayerType[]
+    endDate: string
   ): Promise<LayerItem[]> {
     try {
       // 创建请求对象
       const request: GetLayersRequest = create(GetLayersRequestSchema, {
         startDate,
-        endDate,
-        layerTypes,
+        endDate
       });
 
       // 调用gRPC服务
@@ -37,21 +35,6 @@ export class LayerServiceClient {
       console.error("获取图层数据失败:", error);
       throw error;
     }
-  }
-
-  /**
-   * 获取所有图层类型的数据
-   * @param startDate 开始日期
-   * @param endDate 结束日期
-   * @returns 图层数据
-   */
-  async getAllLayers(startDate: string, endDate: string): Promise<LayerItem[]> {
-    return this.getLayers(startDate, endDate, [
-      LayerType.CITY,
-      LayerType.EVENT,
-      LayerType.TERRITORY,
-      LayerType.ROUTE
-    ]);
   }
 }
 

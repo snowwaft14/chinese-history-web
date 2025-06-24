@@ -10,7 +10,6 @@
             v-model="dateRange.startDate"
             type="date"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            @change="onDateRangeChange"
           />
         </div>
         <div>
@@ -19,7 +18,6 @@
             v-model="dateRange.endDate"
             type="date"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            @change="onDateRangeChange"
           />
         </div>
         <button
@@ -148,8 +146,7 @@ const refreshLayers = async () => {
     
     const layers = await layerServiceClient.getLayers(
       dateRange.startDate,
-      dateRange.endDate,
-      selectedLayerTypes.value
+      dateRange.endDate
     )
 
     currentLayers.value = layers
@@ -171,6 +168,14 @@ const refreshLayers = async () => {
 // 渲染过滤后的图层
 const renderFilteredLayers = () => {
   if (!mapService) return
+
+  //在日志里打印选中的图层对应的中文名
+  selectedLayerTypes.value.forEach(type => {
+    const layerType = layerTypeOptions.find(option => option.value === type)
+    console.log(`选中的图层类型：${layerType?.label}，${layerType?.value}`)
+  })
+
+
 
   // 根据选中的图层类型过滤数据
   const filteredLayers = currentLayers.value.filter(layer => 
