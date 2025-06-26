@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { MapService, XI_AN_CENTER } from '@/utils/map'
+import { MapService, XI_AN_CENTER } from './BaiduMap.vue.ts'
 import type { BaiduMapOptions } from '@/models/map'
 
 const mapContainer = ref<HTMLElement>()
@@ -26,7 +26,7 @@ const emit = defineEmits<{
 onMounted(async () => {
   if (mapContainer.value) {
     mapService = new MapService(mapContainer.value)
-    
+
     const mapOptions: BaiduMapOptions = {
       center: props.center,
       zoom: props.zoom,
@@ -37,7 +37,7 @@ onMounted(async () => {
     try {
       await mapService.initMap(mapOptions)
       console.log('百度地图初始化成功')
-      
+
       // 触发map-ready事件，传递mapService实例
       emit('map-ready', mapService)
     } catch (error) {
@@ -53,4 +53,4 @@ onUnmounted(() => {
 
 <style scoped>
 /* 地图容器样式 */
-</style> 
+</style>

@@ -13,10 +13,31 @@ enum LayerType {
   ROUTE = 4;
 }
 
-// 请求结构：按时间+类型获取图层
+// 枚举：历史纪年类型
+enum CalendarType {
+  GREGORIAN = 0;      // 公元纪年
+  LUNAR = 1;          // 农历
+  ERA_NAME = 2;       // 年号
+  DYNASTY_RANGE = 3;  // 朝代模糊区间
+}
+
+// 历史日期结构
+message HistoricalDate {
+  CalendarType calendar_type = 1; // 纪年类型
+  string era_name = 2;      // 年号名称，如"贞观"
+  int32 era_year = 3;       // 年号第几年，例如5年
+  int32 era_month = 4;      // 月份
+  int32 era_day = 5;        // 日期
+  string dynasty = 6;       // 朝代名称（模糊区间用）
+  string period = 7;        // 时期名称（如"东汉末年"）
+  string iso_date = 8;      // 公元日期（如 763-02-17）
+  string lunar_date = 9;    // 农历表示（如 "癸卯年闰三月初五"）
+}
+
+// 请求结构：按历史时间范围获取图层
 message GetLayersRequest {
-  string start_date = 1; // 格式建议 YYYY-MM-DD，可用于表示阳历/公元
-  string end_date = 2;   // 可与 start_date 相同表示单一时间点
+  HistoricalDate start = 1; // 起始时间
+  HistoricalDate end = 2;   // 结束时间
 }
 
 // 图层元素结构

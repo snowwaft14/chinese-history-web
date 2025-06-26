@@ -10,27 +10,104 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file layer.proto.
  */
 export const file_layer: GenFile = /*@__PURE__*/
-  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3RvcnkiOAoQR2V0TGF5ZXJzUmVxdWVzdBISCgpzdGFydF9kYXRlGAEgASgJEhAKCGVuZF9kYXRlGAIgASgJIpkBCglMYXllckl0ZW0SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRInCgR0eXBlGAMgASgOMhkuY2hpbmVzZWhpc3RvcnkuTGF5ZXJUeXBlEhUKDWdlb21ldHJ5X2pzb24YBCABKAkSEgoKc3RhcnRfZGF0ZRgFIAEoCRIQCghlbmRfZGF0ZRgGIAEoCRIMCgR0YWdzGAcgAygJIj0KEUdldExheWVyc1Jlc3BvbnNlEigKBWl0ZW1zGAEgAygLMhkuY2hpbmVzZWhpc3RvcnkuTGF5ZXJJdGVtKkcKCUxheWVyVHlwZRILCgdVTktOT1dOEAASCAoEQ0lUWRABEgkKBUVWRU5UEAISDQoJVEVSUklUT1JZEAMSCQoFUk9VVEUQBDJgCgxMYXllclNlcnZpY2USUAoJR2V0TGF5ZXJzEiAuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVxdWVzdBohLmNoaW5lc2VoaXN0b3J5LkdldExheWVyc1Jlc3BvbnNlQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw");
+  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3Rvcnki1AEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSEAoIZXJhX25hbWUYAiABKAkSEAoIZXJhX3llYXIYAyABKAUSEQoJZXJhX21vbnRoGAQgASgFEg8KB2VyYV9kYXkYBSABKAUSDwoHZHluYXN0eRgGIAEoCRIOCgZwZXJpb2QYByABKAkSEAoIaXNvX2RhdGUYCCABKAkSEgoKbHVuYXJfZGF0ZRgJIAEoCSJuChBHZXRMYXllcnNSZXF1ZXN0Ei0KBXN0YXJ0GAEgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSKwoDZW5kGAIgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUimQEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRISCgpzdGFydF9kYXRlGAUgASgJEhAKCGVuZF9kYXRlGAYgASgJEgwKBHRhZ3MYByADKAkiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0qRwoJTGF5ZXJUeXBlEgsKB1VOS05PV04QABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEKkkKDENhbGVuZGFyVHlwZRINCglHUkVHT1JJQU4QABIJCgVMVU5BUhABEgwKCEVSQV9OQU1FEAISEQoNRFlOQVNUWV9SQU5HRRADMmAKDExheWVyU2VydmljZRJQCglHZXRMYXllcnMSIC5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z");
 
 /**
- * 请求结构：按时间+类型获取图层
+ * 历史日期结构
+ *
+ * @generated from message chinesehistory.HistoricalDate
+ */
+export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
+  /**
+   * 纪年类型
+   *
+   * @generated from field: chinesehistory.CalendarType calendar_type = 1;
+   */
+  calendarType: CalendarType;
+
+  /**
+   * 年号名称，如"贞观"
+   *
+   * @generated from field: string era_name = 2;
+   */
+  eraName: string;
+
+  /**
+   * 年号第几年，例如5年
+   *
+   * @generated from field: int32 era_year = 3;
+   */
+  eraYear: number;
+
+  /**
+   * 月份
+   *
+   * @generated from field: int32 era_month = 4;
+   */
+  eraMonth: number;
+
+  /**
+   * 日期
+   *
+   * @generated from field: int32 era_day = 5;
+   */
+  eraDay: number;
+
+  /**
+   * 朝代名称（模糊区间用）
+   *
+   * @generated from field: string dynasty = 6;
+   */
+  dynasty: string;
+
+  /**
+   * 时期名称（如"东汉末年"）
+   *
+   * @generated from field: string period = 7;
+   */
+  period: string;
+
+  /**
+   * 公元日期（如 763-02-17）
+   *
+   * @generated from field: string iso_date = 8;
+   */
+  isoDate: string;
+
+  /**
+   * 农历表示（如 "癸卯年闰三月初五"）
+   *
+   * @generated from field: string lunar_date = 9;
+   */
+  lunarDate: string;
+};
+
+/**
+ * Describes the message chinesehistory.HistoricalDate.
+ * Use `create(HistoricalDateSchema)` to create a new message.
+ */
+export const HistoricalDateSchema: GenMessage<HistoricalDate> = /*@__PURE__*/
+  messageDesc(file_layer, 0);
+
+/**
+ * 请求结构：按历史时间范围获取图层
  *
  * @generated from message chinesehistory.GetLayersRequest
  */
 export type GetLayersRequest = Message<"chinesehistory.GetLayersRequest"> & {
   /**
-   * 格式建议 YYYY-MM-DD，可用于表示阳历/公元
+   * 起始时间
    *
-   * @generated from field: string start_date = 1;
+   * @generated from field: chinesehistory.HistoricalDate start = 1;
    */
-  startDate: string;
+  start?: HistoricalDate;
 
   /**
-   * 可与 start_date 相同表示单一时间点
+   * 结束时间
    *
-   * @generated from field: string end_date = 2;
+   * @generated from field: chinesehistory.HistoricalDate end = 2;
    */
-  endDate: string;
+  end?: HistoricalDate;
 };
 
 /**
@@ -38,7 +115,7 @@ export type GetLayersRequest = Message<"chinesehistory.GetLayersRequest"> & {
  * Use `create(GetLayersRequestSchema)` to create a new message.
  */
 export const GetLayersRequestSchema: GenMessage<GetLayersRequest> = /*@__PURE__*/
-  messageDesc(file_layer, 0);
+  messageDesc(file_layer, 1);
 
 /**
  * 图层元素结构
@@ -87,7 +164,7 @@ export type LayerItem = Message<"chinesehistory.LayerItem"> & {
  * Use `create(LayerItemSchema)` to create a new message.
  */
 export const LayerItemSchema: GenMessage<LayerItem> = /*@__PURE__*/
-  messageDesc(file_layer, 1);
+  messageDesc(file_layer, 2);
 
 /**
  * 返回结构
@@ -106,7 +183,7 @@ export type GetLayersResponse = Message<"chinesehistory.GetLayersResponse"> & {
  * Use `create(GetLayersResponseSchema)` to create a new message.
  */
 export const GetLayersResponseSchema: GenMessage<GetLayersResponse> = /*@__PURE__*/
-  messageDesc(file_layer, 2);
+  messageDesc(file_layer, 3);
 
 /**
  * 枚举：图层类型
@@ -145,6 +222,47 @@ export enum LayerType {
  */
 export const LayerTypeSchema: GenEnum<LayerType> = /*@__PURE__*/
   enumDesc(file_layer, 0);
+
+/**
+ * 枚举：历史纪年类型
+ *
+ * @generated from enum chinesehistory.CalendarType
+ */
+export enum CalendarType {
+  /**
+   * 公元纪年
+   *
+   * @generated from enum value: GREGORIAN = 0;
+   */
+  GREGORIAN = 0,
+
+  /**
+   * 农历
+   *
+   * @generated from enum value: LUNAR = 1;
+   */
+  LUNAR = 1,
+
+  /**
+   * 年号
+   *
+   * @generated from enum value: ERA_NAME = 2;
+   */
+  ERA_NAME = 2,
+
+  /**
+   * 朝代模糊区间
+   *
+   * @generated from enum value: DYNASTY_RANGE = 3;
+   */
+  DYNASTY_RANGE = 3,
+}
+
+/**
+ * Describes the enum chinesehistory.CalendarType.
+ */
+export const CalendarTypeSchema: GenEnum<CalendarType> = /*@__PURE__*/
+  enumDesc(file_layer, 1);
 
 /**
  * @generated from service chinesehistory.LayerService

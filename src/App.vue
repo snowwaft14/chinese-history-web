@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import HistoryMapPage from '@/pages/HistoryMapPage.vue'
+import MainPage from '@/pages/MainPage.vue'
 </script>
 
 <template>
   <div id="app">
-    <HistoryMapPage />
+    <MainPage />
   </div>
 </template>
 
