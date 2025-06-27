@@ -10,76 +10,55 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file layer.proto.
  */
 export const file_layer: GenFile = /*@__PURE__*/
-  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3Rvcnki1AEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSEAoIZXJhX25hbWUYAiABKAkSEAoIZXJhX3llYXIYAyABKAUSEQoJZXJhX21vbnRoGAQgASgFEg8KB2VyYV9kYXkYBSABKAUSDwoHZHluYXN0eRgGIAEoCRIOCgZwZXJpb2QYByABKAkSEAoIaXNvX2RhdGUYCCABKAkSEgoKbHVuYXJfZGF0ZRgJIAEoCSJuChBHZXRMYXllcnNSZXF1ZXN0Ei0KBXN0YXJ0GAEgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSKwoDZW5kGAIgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUimQEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRISCgpzdGFydF9kYXRlGAUgASgJEhAKCGVuZF9kYXRlGAYgASgJEgwKBHRhZ3MYByADKAkiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0qRwoJTGF5ZXJUeXBlEgsKB1VOS05PV04QABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEKkkKDENhbGVuZGFyVHlwZRINCglHUkVHT1JJQU4QABIJCgVMVU5BUhABEgwKCEVSQV9OQU1FEAISEQoNRFlOQVNUWV9SQU5HRRADMmAKDExheWVyU2VydmljZRJQCglHZXRMYXllcnMSIC5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z");
+  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3RvcnkimAEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBRILCgNkYXkYBCABKAUSFQoNaXNfbGVhcF9tb250aBgFIAEoCBIQCghlcmFfbmFtZRgGIAEoCSJuChBHZXRMYXllcnNSZXF1ZXN0Ei0KBXN0YXJ0GAEgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSKwoDZW5kGAIgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUimQEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRISCgpzdGFydF9kYXRlGAUgASgJEhAKCGVuZF9kYXRlGAYgASgJEgwKBHRhZ3MYByADKAkiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0qRwoJTGF5ZXJUeXBlEgsKB1VOS05PV04QABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEKjEKDENhbGVuZGFyVHlwZRINCglHUkVHT1JJQU4QABIJCgVMVU5BUhABEgcKA0VSQRACMmAKDExheWVyU2VydmljZRJQCglHZXRMYXllcnMSIC5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z");
 
 /**
- * 历史日期结构
+ * 历史日期结构（新版本）
  *
  * @generated from message chinesehistory.HistoricalDate
  */
 export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
   /**
-   * 纪年类型
+   * 纪年类型（GREGORIAN, LUNAR, ERA）
    *
    * @generated from field: chinesehistory.CalendarType calendar_type = 1;
    */
   calendarType: CalendarType;
 
   /**
-   * 年号名称，如"贞观"
+   * 年号第几年或公历年，负数表示公元前
    *
-   * @generated from field: string era_name = 2;
+   * @generated from field: int32 year = 2;
+   */
+  year: number;
+
+  /**
+   * 月份（1~12）
+   *
+   * @generated from field: int32 month = 3;
+   */
+  month: number;
+
+  /**
+   * 日（1~31）
+   *
+   * @generated from field: int32 day = 4;
+   */
+  day: number;
+
+  /**
+   * 是否闰月，仅对农历有效
+   *
+   * @generated from field: bool is_leap_month = 5;
+   */
+  isLeapMonth: boolean;
+
+  /**
+   * 年号（如"贞观"，用于 ERA 类型）
+   *
+   * @generated from field: string era_name = 6;
    */
   eraName: string;
-
-  /**
-   * 年号第几年，例如5年
-   *
-   * @generated from field: int32 era_year = 3;
-   */
-  eraYear: number;
-
-  /**
-   * 月份
-   *
-   * @generated from field: int32 era_month = 4;
-   */
-  eraMonth: number;
-
-  /**
-   * 日期
-   *
-   * @generated from field: int32 era_day = 5;
-   */
-  eraDay: number;
-
-  /**
-   * 朝代名称（模糊区间用）
-   *
-   * @generated from field: string dynasty = 6;
-   */
-  dynasty: string;
-
-  /**
-   * 时期名称（如"东汉末年"）
-   *
-   * @generated from field: string period = 7;
-   */
-  period: string;
-
-  /**
-   * 公元日期（如 763-02-17）
-   *
-   * @generated from field: string iso_date = 8;
-   */
-  isoDate: string;
-
-  /**
-   * 农历表示（如 "癸卯年闰三月初五"）
-   *
-   * @generated from field: string lunar_date = 9;
-   */
-  lunarDate: string;
 };
 
 /**
@@ -246,16 +225,9 @@ export enum CalendarType {
   /**
    * 年号
    *
-   * @generated from enum value: ERA_NAME = 2;
+   * @generated from enum value: ERA = 2;
    */
-  ERA_NAME = 2,
-
-  /**
-   * 朝代模糊区间
-   *
-   * @generated from enum value: DYNASTY_RANGE = 3;
-   */
-  DYNASTY_RANGE = 3,
+  ERA = 2,
 }
 
 /**

@@ -2,20 +2,13 @@
   <div class="history-map-page w-screen h-screen overflow-hidden relative">
     <!-- 左上角：历史日期选择器 -->
     <div class="absolute top-4 left-4 z-[100]" style="z-index: 100;">
-      <HistoricalDateSelector
-        v-model:begin-date="beginDate"
-        v-model:end-date="endDate"
-        @apply="onDateRangeApply"
-      />
+      <HistoricalDateSelector v-model:begin-date="beginDate" v-model:end-date="endDate" @apply="onDateRangeApply" />
     </div>
 
     <!-- 查询按钮 -->
     <div class="absolute top-4 left-[22rem] z-[90]" style="z-index: 90;">
-      <button
-        @click="performQuery"
-        :disabled="loading || !isValidDateRange"
-        class="bg-blue-500 bg-opacity-95 backdrop-blur-sm rounded-xl shadow-xl border border-blue-200 px-6 py-4 text-white font-semibold hover:bg-blue-600 hover:shadow-2xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
+      <button @click="performQuery" :disabled="loading || !isValidDateRange"
+        class="bg-blue-500 bg-opacity-95 backdrop-blur-sm rounded-xl shadow-xl border border-blue-200 px-6 py-4 text-white font-semibold hover:bg-blue-600 hover:shadow-2xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed">
         <span v-if="!loading">🔍</span>
         <div v-if="loading" class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
         <span>{{ loading ? '查询中...' : '查询图层' }}</span>
@@ -24,11 +17,7 @@
 
     <!-- 右上角：图层类型选择器 -->
     <div class="absolute top-4 right-4 z-[80]" style="z-index: 80;">
-      <LayerSelector
-        v-model="selectedLayerTypes"
-        :layer-options="layerTypeOptions"
-        @change="onLayerTypeChange"
-      />
+      <LayerSelector v-model="selectedLayerTypes" :layer-options="layerTypeOptions" @change="onLayerTypeChange" />
     </div>
 
     <!-- 底部状态栏 -->
@@ -44,13 +33,7 @@
     </div>
 
     <!-- 地图容器 -->
-    <BaiduMap 
-      ref="mapRef" 
-      :center="XI_AN_CENTER" 
-      :zoom="8"
-      @map-ready="onMapReady"
-      class="w-full h-full"
-    />
+    <BaiduMap ref="mapRef" :center="XI_AN_CENTER" :zoom="8" @map-ready="onMapReady" class="w-full h-full" />
   </div>
 </template>
 
@@ -65,7 +48,7 @@ import { layerServiceClient } from '@/services/layerService'
 import { LayerType } from '@/connects/layer_pb'
 import type { LayerItem } from '@/connects/layer_pb'
 import type { MapService } from '@/components/BaiduMap.vue.ts'
-import {CalendarType, type HistoricalDate, HistoricalDateSchema} from '@/connects/layer_pb'
+import { CalendarType, type HistoricalDate, HistoricalDateSchema } from '@/connects/layer_pb'
 import { type HistoricalDateRange } from '@/models/historical-date'
 import { HistoricalDateUtils } from '@/components/HistoricalDateSelector.vue.ts'
 
@@ -79,18 +62,22 @@ const lastQueryTime = ref<string>('')
 // 历史日期范围（使用beginDate和endDate）
 const beginDate = ref<HistoricalDate>(create(HistoricalDateSchema, {
   calendarType: CalendarType.GREGORIAN,
-  isoDate: '0755-12-16'
+  year: 755,
+  month: 12,
+  day: 16
 }))
 
 const endDate = ref<HistoricalDate>(create(HistoricalDateSchema, {
   calendarType: CalendarType.GREGORIAN,
-  isoDate: '0763-02-17'
+  year: 763,
+  month: 12,
+  day: 16
 }))
 
 // 计算属性：验证日期范围是否有效
 const isValidDateRange = computed(() => {
-  return HistoricalDateUtils.isValid(beginDate.value) && 
-         HistoricalDateUtils.isValid(endDate.value)
+  return HistoricalDateUtils.isValid(beginDate.value) &&
+    HistoricalDateUtils.isValid(endDate.value)
 })
 
 // 计算属性：构造历史日期范围对象
@@ -101,29 +88,29 @@ const historicalDateRange = computed((): HistoricalDateRange => ({
 
 // 图层类型选项
 const layerTypeOptions = [
-  { 
-    value: LayerType.CITY, 
-    label: '城池', 
-    icon: '🏰', 
-    description: '重要城市和军事要塞' 
+  {
+    value: LayerType.CITY,
+    label: '城池',
+    icon: '🏰',
+    description: '重要城市和军事要塞'
   },
-  { 
-    value: LayerType.EVENT, 
-    label: '事件', 
-    icon: '⚔️', 
-    description: '历史事件和重要节点' 
+  {
+    value: LayerType.EVENT,
+    label: '事件',
+    icon: '⚔️',
+    description: '历史事件和重要节点'
   },
-  { 
-    value: LayerType.TERRITORY, 
-    label: '疆域', 
-    icon: '🗺️', 
-    description: '政治疆域和控制区域' 
+  {
+    value: LayerType.TERRITORY,
+    label: '疆域',
+    icon: '🗺️',
+    description: '政治疆域和控制区域'
   },
-  { 
-    value: LayerType.ROUTE, 
-    label: '路线', 
-    icon: '🛤️', 
-    description: '行军路线和交通要道' 
+  {
+    value: LayerType.ROUTE,
+    label: '路线',
+    icon: '🛤️',
+    description: '行军路线和交通要道'
   }
 ]
 
@@ -151,23 +138,9 @@ const onMapReady = (service: MapService) => {
 // 历史日期范围应用（从日期选择器的应用按钮触发）
 const onDateRangeApply = (newBeginDate: HistoricalDate, newEndDate: HistoricalDate) => {
   console.log('应用新的历史日期范围:', {
-    start: HistoricalDateUtils.formatDate(newBeginDate),
-    end: HistoricalDateUtils.formatDate(newEndDate)
+    start: `${newBeginDate.year}-${newBeginDate.month}-${newBeginDate.day}`,
+    end: `${newEndDate.year}-${newEndDate.month}-${newEndDate.day}`
   })
-  
-  // 确保日期顺序正确
-  const startISO = HistoricalDateUtils.toISODate(newBeginDate)
-  const endISO = HistoricalDateUtils.toISODate(newEndDate)
-  
-  if (startISO > endISO) {
-    // 交换日期
-    beginDate.value = newEndDate
-    endDate.value = newBeginDate
-    console.log('交换了开始和结束日期以确保正确顺序')
-  } else {
-    beginDate.value = newBeginDate
-    endDate.value = newEndDate
-  }
 }
 
 // 执行查询（点击查询按钮触发）
@@ -178,25 +151,19 @@ const performQuery = async () => {
   error.value = ''
 
   try {
-   
-    console.log(`执行图层查询: ${beginDate} 到 ${endDate}`)
-    console.log('历史日期范围:', {
-      start: HistoricalDateUtils.formatDate(beginDate.value),
-      end: HistoricalDateUtils.formatDate(endDate.value)
-    })
-    
+
     // 使用新的历史日期范围服务
     const layers = await layerServiceClient.getLayersByDateRange(historicalDateRange.value)
 
     currentLayers.value = layers
     console.log(`从服务器获取到 ${layers.length} 个图层数据`)
-    
+
     // 记录查询时间
     lastQueryTime.value = new Date().toLocaleTimeString()
-    
+
     // 应用图层类型过滤并渲染到地图
     renderFilteredLayers()
-    
+
   } catch (err) {
     console.error('获取图层数据失败:', err)
     error.value = '获取图层数据失败，请检查服务器连接'
@@ -211,7 +178,7 @@ const onLayerTypeChange = (selectedTypes: LayerType[]) => {
     const option = layerTypeOptions.find(opt => opt.value === type)
     return `${option?.label}(${option?.value})`
   }))
-  
+
   // 重新过滤并渲染图层
   renderFilteredLayers()
 }
@@ -221,7 +188,7 @@ const renderFilteredLayers = () => {
   if (!mapService) return
 
   // 根据选中的图层类型过滤数据
-  const filteredLayers = currentLayers.value.filter(layer => 
+  const filteredLayers = currentLayers.value.filter(layer =>
     selectedLayerTypes.value.includes(layer.type)
   )
 
@@ -267,9 +234,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* 加载状态动画 */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -278,4 +248,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
-</style> 
+</style>
