@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5Iq4BCg5IaXN0b3JpY2FsRGF0ZRIzCg1jYWxlbmRhcl90eXBlGAEgASgOMhwuY2hpbmVzZWhpc3RvcnkuQ2FsZW5kYXJUeXBlEgwKBHllYXIYAiABKAUSDQoFbW9udGgYAyABKAUSCwoDZGF5GAQgASgFEhUKDWlzX2xlYXBfbW9udGgYBSABKAgSFAoMZHluYXN0eV9uYW1lGAYgASgJEhAKCGVyYV9uYW1lGAcgASgJKjEKDENhbGVuZGFyVHlwZRINCglHUkVHT1JJQU4QABIJCgVMVU5BUhABEgcKA0VSQRACQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw");
+  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IsABCg5IaXN0b3JpY2FsRGF0ZRIzCg1jYWxlbmRhcl90eXBlGAEgASgOMhwuY2hpbmVzZWhpc3RvcnkuQ2FsZW5kYXJUeXBlEgwKBHllYXIYAiABKAUSDQoFbW9udGgYAyABKAUSCwoDZGF5GAQgASgFEhUKDWlzX2xlYXBfbW9udGgYBSABKAgSFAoMZHluYXN0eV9uYW1lGAYgASgJEhAKCGVyYV9uYW1lGAcgASgJEhAKCGVyYV95ZWFyGAggASgFKjEKDENhbGVuZGFyVHlwZRINCglHUkVHT1JJQU4QABIJCgVMVU5BUhABEgcKA0VSQRACQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw");
 
 /**
  * 历史日期结构（新版本）
@@ -66,6 +66,13 @@ export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
    * @generated from field: string era_name = 7;
    */
   eraName: string;
+
+  /**
+   * 年号第几年（如3，表示贞观3年，用于 ERA 类型）
+   *
+   * @generated from field: int32 era_year = 8;
+   */
+  eraYear: number;
 };
 
 /**

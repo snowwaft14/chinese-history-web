@@ -1,0 +1,93 @@
+import { createClient } from "@connectrpc/connect";
+import { DynastyService } from "../connects/dynasty_pb";
+import {
+  type GetAllDynastiesRequest,
+  type Dynasty,
+  GetAllDynastiesRequestSchema,
+  type GetEmperorsByDynastyRequest,
+  type Emperor,
+  GetEmperorsByDynastyRequestSchema,
+  type GetDynastyRequest,
+  GetDynastyRequestSchema,
+} from "../connects/dynasty_pb";
+import { create } from "@bufbuild/protobuf";
+import { transport } from "./connect";
+
+// 创建DynastyService客户端
+const client = createClient(DynastyService, transport);
+
+export class DynastyServiceClient {
+  /**
+   * 获取所有朝代
+   * @param includePeriods 是否包含时代信息
+   * @returns 朝代数据响应
+   */
+  async getAllDynasties(includePeriods: boolean = false): Promise<Dynasty[]> {
+    try {
+      // 创建请求对象
+      const request: GetAllDynastiesRequest = create(GetAllDynastiesRequestSchema, {
+        includePeriods: includePeriods,
+      });
+
+      // 调用gRPC服务
+      const response = await client.getAllDynasties(request);
+
+      return response.dynasties;
+    } catch (error) {
+      console.error("获取朝代数据失败:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取某个朝代下的皇帝
+   * @param dynastyId 朝代ID
+   * @param includeEraNames 是否包含年号信息
+   * @returns 皇帝数据响应
+   */
+  async getEmperorsByDynasty(
+    dynastyId: string,
+    includeEraNames: boolean = true,
+  ): Promise<Emperor[]> {
+    try {
+      // 创建请求对象
+      const request: GetEmperorsByDynastyRequest = create(GetEmperorsByDynastyRequestSchema, {
+        dynastyId: dynastyId,
+        includeEraNames: includeEraNames,
+      });
+
+      // 调用gRPC服务
+      const response = await client.getEmperorsByDynasty(request);
+
+      return response.emperors;
+    } catch (error) {
+      console.error("获取皇帝数据失败:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取单个朝代详情
+   * @param dynastyId 朝代ID
+   * @returns 朝代详情
+   */
+  async getDynasty(dynastyId: string): Promise<Dynasty | undefined> {
+    try {
+      // 创建请求对象
+      const request: GetDynastyRequest = create(GetDynastyRequestSchema, {
+        dynastyId: dynastyId,
+      });
+
+      // 调用gRPC服务
+      const response = await client.getDynasty(request);
+
+      return response.dynasty;
+    } catch (error) {
+      console.error("获取朝代详情失败:", error);
+      throw error;
+    }
+  }
+}
+
+// 导出单例实例
+export const dynastyServiceClient = new DynastyServiceClient();
