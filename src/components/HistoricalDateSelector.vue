@@ -1,81 +1,96 @@
 <template>
-  <div class="historical-date-selector relative w-full max-w-md min-w-[340px]">
+  <div class="historical-date-selector relative w-full max-w-md min-w-[400px]">
     <!-- 触发按钮 - 根据不同模式显示不同内容 -->
-    <button @click="toggleDropdown"
-      class="w-full bg-white border border-gray-300 rounded-md shadow-sm px-4 py-3 text-left hover:bg-gray-50 transition-all duration-200 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
-      <div class="flex-1 min-w-0">
-        <div class="text-sm text-gray-900">
-          {{ getDisplayText() }}
-        </div>
-      </div>
-      <svg :class="[
-        'w-4 h-4 transition-transform duration-200 text-gray-400 flex-shrink-0 ml-2',
-        isOpen ? 'transform rotate-180' : ''
-      ]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
-
-    <!-- 下拉面板 -->
-    <div v-if="isOpen"
-      class="absolute top-full left-0 right-0 mt-1 bg-white rounded-md shadow-lg border border-gray-200 z-50 overflow-hidden">
-      <div class="p-4">
-        <!-- 纪年方式单选框 - 只有阳历、农历、年号 -->
-        <div class="mb-4">
-          <div class="flex space-x-6">
-            <label class="flex items-center">
-              <input type="radio" :value="CalendarType.GREGORIAN" v-model="selectedCalendarType" 
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-              <span class="ml-2 text-sm text-gray-700">阳历</span>
-            </label>
-            <label class="flex items-center">
-              <input type="radio" :value="CalendarType.LUNAR" v-model="selectedCalendarType"
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-              <span class="ml-2 text-sm text-gray-700">农历</span>
-            </label>
-            <label class="flex items-center">
-              <input type="radio" :value="CalendarType.ERA" v-model="selectedCalendarType"
-                class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" />
-              <span class="ml-2 text-sm text-gray-700">年号</span>
-            </label>
+    <div class="dropdown dropdown-bottom w-full" :class="{ 'dropdown-open': isOpen }">
+      <button @click="toggleDropdown" tabindex="0" role="button"
+        class="btn btn-outline btn-primary w-full justify-between">
+        <div class="flex-1 min-w-0 text-left">
+          <div class="text-sm truncate">
+            {{ getDisplayText() }}
           </div>
         </div>
+        <svg :class="[
+          'w-4 h-4 transition-transform duration-200 flex-shrink-0 ml-2',
+          isOpen ? 'transform rotate-180' : ''
+        ]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
 
-        <!-- 时间范围选择 -->
-        <div class="space-y-4">
-          <!-- 开始日期 -->
-          <div class="bg-gray-50 rounded-md p-3">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              开始日期
-            </label>
-            <DateInput :calendar-type="selectedCalendarType" :model-value="dateRange.start"
-              @update:model-value="updateStartDate" />
+      <!-- 下拉面板 -->
+      <div tabindex="0"
+        class="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-0 shadow-lg border border-base-300 mt-1">
+        <div class="card card-body">
+          <!-- 纪年方式单选框 - 只有阳历、农历、年号 -->
+          <div class="form-control mb-4">
+            <div class="label">
+              <span class="label-text font-semibold">纪年方式</span>
+            </div>
+            <div class="flex gap-6">
+              <label class="label cursor-pointer p-0">
+                <input type="radio" :value="CalendarType.GREGORIAN" v-model="selectedCalendarType" 
+                  class="radio radio-primary radio-sm" />
+                <span class="label-text ml-2">阳历</span>
+              </label>
+              <label class="label cursor-pointer p-0">
+                <input type="radio" :value="CalendarType.LUNAR" v-model="selectedCalendarType"
+                  class="radio radio-primary radio-sm" />
+                <span class="label-text ml-2">农历</span>
+              </label>
+              <label class="label cursor-pointer p-0">
+                <input type="radio" :value="CalendarType.ERA" v-model="selectedCalendarType"
+                  class="radio radio-primary radio-sm" />
+                <span class="label-text ml-2">年号</span>
+              </label>
+            </div>
           </div>
 
-          <!-- 结束日期 -->
-          <div class="bg-gray-50 rounded-md p-3">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              结束日期
-            </label>
-            <DateInput :calendar-type="selectedCalendarType" :model-value="dateRange.end"
-              @update:model-value="updateEndDate" />
-          </div>
-        </div>
-
-        <!-- 快速选择列表 -->
-        <div class="mt-4">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            快速选择
-          </label>
-          <div class="space-y-2 max-h-32 overflow-y-auto">
-            <button v-for="preset in presetRanges" :key="preset.name" @click="applyPresetRange(preset)"
-              class="w-full p-3 text-left rounded-md border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 text-sm">
-              <div class="font-medium text-gray-800 mb-1">
-                {{ preset.name }}
+          <!-- 时间范围选择 -->
+          <div class="space-y-4">
+            <!-- 开始日期 -->
+            <div class="card bg-base-200 card-body p-3">
+              <div class="label">
+                <span class="label-text font-medium text-primary">开始日期</span>
               </div>
-              <div class="text-xs text-gray-500">
-                {{ preset.description }}
+              <DateInput :calendar-type="selectedCalendarType" :value="dateRange.start"
+                @update:model-value="updateStartDate" />
+            </div>
+
+            <!-- 结束日期 -->
+            <div class="card bg-base-200 card-body p-3">
+              <div class="label">
+                <span class="label-text font-medium text-primary">结束日期</span>
               </div>
+              <DateInput :calendar-type="selectedCalendarType" :value="dateRange.end"
+                @update:model-value="updateEndDate" />
+            </div>
+          </div>
+
+          <!-- 快速选择列表 -->
+          <div class="mt-4">
+            <div class="label">
+              <span class="label-text font-medium text-primary">快速选择</span>
+            </div>
+            <div class="space-y-2 max-h-32 overflow-y-auto scrollbar-thin">
+              <button v-for="preset in presetRanges" :key="preset.name" @click="applyPresetRange(preset)"
+                class="btn btn-ghost btn-sm w-full justify-start text-left p-3 h-auto normal-case">
+                <div class="w-full">
+                  <div class="font-medium text-base-content mb-1">
+                    {{ preset.name }}
+                  </div>
+                  <div class="text-xs text-base-content/70">
+                    {{ preset.description }}
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+          
+          <!-- 操作按钮 -->
+          <div class="card-actions justify-end mt-4 pt-3 border-t border-base-300">
+            <button @click="reset" class="btn btn-ghost btn-sm">重置</button>
+            <button @click="applyAndClose" class="btn btn-primary btn-sm" :disabled="!isValidRange">
+              确定
             </button>
           </div>
         </div>
@@ -83,7 +98,7 @@
     </div>
 
     <!-- 遮罩层 -->
-    <div v-if="isOpen" @click="closeDropdown" class="fixed inset-0 z-40"></div>
+    <div v-if="isOpen" @click="closeDropdown" class="fixed inset-0 z-40 bg-black/20"></div>
   </div>
 </template>
 
@@ -95,7 +110,7 @@ export default {
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-import { CalendarType, type HistoricalDate, HistoricalDateSchema } from '@/connects/layer_pb.ts'
+import { CalendarType, type HistoricalDate, HistoricalDateSchema } from '@/connects/common_pb.ts'
 import { type HistoricalDateRange } from '@/models/historical-date'
 import { PERIOD_RANGES } from '@/models/historical-data'
 import { create } from '@bufbuild/protobuf'
@@ -114,6 +129,7 @@ const props = withDefaults(defineProps<Props>(), {
     month: 12,
     day: 16,
     isLeapMonth: false,
+    dynastyName: '',
     eraName: ''
   }),
   endDate: () => create(HistoricalDateSchema, {
@@ -122,6 +138,7 @@ const props = withDefaults(defineProps<Props>(), {
     month: 12,
     day: 16,
     isLeapMonth: false,
+    dynastyName: '',
     eraName: ''
   })
 })
@@ -134,6 +151,7 @@ function createDefaultDate(calendarType: CalendarType): HistoricalDate {
     month: 12,
     day: 16,
     isLeapMonth: false,
+    dynastyName: calendarType === CalendarType.ERA ? '唐' : '',
     eraName: calendarType === CalendarType.ERA ? '天宝' : ''
   })
 }
@@ -178,6 +196,7 @@ const presetRanges = computed(() =>
         month: startParts.month,
         day: startParts.day,
         isLeapMonth: false,
+        dynastyName: '',
         eraName: ''
       }),
       end: create(HistoricalDateSchema, {
@@ -186,6 +205,7 @@ const presetRanges = computed(() =>
         month: endParts.month,
         day: endParts.day,
         isLeapMonth: false,
+        dynastyName: '',
         eraName: ''
       })
     }
@@ -310,8 +330,10 @@ const apply = () => {
 }
 
 const applyAndClose = () => {
-  apply()
-  closeDropdown()
+  if (isValidRange.value) {
+    emit('apply', dateRange.value.start, dateRange.value.end)
+    closeDropdown()
+  }
 }
 
 // 监听日历类型变化，更新日期格式

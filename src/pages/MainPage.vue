@@ -48,7 +48,7 @@ import { layerServiceClient } from '@/services/layerService'
 import { LayerType } from '@/connects/layer_pb'
 import type { LayerItem } from '@/connects/layer_pb'
 import type { MapService } from '@/components/BaiduMap.vue.ts'
-import { CalendarType, type HistoricalDate, HistoricalDateSchema } from '@/connects/layer_pb'
+import { CalendarType, type HistoricalDate, HistoricalDateSchema } from '@/connects/common_pb'
 import { type HistoricalDateRange } from '@/models/historical-date'
 import { HistoricalDateUtils } from '@/components/HistoricalDateSelector.vue.ts'
 

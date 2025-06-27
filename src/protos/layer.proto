@@ -4,6 +4,8 @@ option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
 
 package chinesehistory;
 
+import "common.proto";
+
 // 枚举：图层类型
 enum LayerType {
   UNKNOWN = 0;
@@ -11,23 +13,6 @@ enum LayerType {
   EVENT = 2;
   TERRITORY = 3;
   ROUTE = 4;
-}
-
-// 枚举：历史纪年类型
-enum CalendarType {
-  GREGORIAN = 0;      // 公元纪年
-  LUNAR = 1;          // 农历
-  ERA = 2;            // 年号
-}
-
-// 历史日期结构（新版本）
-message HistoricalDate {
-  CalendarType calendar_type = 1; // 纪年类型（GREGORIAN, LUNAR, ERA）
-  int32 year = 2;                 // 年号第几年或公历年，负数表示公元前
-  int32 month = 3;                // 月份（1~12）
-  int32 day = 4;                  // 日（1~31）
-  bool is_leap_month = 5;         // 是否闰月，仅对农历有效
-  string era_name = 6;            // 年号（如"贞观"，用于 ERA 类型）
 }
 
 // 请求结构：按历史时间范围获取图层

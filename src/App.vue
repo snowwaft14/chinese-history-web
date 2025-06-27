@@ -3,7 +3,7 @@ import MainPage from '@/pages/MainPage.vue'
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" data-theme="chinese">
     <MainPage />
   </div>
 </template>

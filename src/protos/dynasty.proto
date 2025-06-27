@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
+
+package chinesehistory;
+
+import "common.proto";
+
+// 王朝，例如唐、宋、元、明、清
+message Dynasty {
+  string name = 1;
+  string description = 2;
+  int32 start_year = 3;
+  int32 end_year = 4;
+  repeated Period periods = 5;
+  repeated Emperor emperors = 6;        // 所有皇帝
+  repeated string tags = 7;
+}
+
+// 王朝下的一些时代，例如北宋、南宋、初唐、盛唐、中唐、晚唐
+message Period {
+  string name = 1;
+  string description = 2;
+  int32 start_year = 3;
+  int32 end_year = 4;
+}
+
+// 皇帝或国家的领袖
+message Emperor {
+  string id = 1;                         // 唯一标识符，一般是约定叫法，例如"汉武帝"、"唐太宗"、"清康熙"
+  string name = 2;                       // 皇帝姓名，如"赵匡胤"
+  string temple_name = 3;                // 庙号，如"太祖"
+  string posthumous_name = 4;            // 谥号，如"文皇帝"
+  string courtesy_name = 5;              // 字（如"德基"）
+  string dynasty_name = 6;               // 所属朝代ID，如"唐朝"
+  repeated EraName era_names = 7;        // 所有年号
+
+  HistoricalDate reign_start = 8;        // 在位起始
+  HistoricalDate reign_end = 9;          // 在位结束
+  HistoricalDate birth = 10;             // 出生日期
+  HistoricalDate death = 11;             // 去世日期
+
+  string birthplace = 12;                // 出生地
+  string burial_place = 13;              // 陵墓或安葬地
+  string notes = 14;                     // 备注或简介
+}
+
+// 年号
+message EraName {
+  string name = 1;                       // 年号名称，如"贞观"
+  HistoricalDate start_date = 2;         // 年号开始日期
+  HistoricalDate end_date = 3;           // 年号结束日期
+  string note = 4;                       // 补充信息（如更改原因、事件）
+}
+
+// 获取所有朝代请求
+message GetAllDynastiesRequest {
+  bool include_periods = 1;              // 是否包含时代信息
+}
+
+// 获取所有朝代响应
+message GetAllDynastiesResponse {
+  repeated Dynasty dynasties = 1;
+}
+
+// 获取朝代皇帝请求
+message GetEmperorsByDynastyRequest {
+  string dynasty_id = 1;                 // 朝代ID
+  bool include_era_names = 2;            // 是否包含年号信息
+}
+
+// 获取朝代皇帝响应
+message GetEmperorsByDynastyResponse {
+  repeated Emperor emperors = 1;
+}
+
+// 获取单个朝代详情请求
+message GetDynastyRequest {
+  string dynasty_id = 1;                 // 朝代ID
+}
+
+// 获取单个朝代详情响应
+message GetDynastyResponse {
+  Dynasty dynasty = 1;
+}
+
+// 朝代服务
+service DynastyService {
+  // 获取所有朝代（包括朝代下的时代）
+  rpc GetAllDynasties(GetAllDynastiesRequest) returns (GetAllDynastiesResponse);
+  
+  // 获取某个朝代下的皇帝（包括年号）
+  rpc GetEmperorsByDynasty(GetEmperorsByDynastyRequest) returns (GetEmperorsByDynastyResponse);
+  
+  // 获取单个朝代详情
+  rpc GetDynasty(GetDynastyRequest) returns (GetDynastyResponse);
+} 

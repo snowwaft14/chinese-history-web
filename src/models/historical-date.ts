@@ -1,4 +1,4 @@
-import type { HistoricalDate } from "@/connects/layer_pb"
+import type { HistoricalDate } from "@/connects/common_pb"
 
 // 历史日期范围
 export interface HistoricalDateRange {

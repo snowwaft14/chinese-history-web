@@ -1,7 +1,7 @@
 import { createClient } from "@connectrpc/connect";
 import { LayerService } from "../connects/layer_pb";
-import { GetLayersRequestSchema, HistoricalDateSchema, CalendarType } from "../connects/layer_pb";
-import type { GetLayersRequest, LayerItem, HistoricalDate } from "../connects/layer_pb";
+import { HistoricalDateSchema, CalendarType } from "../connects/common_pb";
+import { type GetLayersRequest, type LayerItem, GetLayersRequestSchema } from "../connects/layer_pb";
 import { create } from "@bufbuild/protobuf";
 import { transport } from './connect'
 import type { HistoricalDateRange } from '@/models/historical-date'
