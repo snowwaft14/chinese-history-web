@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import type { Dynasty } from "@/connects/dynasty_pb";
+import type { Dynasty, EraName } from "@/connects/dynasty_pb";
 import { dynastyServiceClient } from "@/services/dynastyService";
 
 // 农历月份名称
@@ -61,6 +61,10 @@ export class DateInputUtils {
   private static dynasties = ref<Dynasty[]>([]);
   private static dynastiesLoaded = ref(false);
   private static loadingDynasties = ref(false);
+
+  // 年号数据缓存 (按朝代名称分组)
+  private static eraNamesByDynasty = ref<Record<string, EraName[]>>({});
+  private static loadingEras = ref<Record<string, boolean>>({});
 
   /**
    * 获取农历日期相关数据
@@ -147,5 +151,68 @@ export class DateInputUtils {
       dynastiesLoaded: computed(() => DateInputUtils.dynastiesLoaded.value),
       loadingDynasties: computed(() => DateInputUtils.loadingDynasties.value),
     };
+  }
+
+  /**
+   * 获取指定朝代的年号列表
+   */
+  static async getErasByDynasty(dynastyName: string): Promise<EraName[]> {
+    if (!dynastyName) return [];
+
+    // 如果已经加载过该朝代的年号，直接返回缓存
+    if (DateInputUtils.eraNamesByDynasty.value[dynastyName]) {
+      return DateInputUtils.eraNamesByDynasty.value[dynastyName];
+    }
+
+    // 如果正在加载，等待加载完成
+    if (DateInputUtils.loadingEras.value[dynastyName]) {
+      while (DateInputUtils.loadingEras.value[dynastyName]) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      return DateInputUtils.eraNamesByDynasty.value[dynastyName] || [];
+    }
+
+    try {
+      DateInputUtils.loadingEras.value[dynastyName] = true;
+      console.log(`开始加载朝代 ${dynastyName} 的年号数据...`);
+
+      const eras = await dynastyServiceClient.getErasByDynasty(dynastyName);
+      DateInputUtils.eraNamesByDynasty.value[dynastyName] = eras;
+
+      console.log(
+        `成功加载朝代 ${dynastyName} 的 ${eras.length} 个年号:`,
+        eras.map((e) => e.name),
+      );
+      return eras;
+    } catch (error) {
+      console.error(`加载朝代 ${dynastyName} 的年号数据失败:`, error);
+      // 返回空数组，确保应用不会崩溃
+      return [];
+    } finally {
+      DateInputUtils.loadingEras.value[dynastyName] = false;
+    }
+  }
+
+  /**
+   * 获取指定朝代的年号名称列表（用于下拉选择）
+   */
+  static async getEraNamesByDynasty(dynastyName: string): Promise<string[]> {
+    const eras = await DateInputUtils.getErasByDynasty(dynastyName);
+    return eras.map((era) => era.name);
+  }
+
+  /**
+   * 根据朝代名称和年号名称获取年号详情
+   */
+  static async getEraByName(dynastyName: string, eraName: string): Promise<EraName | undefined> {
+    const eras = await DateInputUtils.getErasByDynasty(dynastyName);
+    return eras.find((era) => era.name === eraName);
+  }
+
+  /**
+   * 检查是否正在加载指定朝代的年号数据
+   */
+  static isLoadingEras(dynastyName: string): boolean {
+    return DateInputUtils.loadingEras.value[dynastyName] || false;
   }
 }

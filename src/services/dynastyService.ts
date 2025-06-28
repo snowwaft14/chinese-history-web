@@ -9,6 +9,9 @@ import {
   GetEmperorsByDynastyRequestSchema,
   type GetDynastyRequest,
   GetDynastyRequestSchema,
+  type GetErasByDynastyRequest,
+  type EraName,
+  GetErasByDynastyRequestSchema,
 } from "../connects/dynasty_pb";
 import { create } from "@bufbuild/protobuf";
 import { transport } from "./connect";
@@ -84,6 +87,28 @@ export class DynastyServiceClient {
       return response.dynasty;
     } catch (error) {
       console.error("获取朝代详情失败:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取朝代下的所有年号
+   * @param dynastyName 朝代名称
+   * @returns 年号数据响应
+   */
+  async getErasByDynasty(dynastyName: string): Promise<EraName[]> {
+    try {
+      // 创建请求对象
+      const request: GetErasByDynastyRequest = create(GetErasByDynastyRequestSchema, {
+        dynastyName: dynastyName,
+      });
+
+      // 调用gRPC服务
+      const response = await client.getErasByDynasty(request);
+
+      return response.eraNames;
+    } catch (error) {
+      console.error("获取年号数据失败:", error);
       throw error;
     }
   }

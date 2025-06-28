@@ -212,8 +212,12 @@
   // 朝代数据
   const dynastyNames = ref<string[]>([]);
 
+  // 年号数据
+  const eraNames = ref<string[]>([]);
+  const loadingEras = ref(false);
+
   // 计算属性
-  const eras = computed(() => ERAS);
+  const eras = computed(() => eraNames.value.map((name) => ({ name })));
   const { lunarMonths, lunarDays } = DateInputUtils.getLunarDate();
 
   // 类型判断计算属性
@@ -389,12 +393,46 @@
     }
   };
 
+  // 加载年号数据
+  const loadEras = async (dynastyNameValue: string) => {
+    if (!dynastyNameValue) {
+      eraNames.value = [];
+      return;
+    }
+
+    try {
+      loadingEras.value = true;
+      eraNames.value = await DateInputUtils.getEraNamesByDynasty(dynastyNameValue);
+      console.log(`DateInput组件成功加载朝代 ${dynastyNameValue} 的年号:`, eraNames.value);
+    } catch (error) {
+      console.error(`DateInput组件加载朝代 ${dynastyNameValue} 的年号失败:`, error);
+      eraNames.value = [];
+    } finally {
+      loadingEras.value = false;
+    }
+  };
+
   // 监听modelValue变化
   watch(() => props.value, initializeData, { immediate: true });
+
+  // 监听dynastyName变化，自动加载年号
+  watch(dynastyName, (newDynastyName) => {
+    if (newDynastyName) {
+      loadEras(newDynastyName);
+      // 清空当前选中的年号，因为朝代变了
+      eraName.value = "";
+    } else {
+      eraNames.value = [];
+    }
+  });
 
   // 组件挂载时加载朝代数据
   onMounted(() => {
     loadDynasties();
+    // 如果初始化时已有朝代名称，也要加载对应的年号
+    if (dynastyName.value) {
+      loadEras(dynastyName.value);
+    }
   });
 </script>
 
