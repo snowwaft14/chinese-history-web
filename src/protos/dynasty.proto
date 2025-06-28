@@ -15,6 +15,7 @@ message Dynasty {
   repeated Period periods = 5;
   repeated Emperor emperors = 6;        // 所有皇帝
   repeated string tags = 7;
+  repeated string search_values = 8;    // 搜索辅助工具，例如拼音、声母
 }
 
 // 王朝下的一些时代，例如北宋、南宋、初唐、盛唐、中唐、晚唐
@@ -23,6 +24,7 @@ message Period {
   string description = 2;
   int32 start_year = 3;
   int32 end_year = 4;
+  repeated string search_values = 5;    // 搜索辅助工具，例如拼音、声母
 }
 
 // 皇帝或国家的领袖
@@ -43,6 +45,7 @@ message Emperor {
   string birthplace = 12;                // 出生地
   string burial_place = 13;              // 陵墓或安葬地
   string notes = 14;                     // 备注或简介
+  repeated string search_values = 15;    // 搜索辅助工具，例如拼音、声母
 }
 
 // 年号
@@ -51,6 +54,7 @@ message EraName {
   HistoricalDate start_date = 2;         // 年号开始日期
   HistoricalDate end_date = 3;           // 年号结束日期
   string note = 4;                       // 补充信息（如更改原因、事件）
+  repeated string search_values = 5;     // 搜索辅助工具，例如拼音、声母
 }
 
 // 获取所有朝代请求

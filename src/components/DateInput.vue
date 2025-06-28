@@ -9,27 +9,25 @@
       >
         <!-- 年号类型：所有字段在同一行 -->
         <template v-if="isEraType">
-          <select
+          <SearchableSelect
             v-model="dynastyName"
-            @change="updateDate"
-            class="select select-bordered select-sm w-20 text-center text-xs"
-          >
-            <option disabled value="">朝</option>
-            <option v-for="dynasty in dynastyNames" :key="dynasty" :value="dynasty">
-              {{ dynasty }}
-            </option>
-          </select>
+            :options="dynastyOptions"
+            placeholder="朝"
+            value-key="value"
+            label-key="label"
+            input-class="input input-bordered input-sm w-20 text-center text-xs"
+            @change="onDynastyChange"
+          />
 
-          <select
+          <SearchableSelect
             v-model="eraName"
-            @change="updateDate"
-            class="select select-bordered select-sm w-20 text-center text-xs"
-          >
-            <option disabled value="">年号</option>
-            <option v-for="era in eras" :key="era.name" :value="era.name">
-              {{ era.name }}
-            </option>
-          </select>
+            :options="eraOptions"
+            placeholder="年号"
+            value-key="value"
+            label-key="label"
+            input-class="input input-bordered input-sm w-20 text-center text-xs"
+            @change="onEraChange"
+          />
 
           <input
             type="number"
@@ -170,8 +168,10 @@
 <script setup lang="ts">
   import { ref, computed, watch, onMounted } from "vue";
   import { CalendarType, type HistoricalDate } from "@/connects/common_pb";
+  import type { Dynasty, EraName } from "@/connects/dynasty_pb";
   import { DateInputUtils } from "@/utils/DateInputUtils";
   import { ERAS } from "../models/historical-data.ts";
+  import SearchableSelect from "./SearchableSelect.vue";
 
   // Props
   interface Props {
@@ -209,16 +209,32 @@
   const eraMonth = ref<number>();
   const eraDay = ref<number>();
 
-  // 朝代数据
-  const dynastyNames = ref<string[]>([]);
+  // 朝代数据 - 使用完整对象以保留searchValues
+  const dynasties = ref<Dynasty[]>([]);
 
-  // 年号数据
-  const eraNames = ref<string[]>([]);
+  // 年号数据 - 使用完整对象以保留searchValues
+  const eras = ref<EraName[]>([]);
   const loadingEras = ref(false);
 
   // 计算属性
-  const eras = computed(() => eraNames.value.map((name) => ({ name })));
   const { lunarMonths, lunarDays } = DateInputUtils.getLunarDate();
+
+  // SearchableSelect的选项数据 - 直接使用完整对象，保留searchValues
+  const dynastyOptions = computed(() =>
+    dynasties.value.map((dynasty) => ({
+      value: dynasty.name,
+      label: dynasty.name,
+      searchValues: dynasty.searchValues,
+    })),
+  );
+
+  const eraOptions = computed(() =>
+    eras.value.map((era) => ({
+      value: era.name,
+      label: era.name,
+      searchValues: era.searchValues,
+    })),
+  );
 
   // 类型判断计算属性
   const isGregorianType = computed(() => props.value.calendarType === CalendarType.GREGORIAN);
@@ -262,6 +278,17 @@
     } else if (isLunarType.value) {
       lunarYear.value = value;
     }
+    updateDate();
+  };
+
+  // SearchableSelect事件处理
+  const onDynastyChange = (value: string) => {
+    dynastyName.value = value;
+    updateDate();
+  };
+
+  const onEraChange = (value: string) => {
+    eraName.value = value;
     updateDate();
   };
 
@@ -386,8 +413,11 @@
   // 加载朝代数据
   const loadDynasties = async () => {
     try {
-      dynastyNames.value = await DateInputUtils.getDynastyNames();
-      console.log("DateInput组件成功加载朝代:", dynastyNames.value);
+      dynasties.value = await DateInputUtils.getAllDynasties();
+      console.log(
+        "DateInput组件成功加载朝代:",
+        dynasties.value.map((d) => d.name),
+      );
     } catch (error) {
       console.error("DateInput组件加载朝代失败:", error);
     }
@@ -396,17 +426,20 @@
   // 加载年号数据
   const loadEras = async (dynastyNameValue: string) => {
     if (!dynastyNameValue) {
-      eraNames.value = [];
+      eras.value = [];
       return;
     }
 
     try {
       loadingEras.value = true;
-      eraNames.value = await DateInputUtils.getEraNamesByDynasty(dynastyNameValue);
-      console.log(`DateInput组件成功加载朝代 ${dynastyNameValue} 的年号:`, eraNames.value);
+      eras.value = await DateInputUtils.getErasByDynasty(dynastyNameValue);
+      console.log(
+        `DateInput组件成功加载朝代 ${dynastyNameValue} 的年号:`,
+        eras.value.map((e) => e.name),
+      );
     } catch (error) {
       console.error(`DateInput组件加载朝代 ${dynastyNameValue} 的年号失败:`, error);
-      eraNames.value = [];
+      eras.value = [];
     } finally {
       loadingEras.value = false;
     }
@@ -422,7 +455,7 @@
       // 清空当前选中的年号，因为朝代变了
       eraName.value = "";
     } else {
-      eraNames.value = [];
+      eras.value = [];
     }
   });
 
