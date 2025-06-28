@@ -6,11 +6,12 @@
         v-model:begin-date="beginDate"
         v-model:end-date="endDate"
         @apply="onDateRangeApply"
+        size="md"
       />
     </div>
 
     <!-- 查询按钮 -->
-    <div class="absolute top-4 left-[30rem] z-[90]" style="z-index: 90">
+    <div class="absolute top-4 left-[44rem] z-[90]" style="z-index: 90">
       <button
         @click="performQuery"
         :disabled="loading || !isValidDateRange"

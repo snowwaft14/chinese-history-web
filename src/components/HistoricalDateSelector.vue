@@ -1,5 +1,5 @@
 <template>
-  <div class="historical-date-selector relative w-full max-w-md min-w-[400px]">
+  <div :class="containerClass">
     <!-- Collapse 组件 -->
     <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-box shadow-lg">
       <!-- Collapse 标题/触发器 -->
@@ -122,6 +122,7 @@
   interface Props {
     beginDate?: HistoricalDate;
     endDate?: HistoricalDate;
+    size?: "sm" | "md" | "lg" | "xl";
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -147,6 +148,7 @@
         eraName: "",
         eraYear: 0,
       }),
+    size: "lg",
   });
 
   // Emits
@@ -218,6 +220,17 @@
     );
   });
 
+  // 根据size计算容器样式类
+  const containerClass = computed(() => {
+    const sizeMap = {
+      sm: "max-w-md min-w-[320px]", // 320px ~ 448px
+      md: "max-w-lg min-w-[400px]", // 400px ~ 512px
+      lg: "max-w-2xl min-w-[480px]", // 480px ~ 672px
+      xl: "max-w-4xl min-w-[600px]", // 600px ~ 896px
+    };
+    return `historical-date-selector relative w-full ${sizeMap[props.size]}`;
+  });
+
   // 根据当前状态获取显示文本
   const getDisplayText = () => {
     return HistoricalDateUtils.getDisplayText(
@@ -263,6 +276,7 @@
     emit("update:beginDate", preset.start);
     emit("update:endDate", preset.end);
     closeCollapse();
+    //selectedCalendarType.value = CalendarType.GREGORIAN;
   };
 
   const reset = () => {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['date-input-component', isEraType ? 'min-w-[320px]' : 'min-w-[360px]']">
+  <div class="date-input-component w-full">
     <div class="flex flex-col gap-3">
       <!-- 主要输入区域 -->
       <div
@@ -7,128 +7,144 @@
           isEraType ? 'flex items-center gap-1 flex-nowrap' : 'flex items-center gap-3 flex-wrap'
         "
       >
-        <!-- 年号类型：所有字段在同一行 -->
+        <!-- 年号类型：响应式布局，充分利用可用空间 -->
         <template v-if="isEraType">
-          <SearchableSelect
-            v-model="dynastyName"
-            :options="dynastyOptions"
-            placeholder="朝"
-            value-key="value"
-            label-key="label"
-            input-class="input input-bordered input-sm w-20 text-center text-xs"
-            @change="onDynastyChange"
-          />
-
-          <SearchableSelect
-            v-model="eraName"
-            :options="eraOptions"
-            placeholder="年号"
-            value-key="value"
-            label-key="label"
-            input-class="input input-bordered input-sm w-20 text-center text-xs"
-            @change="onEraChange"
-          />
-
-          <input
-            type="number"
-            v-model="eraYear"
-            @input="updateDate"
-            placeholder="3"
-            min="1"
-            max="50"
-            class="input input-bordered input-sm w-12 text-center text-xs"
-          />
-          <span class="text-xs text-base-content whitespace-nowrap">年</span>
-
-          <select
-            :value="monthValue"
-            @change="onMonthChange"
-            class="select select-bordered select-sm w-18 text-center text-xs"
-          >
-            <option disabled value="">月</option>
-            <option v-for="(month, index) in lunarMonths" :key="index" :value="index + 1">
-              {{ month }}
-            </option>
-          </select>
-
-          <select
-            :value="dayValue"
-            @change="onDayChange"
-            class="select select-bordered select-sm w-18 text-center text-xs"
-          >
-            <option disabled value="">日</option>
-            <option v-for="(day, index) in lunarDays" :key="index" :value="index + 1">
-              {{ day }}
-            </option>
-          </select>
-        </template>
-
-        <!-- 非年号类型：正常布局 -->
-        <template v-else>
-          <!-- 年份输入 -->
-          <div class="flex items-center gap-1">
-            <input
-              type="number"
-              :value="yearValue"
-              @input="onYearChange"
-              :placeholder="yearPlaceholder"
-              :min="yearMin"
-              :max="yearMax"
-              class="input input-bordered input-sm w-20 text-center"
+          <div class="flex items-center gap-2 w-full">
+            <SearchableSelect
+              v-model="dynastyName"
+              :options="dynastyOptions"
+              placeholder="朝"
+              value-key="value"
+              label-key="label"
+              input-class="input input-bordered input-sm text-center text-xs flex-1 min-w-[60px]"
+              @change="onDynastyChange"
             />
-            <span class="text-sm font-medium text-base-content">年</span>
-          </div>
 
-          <!-- 月份输入 -->
-          <div class="flex items-center gap-1">
-            <input
-              v-if="isGregorianType"
-              type="number"
-              :value="monthValue"
-              @input="onMonthChange"
-              placeholder="12"
-              min="1"
-              max="12"
-              class="input input-bordered input-sm w-16 text-center"
+            <SearchableSelect
+              v-model="eraName"
+              :options="eraOptions"
+              placeholder="年号"
+              value-key="value"
+              label-key="label"
+              input-class="input input-bordered input-sm text-center text-xs flex-1 min-w-[80px]"
+              @change="onEraChange"
             />
+
+            <div class="flex items-center gap-1">
+              <input
+                type="number"
+                v-model="eraYear"
+                @input="updateDate"
+                placeholder="3"
+                min="1"
+                max="50"
+                class="input input-bordered input-sm w-16 text-center text-xs"
+              />
+              <span class="text-xs text-base-content whitespace-nowrap">年</span>
+            </div>
+
             <select
-              v-else
               :value="monthValue"
               @change="onMonthChange"
-              class="select select-bordered select-sm w-20 text-center"
+              class="select select-bordered select-sm w-20 text-center text-xs"
             >
               <option disabled value="">月</option>
               <option v-for="(month, index) in lunarMonths" :key="index" :value="index + 1">
                 {{ month }}
               </option>
             </select>
-            <span v-if="isGregorianType" class="text-sm font-medium text-base-content">月</span>
-          </div>
 
-          <!-- 日期输入 -->
-          <div class="flex items-center gap-1">
-            <input
-              v-if="isGregorianType"
-              type="number"
-              :value="dayValue"
-              @input="onDayChange"
-              placeholder="16"
-              min="1"
-              max="31"
-              class="input input-bordered input-sm w-16 text-center"
-            />
             <select
-              v-else
               :value="dayValue"
               @change="onDayChange"
-              class="select select-bordered select-sm w-20 text-center"
+              class="select select-bordered select-sm w-20 text-center text-xs"
             >
               <option disabled value="">日</option>
               <option v-for="(day, index) in lunarDays" :key="index" :value="index + 1">
                 {{ day }}
               </option>
             </select>
-            <span v-if="isGregorianType" class="text-sm font-medium text-base-content">日</span>
+          </div>
+        </template>
+
+        <!-- 非年号类型：响应式布局 -->
+        <template v-else>
+          <div class="flex items-center gap-3 w-full">
+            <!-- 年份输入 -->
+            <div class="flex items-center gap-1 flex-1">
+              <input
+                type="number"
+                :value="yearValue"
+                @input="onYearChange"
+                :placeholder="yearPlaceholder"
+                :min="yearMin"
+                :max="yearMax"
+                class="input input-bordered input-sm text-center flex-1 min-w-[60px]"
+              />
+              <span class="text-sm font-medium text-base-content whitespace-nowrap">年</span>
+            </div>
+
+            <!-- 月份输入 -->
+            <div class="flex items-center gap-1 flex-1">
+              <input
+                v-if="isGregorianType"
+                type="number"
+                :value="monthValue"
+                @input="onMonthChange"
+                placeholder="12"
+                min="1"
+                max="12"
+                class="input input-bordered input-sm text-center flex-1 min-w-[50px]"
+              />
+              <select
+                v-else
+                :value="monthValue"
+                @change="onMonthChange"
+                class="select select-bordered select-sm text-center flex-1 min-w-[60px]"
+              >
+                <option disabled value="">月</option>
+                <option v-for="(month, index) in lunarMonths" :key="index" :value="index + 1">
+                  {{ month }}
+                </option>
+              </select>
+              <span
+                v-if="isGregorianType"
+                class="text-sm font-medium text-base-content whitespace-nowrap"
+              >
+                月
+              </span>
+            </div>
+
+            <!-- 日期输入 -->
+            <div class="flex items-center gap-1 flex-1">
+              <input
+                v-if="isGregorianType"
+                type="number"
+                :value="dayValue"
+                @input="onDayChange"
+                placeholder="16"
+                min="1"
+                max="31"
+                class="input input-bordered input-sm text-center flex-1 min-w-[50px]"
+              />
+              <select
+                v-else
+                :value="dayValue"
+                @change="onDayChange"
+                class="select select-bordered select-sm text-center flex-1 min-w-[60px]"
+              >
+                <option disabled value="">日</option>
+                <option v-for="(day, index) in lunarDays" :key="index" :value="index + 1">
+                  {{ day }}
+                </option>
+              </select>
+              <span
+                v-if="isGregorianType"
+                class="text-sm font-medium text-base-content whitespace-nowrap"
+              >
+                日
+              </span>
+            </div>
           </div>
         </template>
       </div>
