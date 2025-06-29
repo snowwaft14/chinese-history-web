@@ -116,7 +116,7 @@
   import { PERIOD_RANGES } from "@/models/historical-data";
   import { create } from "@bufbuild/protobuf";
   import DateInput from "./DateInput.vue";
-  import { HistoricalDateUtils } from "./HistoricalDateSelector.vue.ts";
+  import { HistoricalDateUtils } from "../utils/HistoricalDateUtils.ts";
 
   // Props
   interface Props {

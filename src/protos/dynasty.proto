@@ -57,58 +57,79 @@ message EraName {
   repeated string search_values = 5;     // 搜索辅助工具，例如拼音、声母
 }
 
-// 获取所有朝代请求
-message GetAllDynastiesRequest {
-  bool include_periods = 1;              // 是否包含时代信息
+// 获取多个朝代响应
+message GetDynastiesResponse {
+  repeated Dynasty dynasties = 1;
 }
 
-// 获取所有朝代响应
-message GetAllDynastiesResponse {
-  repeated Dynasty dynasties = 1;
+// 获取单个朝代响应
+message GetDynastyResponse {
+  Dynasty dynasty = 1;
+}
+
+// 获取多个皇帝响应
+message GetEmperorsResponse {
+  repeated Emperor emperors = 1;
+}
+
+// 获取单个皇帝响应
+message GetEmperorResponse {
+  Emperor emperor = 1;
+}
+
+// 获取多个朝代的年号响应
+message GetErasResponse {
+  repeated EraName era_names = 1;       // 年号列表
+}
+
+message GetAllDynastiesRequest{
+
+}
+
+// 获取皇帝详情请求
+message GetEmperorByIdRequest {
+  string emperor_id = 1;                 // 皇帝ID
+}
+
+// 获取单个朝代详情请求
+message GetDynastyByIdRequest {
+  string dynasty_id = 1;                 // 朝代ID
 }
 
 // 获取朝代皇帝请求
 message GetEmperorsByDynastyRequest {
   string dynasty_id = 1;                 // 朝代ID
-  bool include_era_names = 2;            // 是否包含年号信息
-}
-
-// 获取朝代皇帝响应
-message GetEmperorsByDynastyResponse {
-  repeated Emperor emperors = 1;
-}
-
-// 获取单个朝代详情请求
-message GetDynastyRequest {
-  string dynasty_id = 1;                 // 朝代ID
-}
-
-// 获取单个朝代详情响应
-message GetDynastyResponse {
-  Dynasty dynasty = 1;
 }
 
 // 获取朝代年号请求
 message GetErasByDynastyRequest {
-  string dynasty_name = 1;              // 朝代名称
+  string dynasty_id = 1;               // 朝代ID
 }
 
-// 获取朝代年号响应
-message GetErasByDynastyResponse {
-  repeated EraName era_names = 1;       // 年号列表
+// 获取朝代皇帝请求
+message GetErasByEmperorRequest {
+  string emperor_id = 1;                 // 皇帝ID
 }
 
 // 朝代服务
 service DynastyService {
-  // 获取所有朝代（包括朝代下的时代）
-  rpc GetAllDynasties(GetAllDynastiesRequest) returns (GetAllDynastiesResponse);
-  
-  // 获取某个朝代下的皇帝（包括年号）
-  rpc GetEmperorsByDynasty(GetEmperorsByDynastyRequest) returns (GetEmperorsByDynastyResponse);
-  
+  // 获取所有朝代
+  rpc GetAllDynasties(GetAllDynastiesRequest) returns (GetDynastiesResponse);
+
   // 获取单个朝代详情
-  rpc GetDynasty(GetDynastyRequest) returns (GetDynastyResponse);
+  rpc GetDynastyById(GetDynastyByIdRequest) returns (GetDynastyResponse);
+  
+  // 获取某个朝代下的皇帝
+  rpc GetEmperorsByDynasty(GetEmperorsByDynastyRequest) returns (GetEmperorsResponse);
+
+  // 获取皇帝详情
+  rpc GetEmperor(GetEmperorByIdRequest) returns (GetEmperorResponse);
+
+  // 获取某个皇帝下的年号
+  rpc GetErasByEmperor(GetErasByEmperorRequest) returns (GetErasResponse);
   
   // 获取朝代下的所有年号
-  rpc GetErasByDynasty(GetErasByDynastyRequest) returns (GetErasByDynastyResponse);
+  rpc GetErasByDynasty(GetErasByDynastyRequest) returns (GetErasResponse);
+
+
 } 

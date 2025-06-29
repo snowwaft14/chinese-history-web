@@ -16,7 +16,7 @@
       <button
         v-if="searchQuery && allowClear"
         @click="clearSelection"
-        class="absolute right-8 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        class="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -100,7 +100,7 @@
     allowClear: true,
     disabled: false,
     noDataText: "无匹配数据",
-    inputClass: "input input-bordered input-sm w-full pr-8",
+    inputClass: "input input-bordered input-sm w-full pr-12",
   });
 
   // Emits定义

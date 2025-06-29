@@ -7,11 +7,13 @@ import {
   type GetEmperorsByDynastyRequest,
   type Emperor,
   GetEmperorsByDynastyRequestSchema,
-  type GetDynastyRequest,
-  GetDynastyRequestSchema,
   type GetErasByDynastyRequest,
   type EraName,
   GetErasByDynastyRequestSchema,
+  type GetDynastyByIdRequest,
+  GetDynastyByIdRequestSchema,
+  type GetEmperorByIdRequest,
+  GetEmperorByIdRequestSchema,
 } from "../connects/dynasty_pb";
 import { create } from "@bufbuild/protobuf";
 import { transport } from "./connect";
@@ -28,9 +30,7 @@ export class DynastyServiceClient {
   async getAllDynasties(includePeriods: boolean = false): Promise<Dynasty[]> {
     try {
       // 创建请求对象
-      const request: GetAllDynastiesRequest = create(GetAllDynastiesRequestSchema, {
-        includePeriods: includePeriods,
-      });
+      const request: GetAllDynastiesRequest = create(GetAllDynastiesRequestSchema);
 
       // 调用gRPC服务
       const response = await client.getAllDynasties(request);
@@ -56,7 +56,6 @@ export class DynastyServiceClient {
       // 创建请求对象
       const request: GetEmperorsByDynastyRequest = create(GetEmperorsByDynastyRequestSchema, {
         dynastyId: dynastyId,
-        includeEraNames: includeEraNames,
       });
 
       // 调用gRPC服务
@@ -77,12 +76,12 @@ export class DynastyServiceClient {
   async getDynasty(dynastyId: string): Promise<Dynasty | undefined> {
     try {
       // 创建请求对象
-      const request: GetDynastyRequest = create(GetDynastyRequestSchema, {
+      const request: GetDynastyByIdRequest = create(GetDynastyByIdRequestSchema, {
         dynastyId: dynastyId,
       });
 
       // 调用gRPC服务
-      const response = await client.getDynasty(request);
+      const response = await client.getDynastyById(request);
 
       return response.dynasty;
     } catch (error) {
@@ -100,7 +99,7 @@ export class DynastyServiceClient {
     try {
       // 创建请求对象
       const request: GetErasByDynastyRequest = create(GetErasByDynastyRequestSchema, {
-        dynastyName: dynastyName,
+        dynastyId: dynastyName,
       });
 
       // 调用gRPC服务
@@ -109,6 +108,31 @@ export class DynastyServiceClient {
       return response.eraNames;
     } catch (error) {
       console.error("获取年号数据失败:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取皇帝详情
+   * @param emperorId 皇帝ID
+   * @returns 皇帝详情
+   */
+  async getEmperor(
+    emperorId: string,
+    includeEraNames: boolean = true,
+  ): Promise<Emperor | undefined> {
+    try {
+      // 创建请求对象
+      const request: GetEmperorByIdRequest = create(GetEmperorByIdRequestSchema, {
+        emperorId: emperorId,
+      });
+
+      // 调用gRPC服务
+      const response = await client.getEmperor(request);
+
+      return response.emperor;
+    } catch (error) {
+      console.error("获取皇帝详情失败:", error);
       throw error;
     }
   }

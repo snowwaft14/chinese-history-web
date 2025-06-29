@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import type { Dynasty, EraName } from "@/connects/dynasty_pb";
+import type { Dynasty, EraName, Emperor } from "@/connects/dynasty_pb";
 import { dynastyServiceClient } from "@/services/dynastyService";
 
 // 农历月份名称
@@ -83,39 +83,18 @@ export class DateInputUtils {
    * 获取所有朝代数据
    */
   static async getAllDynasties(): Promise<Dynasty[]> {
-    // 如果已经加载过，直接返回缓存的数据
-    if (DateInputUtils.dynastiesLoaded.value) {
-      return DateInputUtils.dynasties.value;
-    }
-
-    // 如果正在加载，等待加载完成
-    if (DateInputUtils.loadingDynasties.value) {
-      // 等待加载完成
-      while (DateInputUtils.loadingDynasties.value) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+    try {
+      if (!DateInputUtils.dynastiesLoaded.value) {
+        DateInputUtils.loadingDynasties.value = true;
+        const dynasties = await dynastyServiceClient.getAllDynasties(true);
+        DateInputUtils.dynasties.value = dynasties;
+        DateInputUtils.dynastiesLoaded.value = true;
+        DateInputUtils.loadingDynasties.value = false;
       }
       return DateInputUtils.dynasties.value;
-    }
-
-    try {
-      DateInputUtils.loadingDynasties.value = true;
-      console.log("开始加载朝代数据...");
-
-      const dynasties = await dynastyServiceClient.getAllDynasties(false);
-      DateInputUtils.dynasties.value = dynasties;
-      DateInputUtils.dynastiesLoaded.value = true;
-
-      console.log(
-        `成功加载 ${dynasties.length} 个朝代:`,
-        dynasties.map((d) => d.name),
-      );
-      return dynasties;
     } catch (error) {
-      console.error("加载朝代数据失败:", error);
-      // 返回空数组，确保应用不会崩溃
-      return [];
-    } finally {
-      DateInputUtils.loadingDynasties.value = false;
+      console.error("获取朝代数据失败:", error);
+      throw error;
     }
   }
 
@@ -214,5 +193,31 @@ export class DateInputUtils {
    */
   static isLoadingEras(dynastyName: string): boolean {
     return DateInputUtils.loadingEras.value[dynastyName] || false;
+  }
+
+  /**
+   * 获取朝代下的所有皇帝
+   */
+  static async getEmperorsByDynasty(dynastyId: string): Promise<Emperor[]> {
+    try {
+      const emperors = await dynastyServiceClient.getEmperorsByDynasty(dynastyId, true);
+      return emperors;
+    } catch (error) {
+      console.error("获取皇帝数据失败:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取皇帝详情
+   */
+  static async getEmperor(emperorId: string): Promise<Emperor | undefined> {
+    try {
+      const emperor = await dynastyServiceClient.getEmperor(emperorId, true);
+      return emperor;
+    } catch (error) {
+      console.error("获取皇帝详情失败:", error);
+      throw error;
+    }
   }
 }

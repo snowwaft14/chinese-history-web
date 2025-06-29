@@ -61,14 +61,14 @@
   import BaiduMap from "@/components/BaiduMap.vue";
   import HistoricalDateSelector from "@/components/HistoricalDateSelector.vue";
   import LayerSelector from "@/components/LayerSelector.vue";
-  import { XI_AN_CENTER } from "@/components/BaiduMap.vue.ts";
+  import { XI_AN_CENTER } from "@/utils/MapUtils";
   import { layerServiceClient } from "@/services/layerService";
   import { LayerType } from "@/connects/layer_pb";
   import type { LayerItem } from "@/connects/layer_pb";
-  import type { MapService } from "@/components/BaiduMap.vue.ts";
+  import type { MapUtils } from "@/utils/MapUtils";
   import { CalendarType, type HistoricalDate, HistoricalDateSchema } from "@/connects/common_pb";
   import { type HistoricalDateRange } from "@/models/historical-date";
-  import { HistoricalDateUtils } from "@/components/HistoricalDateSelector.vue.ts";
+  import { HistoricalDateUtils } from "@/utils/HistoricalDateUtils";
 
   // 响应式数据
   const mapRef = ref<InstanceType<typeof BaiduMap>>();
@@ -159,10 +159,10 @@
   const currentLayers = ref<LayerItem[]>([]);
 
   // 地图服务实例
-  let mapService: MapService | null = null;
+  let mapService: MapUtils | null = null;
 
   // 地图准备就绪回调
-  const onMapReady = (service: MapService) => {
+  const onMapReady = (service: MapUtils) => {
     mapService = service;
     console.log("地图已准备就绪");
     // 地图准备好后，可以进行初始查询

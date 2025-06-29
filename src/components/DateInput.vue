@@ -16,8 +16,18 @@
               placeholder="朝"
               value-key="value"
               label-key="label"
-              input-class="input input-bordered input-sm text-center text-xs flex-1 min-w-[60px]"
+              input-class="input input-bordered input-sm text-left text-xs flex-1 min-w-[60px]"
               @change="onDynastyChange"
+            />
+
+            <SearchableSelect
+              v-model="emperorId"
+              :options="emperorOptions"
+              placeholder="帝"
+              value-key="value"
+              label-key="label"
+              input-class="input input-bordered input-sm text-left text-xs flex-1 min-w-[80px]"
+              @change="onEmperorChange"
             />
 
             <SearchableSelect
@@ -26,7 +36,7 @@
               placeholder="年号"
               value-key="value"
               label-key="label"
-              input-class="input input-bordered input-sm text-center text-xs flex-1 min-w-[80px]"
+              input-class="input input-bordered input-sm text-left text-xs flex-1 min-w-[80px]"
               @change="onEraChange"
             />
 
@@ -38,7 +48,7 @@
                 placeholder="3"
                 min="1"
                 max="50"
-                class="input input-bordered input-sm w-16 text-center text-xs"
+                class="input input-bordered input-sm w-14 text-center text-xs"
               />
               <span class="text-xs text-base-content whitespace-nowrap">年</span>
             </div>
@@ -46,7 +56,7 @@
             <select
               :value="monthValue"
               @change="onMonthChange"
-              class="select select-bordered select-sm w-20 text-center text-xs"
+              class="select select-bordered select-sm w-16 text-center text-xs"
             >
               <option disabled value="">月</option>
               <option v-for="(month, index) in lunarMonths" :key="index" :value="index + 1">
@@ -57,7 +67,7 @@
             <select
               :value="dayValue"
               @change="onDayChange"
-              class="select select-bordered select-sm w-20 text-center text-xs"
+              class="select select-bordered select-sm w-16 text-center text-xs"
             >
               <option disabled value="">日</option>
               <option v-for="(day, index) in lunarDays" :key="index" :value="index + 1">
@@ -184,7 +194,7 @@
 <script setup lang="ts">
   import { ref, computed, watch, onMounted } from "vue";
   import { CalendarType, type HistoricalDate } from "@/connects/common_pb";
-  import type { Dynasty, EraName } from "@/connects/dynasty_pb";
+  import type { Dynasty, EraName, Emperor } from "@/connects/dynasty_pb";
   import { DateInputUtils } from "@/utils/DateInputUtils";
   import { ERAS } from "../models/historical-data.ts";
   import SearchableSelect from "./SearchableSelect.vue";
@@ -228,6 +238,10 @@
   // 朝代数据 - 使用完整对象以保留searchValues
   const dynasties = ref<Dynasty[]>([]);
 
+  // 皇帝数据 - 使用完整对象以保留searchValues
+  const emperors = ref<Emperor[]>([]);
+  const loadingEmperors = ref(false);
+
   // 年号数据 - 使用完整对象以保留searchValues
   const eras = ref<EraName[]>([]);
   const loadingEras = ref(false);
@@ -241,6 +255,14 @@
       value: dynasty.name,
       label: dynasty.name,
       searchValues: dynasty.searchValues,
+    })),
+  );
+
+  const emperorOptions = computed(() =>
+    emperors.value.map((emperor) => ({
+      value: emperor.id,
+      label: emperor.id,
+      searchValues: emperor.searchValues,
     })),
   );
 
@@ -298,9 +320,58 @@
   };
 
   // SearchableSelect事件处理
-  const onDynastyChange = (value: string) => {
+  const onDynastyChange = async (value: string) => {
     dynastyName.value = value;
+    emperorId.value = ""; // 清空皇帝选择
+    eraName.value = ""; // 清空年号选择
     updateDate();
+
+    // 加载该朝代的皇帝列表
+    if (value) {
+      try {
+        loadingEmperors.value = true;
+        emperors.value = await DateInputUtils.getEmperorsByDynasty(value);
+        console.log(
+          `DateInput组件成功加载朝代 ${value} 的皇帝:`,
+          emperors.value.map((e) => e.id),
+        );
+      } catch (error) {
+        console.error(`DateInput组件加载朝代 ${value} 的皇帝失败:`, error);
+        emperors.value = [];
+      } finally {
+        loadingEmperors.value = false;
+      }
+    } else {
+      emperors.value = [];
+    }
+  };
+
+  const onEmperorChange = async (value: string) => {
+    emperorId.value = value;
+    eraName.value = ""; // 清空年号选择
+    updateDate();
+
+    // 加载该皇帝的年号
+    if (value) {
+      try {
+        loadingEras.value = true;
+        const emperor = await DateInputUtils.getEmperor(value);
+        if (emperor) {
+          eras.value = emperor.eraNames;
+          console.log(
+            `DateInput组件成功加载皇帝 ${value} 的年号:`,
+            eras.value.map((e) => e.name),
+          );
+        }
+      } catch (error) {
+        console.error(`DateInput组件加载皇帝 ${value} 的年号失败:`, error);
+        eras.value = [];
+      } finally {
+        loadingEras.value = false;
+      }
+    } else {
+      eras.value = [];
+    }
   };
 
   const onEraChange = (value: string) => {
@@ -439,37 +510,23 @@
     }
   };
 
-  // 加载年号数据
-  const loadEras = async (dynastyNameValue: string) => {
-    if (!dynastyNameValue) {
-      eras.value = [];
-      return;
-    }
-
-    try {
-      loadingEras.value = true;
-      eras.value = await DateInputUtils.getErasByDynasty(dynastyNameValue);
-      console.log(
-        `DateInput组件成功加载朝代 ${dynastyNameValue} 的年号:`,
-        eras.value.map((e) => e.name),
-      );
-    } catch (error) {
-      console.error(`DateInput组件加载朝代 ${dynastyNameValue} 的年号失败:`, error);
-      eras.value = [];
-    } finally {
-      loadingEras.value = false;
-    }
-  };
-
   // 监听modelValue变化
   watch(() => props.value, initializeData, { immediate: true });
 
-  // 监听dynastyName变化，自动加载年号
+  // 监听dynastyName变化，自动加载皇帝
   watch(dynastyName, (newDynastyName) => {
     if (newDynastyName) {
-      loadEras(newDynastyName);
-      // 清空当前选中的年号，因为朝代变了
-      eraName.value = "";
+      onDynastyChange(newDynastyName);
+    } else {
+      emperors.value = [];
+      eras.value = [];
+    }
+  });
+
+  // 监听emperorId变化，自动加载年号
+  watch(emperorId, (newEmperorId) => {
+    if (newEmperorId) {
+      onEmperorChange(newEmperorId);
     } else {
       eras.value = [];
     }
@@ -478,9 +535,9 @@
   // 组件挂载时加载朝代数据
   onMounted(() => {
     loadDynasties();
-    // 如果初始化时已有朝代名称，也要加载对应的年号
+    // 如果初始化时已有朝代名称，也要加载对应的皇帝
     if (dynastyName.value) {
-      loadEras(dynastyName.value);
+      onDynastyChange(dynastyName.value);
     }
   });
 </script>
