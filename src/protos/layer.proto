@@ -15,21 +15,21 @@ enum LayerType {
   ROUTE = 4;
 }
 
-// 请求结构：按历史时间范围获取图层
-message GetLayersRequest {
-  HistoricalDate start = 1; // 起始时间
-  HistoricalDate end = 2;   // 结束时间
-}
-
 // 图层元素结构
 message LayerItem {
   string id = 1;
   string name = 2;
   LayerType type = 3;
   string geometry_json = 4;
-  string start_date = 5;
-  string end_date = 6;
+  GregorianDate start_date = 5;
+  GregorianDate end_date = 6;
   repeated string tags = 7;
+}
+
+// 请求结构：按历史时间范围获取图层
+message GetLayersRequest {
+  HistoricalDate start = 1; // 起始时间
+  HistoricalDate end = 2;   // 结束时间
 }
 
 // 返回结构

@@ -11,11 +11,18 @@ enum CalendarType {
   ERA = 2;            // 年号
 }
 
+// 公历日期结构
+message GregorianDate {
+  int32 year = 1;                 // 年，负数表示公元前
+  int32 month = 2;                // 月（1~12）
+  int32 day = 3;                  // 日（1~31）
+}
+
 // 历史日期结构（新版本）
 message HistoricalDate {
   CalendarType calendar_type = 1; // 纪年类型（GREGORIAN, LUNAR, ERA）
-  int32 year = 2;                 // 年号第几年或公历年，负数表示公元前
-  int32 month = 3;                // 月份（1~12）
+  int32 year = 2;                 // 年，负数表示公元前
+  int32 month = 3;                // 月（1~12）
   int32 day = 4;                  // 日（1~31）
   bool is_leap_month = 5;         // 是否闰月，仅对农历有效
   string dynasty_name = 6;        // 朝代（如"唐"，用于 ERA 类型）

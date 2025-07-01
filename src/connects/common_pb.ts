@@ -10,7 +10,42 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IsABCg5IaXN0b3JpY2FsRGF0ZRIzCg1jYWxlbmRhcl90eXBlGAEgASgOMhwuY2hpbmVzZWhpc3RvcnkuQ2FsZW5kYXJUeXBlEgwKBHllYXIYAiABKAUSDQoFbW9udGgYAyABKAUSCwoDZGF5GAQgASgFEhUKDWlzX2xlYXBfbW9udGgYBSABKAgSFAoMZHluYXN0eV9uYW1lGAYgASgJEhAKCGVyYV9uYW1lGAcgASgJEhAKCGVyYV95ZWFyGAggASgFKjEKDENhbGVuZGFyVHlwZRINCglHUkVHT1JJQU4QABIJCgVMVU5BUhABEgcKA0VSQRACQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw");
+  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IjkKDUdyZWdvcmlhbkRhdGUSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBRILCgNkYXkYAyABKAUiwAEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBRILCgNkYXkYBCABKAUSFQoNaXNfbGVhcF9tb250aBgFIAEoCBIUCgxkeW5hc3R5X25hbWUYBiABKAkSEAoIZXJhX25hbWUYByABKAkSEAoIZXJhX3llYXIYCCABKAUqMQoMQ2FsZW5kYXJUeXBlEg0KCUdSRUdPUklBThAAEgkKBUxVTkFSEAESBwoDRVJBEAJCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z");
+
+/**
+ * 公历日期结构
+ *
+ * @generated from message chinesehistory.GregorianDate
+ */
+export type GregorianDate = Message<"chinesehistory.GregorianDate"> & {
+  /**
+   * 年，负数表示公元前
+   *
+   * @generated from field: int32 year = 1;
+   */
+  year: number;
+
+  /**
+   * 月（1~12）
+   *
+   * @generated from field: int32 month = 2;
+   */
+  month: number;
+
+  /**
+   * 日（1~31）
+   *
+   * @generated from field: int32 day = 3;
+   */
+  day: number;
+};
+
+/**
+ * Describes the message chinesehistory.GregorianDate.
+ * Use `create(GregorianDateSchema)` to create a new message.
+ */
+export const GregorianDateSchema: GenMessage<GregorianDate> = /*@__PURE__*/
+  messageDesc(file_common, 0);
 
 /**
  * 历史日期结构（新版本）
@@ -26,14 +61,14 @@ export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
   calendarType: CalendarType;
 
   /**
-   * 年号第几年或公历年，负数表示公元前
+   * 年，负数表示公元前
    *
    * @generated from field: int32 year = 2;
    */
   year: number;
 
   /**
-   * 月份（1~12）
+   * 月（1~12）
    *
    * @generated from field: int32 month = 3;
    */
@@ -80,7 +115,7 @@ export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
  * Use `create(HistoricalDateSchema)` to create a new message.
  */
 export const HistoricalDateSchema: GenMessage<HistoricalDate> = /*@__PURE__*/
-  messageDesc(file_common, 0);
+  messageDesc(file_common, 1);
 
 /**
  * 枚举：历史纪年类型
