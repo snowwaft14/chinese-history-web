@@ -18,12 +18,12 @@ message Dynasty {
   repeated string search_values = 8;    // 搜索辅助工具，例如拼音、声母
 }
 
-// 王朝下的一些时代，例如北宋、南宋、初唐、盛唐、中唐、晚唐
+// 王朝下的一些时代，例如北宋、南宋、初唐、盛唐、中唐、晚唐、安史之乱、贞观之治等等
 message Period {
   string name = 1;
   string description = 2;
-  int32 start_year = 3;
-  int32 end_year = 4;
+  HistoricalDate start = 3;           // 开始日期
+  HistoricalDate end = 4;             // 结束日期 
   repeated string search_values = 5;    // 搜索辅助工具，例如拼音、声母
 }
 

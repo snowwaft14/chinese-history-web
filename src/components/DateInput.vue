@@ -1,189 +1,178 @@
 <template>
   <div class="date-input-component w-full">
-        <!-- 年号类型：响应式布局，充分利用可用空间 -->
-        <template v-if="isEraType">
-          <div class="flex items-center gap-2 w-full">
-            <SearchableSelect
-              v-model="dynastyName"
-              :options="dynastyOptions"
-              placeholder="唐"
-              value-key="value"
-              label-key="label"
-              search-key="searchValues"
-              input-class="input input-bordered input-sm text-left text-xs w-20"
-              @change="onDynastyChange"
-            />
+    <!-- 年号类型：响应式布局，充分利用可用空间 -->
+    <template v-if="isEraType">
+      <div class="flex items-center gap-2 w-full">
+        <SearchableSelect
+          v-model="dynastyName"
+          :options="dynastyOptions"
+          placeholder="唐"
+          value-key="value"
+          label-key="label"
+          search-key="searchValues"
+          input-class="input input-bordered input-sm text-left text-xs w-20"
+          @change="onDynastyChange"
+        />
 
-            <SearchableSelect
-              v-model="emperorId"
-              :options="emperorOptions"
-              placeholder="唐玄宗"
-              value-key="value"
-              label-key="label"
-              search-key="searchValues"
-              input-class="input input-bordered input-sm text-left text-xs w-29"
-              @change="onEmperorChange"
-            />
+        <SearchableSelect
+          v-model="emperorId"
+          :options="emperorOptions"
+          placeholder="唐玄宗"
+          value-key="value"
+          label-key="label"
+          search-key="searchValues"
+          input-class="input input-bordered input-sm text-left text-xs w-29"
+          @change="onEmperorChange"
+        />
 
-            <SearchableSelect
-              v-model="eraName"
-              :options="eraOptions"
-              placeholder="天宝"
-              value-key="value"
-              label-key="label"
-              search-key="searchValues"
-              input-class="input input-bordered input-sm text-left text-xs w-26"
-              @change="onEraChange"
-            />
+        <SearchableSelect
+          v-model="eraName"
+          :options="eraOptions"
+          placeholder="天宝"
+          value-key="value"
+          label-key="label"
+          search-key="searchValues"
+          input-class="input input-bordered input-sm text-left text-xs w-26"
+          @change="onEraChange"
+        />
 
-            <SearchableSelect
-              v-model="eraYear"
-              :options="eraYearOptions"
-              placeholder="十四载"
-              value-key="value"
-              label-key="label"
-              search-key="searchValues"
-              input-class="input input-bordered input-sm text-left text-xs w-26"
-              @change="updateDate"
-            />
+        <SearchableSelect
+          v-model="eraYear"
+          :options="eraYearOptions"
+          placeholder="十四载"
+          value-key="value"
+          label-key="label"
+          search-key="searchValues"
+          input-class="input input-bordered input-sm text-left text-xs w-26"
+          @change="updateDate"
+        />
 
-            <SearchableSelect
-              :model-value="monthValue"
-              :options="lunarMonthOptions"
-              placeholder="冬月"
-              value-key="value"
-              label-key="label"
-              search-key="searchValues"
-              input-class="input input-bordered input-sm text-left text-xs w-21"
-              @change="onMonthChange"
-            />
+        <SearchableSelect
+          :model-value="monthValue"
+          :options="lunarMonthOptions"
+          placeholder="冬月"
+          value-key="value"
+          label-key="label"
+          search-key="searchValues"
+          input-class="input input-bordered input-sm text-left text-xs w-21"
+          @change="onMonthChange"
+        />
 
-            <SearchableSelect
-              :model-value="dayValue"
-              :options="lunarDayOptions"
-              placeholder="初九"
-              value-key="value"
-              label-key="label"
-              search-key="searchValues"
-              input-class="input input-bordered input-sm text-left text-xs w-21"
-              @change="onDayChange"
-            />
-          </div>
-        </template>
-
-        <!-- 非年号类型：响应式布局 -->
-        <template v-else>
-          <div class="flex items-center gap-2 w-full">
-            <!-- 年份输入 -->
-            <div class="flex items-center gap-1">
-              <input
-                type="number"
-                :value="yearValue"
-                @input="onYearChange"
-                @focus="handleInputFocus"
-                placeholder="755"
-                min="1"
-                :max="yearMax"
-                class="input input-bordered input-sm text-center w-20"
-              />
-              <span class="text-sm font-medium text-base-content">年</span>
-            </div>
-
-            <!-- 月份输入 -->
-            <div class="flex items-center gap-1">
-              <input
-                v-if="isGregorianType"
-                type="number"
-                :value="monthValue"
-                @input="onMonthChange"
-                @focus="handleInputFocus"
-                placeholder="12"
-                min="1"
-                max="12"
-                class="input input-bordered input-sm text-center w-20"
-              />
-              <SearchableSelect
-                v-else
-                :model-value="monthValue"
-                :options="lunarMonthOptions"
-                placeholder="冬月"
-                value-key="value"
-                label-key="label"
-                search-key="searchValues"
-                input-class="input input-bordered input-sm text-left text-xs w-21"
-                @change="onMonthChange"
-              />
-              <span
-                v-if="isGregorianType"
-                class="text-sm font-medium text-base-content"
-              >
-                月
-              </span>
-            </div>
-
-            <!-- 日期输入 -->
-            <div class="flex items-center">
-              <input
-                v-if="isGregorianType"
-                type="number"
-                :value="dayValue"
-                @input="onDayChange"
-                @focus="handleInputFocus"
-                placeholder="16"
-                min="1"
-                max="31"
-                class="input input-bordered input-sm text-center flex-1 w-20"
-              />
-              <SearchableSelect
-                v-else
-                :model-value="dayValue"
-                :options="lunarDayOptions"
-                placeholder="初九"
-                value-key="value"
-                label-key="label"
-                search-key="searchValues"
-                input-class="input input-bordered input-sm text-left text-xs w-21"
-                @change="onDayChange"
-              />
-              <span
-                v-if="isGregorianType"
-                class="text-sm font-medium text-base-content whitespace-nowrap"
-              >
-                日
-              </span>
-            </div>
-          </div>
-        </template>
+        <SearchableSelect
+          :model-value="dayValue"
+          :options="lunarDayOptions"
+          placeholder="初九"
+          value-key="value"
+          label-key="label"
+          search-key="searchValues"
+          input-class="input input-bordered input-sm text-left text-xs w-21"
+          @change="onDayChange"
+        />
       </div>
+    </template>
 
-      <!-- 选项区域 -->
-      <div class="flex items-center gap-4" v-if="hasOptions">
-        <!-- 公元前选项（阳历和农历） -->
-        <div v-if="!isEraType" class="form-control w-fit">
-          <label class="label cursor-pointer p-0 gap-2">
-            <input
-              type="checkbox"
-              v-model="isBC"
-              @change="updateDate"
-              class="toggle toggle-sm toggle-primary"
-            />
-            <span class="label-text text-sm">公元前</span>
-          </label>
+    <!-- 非年号类型：响应式布局 -->
+    <template v-else>
+      <div class="flex items-center gap-2 w-full">
+        <!-- 年份输入 -->
+        <div class="flex items-center gap-1">
+          <input
+            type="number"
+            :value="yearValue"
+            @input="onYearChange"
+            @focus="handleInputFocus"
+            placeholder="755"
+            min="1"
+            :max="yearMax"
+            class="input input-bordered input-sm text-center w-20"
+          />
+          <span class="text-sm font-medium text-base-content">年</span>
         </div>
 
-        <!-- 闰月选项（农历和年号） -->
-        <div v-if="!isGregorianType" class="form-control w-fit">
-          <label class="label cursor-pointer p-0 gap-2">
-            <input
-              type="checkbox"
-              v-model="isLeapMonth"
-              @change="updateDate"
-              class="toggle toggle-sm toggle-primary"
-            />
-            <span class="label-text text-sm">闰月</span>
-          </label>
+        <!-- 月份输入 -->
+        <div class="flex items-center gap-1">
+          <input
+            v-if="isGregorianType"
+            type="number"
+            :value="monthValue"
+            @input="onMonthChange"
+            @focus="handleInputFocus"
+            placeholder="12"
+            min="1"
+            max="12"
+            class="input input-bordered input-sm text-center w-20"
+          />
+          <SearchableSelect
+            v-else
+            :model-value="monthValue"
+            :options="lunarMonthOptions"
+            placeholder="冬月"
+            value-key="value"
+            label-key="label"
+            search-key="searchValues"
+            input-class="input input-bordered input-sm text-left text-xs w-21"
+            @change="onMonthChange"
+          />
+          <span v-if="isGregorianType" class="text-sm font-medium text-base-content">月</span>
         </div>
 
+        <!-- 日期输入 -->
+        <div class="flex items-center gap-1">
+          <input
+            v-if="isGregorianType"
+            type="number"
+            :value="dayValue"
+            @input="onDayChange"
+            @focus="handleInputFocus"
+            placeholder="16"
+            min="1"
+            max="31"
+            class="input input-bordered input-sm text-center flex-1 w-20"
+          />
+          <SearchableSelect
+            v-else
+            :model-value="dayValue"
+            :options="lunarDayOptions"
+            placeholder="初九"
+            value-key="value"
+            label-key="label"
+            search-key="searchValues"
+            input-class="input input-bordered input-sm text-left text-xs w-21"
+            @change="onDayChange"
+          />
+          <span v-if="isGregorianType" class="text-sm font-medium text-base-content">日</span>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <!-- 选项区域 -->
+  <div class="flex items-center gap-4" v-if="hasOptions">
+    <!-- 公元前选项（阳历和农历） -->
+    <div v-if="!isEraType" class="form-control w-fit">
+      <label class="label cursor-pointer p-0 gap-2">
+        <input
+          type="checkbox"
+          v-model="isBC"
+          @change="updateDate"
+          class="toggle toggle-sm toggle-primary"
+        />
+        <span class="label-text text-sm">公元前</span>
+      </label>
+    </div>
+
+    <!-- 闰月选项（农历和年号） -->
+    <div v-if="!isGregorianType" class="form-control w-fit">
+      <label class="label cursor-pointer p-0 gap-2">
+        <input
+          type="checkbox"
+          v-model="isLeapMonth"
+          @change="updateDate"
+          class="toggle toggle-sm toggle-primary"
+        />
+        <span class="label-text text-sm">闰月</span>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -192,7 +181,6 @@
   import { CalendarType, type HistoricalDate } from "@/connects/common_pb";
   import type { Dynasty, EraName, Emperor } from "@/connects/dynasty_pb";
   import { DateInputUtils } from "@/utils/DateInputUtils";
-  import { ERAS } from "../models/historical-data.ts";
   import SearchableSelect from "./SearchableSelect.vue";
 
   // Props
@@ -233,7 +221,6 @@
 
   // 朝代数据 - 使用完整对象以保留searchValues
   const dynasties = ref<Dynasty[]>([]);
-
   // 皇帝数据 - 使用完整对象以保留searchValues
   const emperors = ref<Emperor[]>([]);
   const loadingEmperors = ref(false);
@@ -252,7 +239,7 @@
       options.push({
         value: year,
         label: year.toString(),
-        searchValues: [year.toString()]
+        searchValues: [year.toString()],
       });
     }
     return options;
@@ -263,7 +250,7 @@
     return lunarMonths.value.map((month, index) => ({
       value: index + 1,
       label: month,
-      searchValues: [month, (index + 1).toString()]
+      searchValues: [month, (index + 1).toString()],
     }));
   });
 
@@ -272,7 +259,7 @@
     return lunarDays.value.map((day, index) => ({
       value: index + 1,
       label: day,
-      searchValues: [day, (index + 1).toString()]
+      searchValues: [day, (index + 1).toString()],
     }));
   });
 
@@ -290,11 +277,7 @@
       options.push({
         value: year,
         label: chineseYear,
-        searchValues: [
-          year.toString(),
-          chineseYear,
-          chineseYear.replace(/[年载]$/, "")
-        ]
+        searchValues: [year.toString(), chineseYear, chineseYear.replace(/[年载]$/, "")],
       });
     }
     return options;
@@ -369,14 +352,14 @@
   // 统一的输入事件处理
   const onYearChange = (eventOrValue: Event | number) => {
     let value: number;
-    if (typeof eventOrValue === 'number') {
+    if (typeof eventOrValue === "number") {
       // 来自SearchableSelect的change事件
       value = eventOrValue;
     } else {
       // 来自input的input事件
       value = parseInt((eventOrValue.target as HTMLInputElement).value);
     }
-    
+
     if (isGregorianType.value) {
       gregorianYear.value = value;
     } else if (isLunarType.value) {
@@ -457,14 +440,14 @@
 
   const onMonthChange = (eventOrValue: Event | number) => {
     let value: number;
-    if (typeof eventOrValue === 'number') {
+    if (typeof eventOrValue === "number") {
       // 来自SearchableSelect的change事件
       value = eventOrValue;
     } else {
       // 来自input/select的change事件
       value = parseInt((eventOrValue.target as HTMLInputElement | HTMLSelectElement).value);
     }
-    
+
     if (isGregorianType.value) {
       gregorianMonth.value = value;
     } else if (isLunarType.value) {
@@ -477,14 +460,14 @@
 
   const onDayChange = (eventOrValue: Event | number) => {
     let value: number;
-    if (typeof eventOrValue === 'number') {
+    if (typeof eventOrValue === "number") {
       // 来自SearchableSelect的change事件
       value = eventOrValue;
     } else {
       // 来自input/select的change事件
       value = parseInt((eventOrValue.target as HTMLInputElement | HTMLSelectElement).value);
     }
-    
+
     if (isGregorianType.value) {
       gregorianDay.value = value;
     } else if (isLunarType.value) {

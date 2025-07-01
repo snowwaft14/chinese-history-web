@@ -261,20 +261,52 @@ export class MapUtils {
   public clearLayers(): void {
     if (!this.map) return;
 
-    this.overlays.forEach((overlay) => {
-      // 处理不同类型的覆盖物
-      if (typeof overlay === "object" && overlay.marker) {
-        // 有marker和label的组合
-        this.map!.removeOverlay(overlay.marker);
-        if (overlay.label) {
-          this.map!.removeOverlay(overlay.label);
+    console.log(`开始清除图层，当前存储的覆盖物数量: ${this.overlays.size}`);
+
+    // 方法1: 通过我们存储的覆盖物清除
+    this.overlays.forEach((overlay, id) => {
+      try {
+        console.log(`正在清除覆盖物 ${id}:`, overlay);
+
+        // 处理不同类型的覆盖物
+        if (overlay && typeof overlay === "object") {
+          // 检查是否是组合覆盖物（marker + label）
+          if (overlay.marker && overlay.label) {
+            console.log(`清除组合覆盖物 ${id}: marker + label`);
+            this.map!.removeOverlay(overlay.marker);
+            this.map!.removeOverlay(overlay.label);
+          } else if (overlay.marker) {
+            console.log(`清除覆盖物 ${id}: 只有marker`);
+            this.map!.removeOverlay(overlay.marker);
+          } else if (overlay.label) {
+            console.log(`清除覆盖物 ${id}: 只有label`);
+            this.map!.removeOverlay(overlay.label);
+          } else {
+            // 单个覆盖物（如线条、多边形）
+            console.log(`清除单个覆盖物 ${id}`);
+            this.map!.removeOverlay(overlay);
+          }
+        } else if (overlay) {
+          // 直接的覆盖物对象
+          console.log(`清除直接覆盖物 ${id}`);
+          this.map!.removeOverlay(overlay);
         }
-      } else {
-        // 单个覆盖物（如线条、多边形）
-        this.map!.removeOverlay(overlay);
+      } catch (error) {
+        console.error(`清除覆盖物失败 ${id}:`, error);
       }
     });
+
+    // 方法2: 通过百度地图API清除所有覆盖物（备用方案）
+    try {
+      // 百度地图提供的清除所有覆盖物的方法
+      this.map!.clearOverlays();
+      console.log("通过百度地图API清除所有覆盖物");
+    } catch (error) {
+      console.error("通过API清除所有覆盖物失败:", error);
+    }
+
     this.overlays.clear();
+    console.log("图层清除完成");
   }
 
   // 按类型显示/隐藏图层

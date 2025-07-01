@@ -67,7 +67,6 @@
   import type { LayerItem } from "@/connects/layer_pb";
   import type { MapUtils } from "@/utils/MapUtils";
   import { CalendarType, type HistoricalDate, HistoricalDateSchema } from "@/connects/common_pb";
-  import { type HistoricalDateRange } from "@/models/historical-date";
   import { HistoricalDateUtils } from "@/utils/HistoricalDateUtils";
 
   // 响应式数据
@@ -110,14 +109,6 @@
       HistoricalDateUtils.isValid(beginDate.value) && HistoricalDateUtils.isValid(endDate.value)
     );
   });
-
-  // 计算属性：构造历史日期范围对象
-  const historicalDateRange = computed(
-    (): HistoricalDateRange => ({
-      start: beginDate.value,
-      end: endDate.value,
-    }),
-  );
 
   // 图层类型选项
   const layerTypeOptions = [
@@ -174,6 +165,9 @@
       start: `${newBeginDate.year}-${newBeginDate.month}-${newBeginDate.day}`,
       end: `${newEndDate.year}-${newEndDate.month}-${newEndDate.day}`,
     });
+
+    // 更新日期范围后自动触发查询
+    performQuery();
   };
 
   // 执行查询（点击查询按钮触发）
@@ -184,8 +178,8 @@
     error.value = "";
 
     try {
-      // 使用新的历史日期范围服务
-      const layers = await layerServiceClient.getLayersByDateRange(historicalDateRange.value);
+      // 使用新的历史日期范围服务 - 传递两个独立的日期参数
+      const layers = await layerServiceClient.getLayersByDateRange(beginDate.value, endDate.value);
 
       currentLayers.value = layers;
       console.log(`从服务器获取到 ${layers.length} 个图层数据`);

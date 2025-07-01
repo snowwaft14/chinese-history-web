@@ -1,6 +1,5 @@
 import { create } from "@bufbuild/protobuf";
 import { CalendarType, type HistoricalDate, HistoricalDateSchema } from "@/connects/common_pb";
-import { ERAS, PERIOD_RANGES } from "@/models/historical-data";
 import { DateInputUtils } from "@/utils/DateInputUtils";
 
 export class HistoricalDateUtils {
