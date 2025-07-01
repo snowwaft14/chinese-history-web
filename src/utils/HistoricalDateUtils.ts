@@ -2,7 +2,6 @@ import { create } from "@bufbuild/protobuf";
 import { CalendarType, type HistoricalDate, HistoricalDateSchema } from "@/connects/common_pb";
 import { ERAS, PERIOD_RANGES } from "@/models/historical-data";
 import { DateInputUtils } from "@/utils/DateInputUtils";
-import { ChineseNumberUtils } from "@/utils/ChineseNumberUtils";
 
 export class HistoricalDateUtils {
   /**
@@ -112,7 +111,7 @@ export class HistoricalDateUtils {
       date.isLeapMonth,
     );
     // 使用中文年份显示
-    const chineseEraYear = ChineseNumberUtils.getEraYearDisplayText(date.eraYear, date.eraName);
+    const chineseEraYear = DateInputUtils.getEraYearDisplayText(date.eraYear, date.eraName);
     return `${date.dynastyName}${date.eraName}${chineseEraYear}${traditionalMonthDay}`;
   }
 

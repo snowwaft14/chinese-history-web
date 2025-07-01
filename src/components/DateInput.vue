@@ -1,19 +1,12 @@
 <template>
   <div class="date-input-component w-full">
-    <div class="flex flex-col gap-3">
-      <!-- 主要输入区域 -->
-      <div
-        :class="
-          isEraType ? 'flex items-center gap-1 flex-nowrap' : 'flex items-center gap-3 flex-wrap'
-        "
-      >
         <!-- 年号类型：响应式布局，充分利用可用空间 -->
         <template v-if="isEraType">
           <div class="flex items-center gap-2 w-full">
             <SearchableSelect
               v-model="dynastyName"
               :options="dynastyOptions"
-              placeholder="朝代"
+              placeholder="唐"
               value-key="value"
               label-key="label"
               search-key="searchValues"
@@ -24,7 +17,7 @@
             <SearchableSelect
               v-model="emperorId"
               :options="emperorOptions"
-              placeholder="皇帝"
+              placeholder="唐玄宗"
               value-key="value"
               label-key="label"
               search-key="searchValues"
@@ -35,7 +28,7 @@
             <SearchableSelect
               v-model="eraName"
               :options="eraOptions"
-              placeholder="年号"
+              placeholder="天宝"
               value-key="value"
               label-key="label"
               search-key="searchValues"
@@ -46,7 +39,7 @@
             <SearchableSelect
               v-model="eraYear"
               :options="eraYearOptions"
-              placeholder="年"
+              placeholder="十四载"
               value-key="value"
               label-key="label"
               search-key="searchValues"
@@ -57,7 +50,7 @@
             <SearchableSelect
               :model-value="monthValue"
               :options="lunarMonthOptions"
-              placeholder="月"
+              placeholder="冬月"
               value-key="value"
               label-key="label"
               search-key="searchValues"
@@ -68,7 +61,7 @@
             <SearchableSelect
               :model-value="dayValue"
               :options="lunarDayOptions"
-              placeholder="日"
+              placeholder="初九"
               value-key="value"
               label-key="label"
               search-key="searchValues"
@@ -80,7 +73,7 @@
 
         <!-- 非年号类型：响应式布局 -->
         <template v-else>
-          <div class="flex items-center gap-3 w-full">
+          <div class="flex items-center gap-2 w-full">
             <!-- 年份输入 -->
             <div class="flex items-center gap-1">
               <input
@@ -88,12 +81,12 @@
                 :value="yearValue"
                 @input="onYearChange"
                 @focus="handleInputFocus"
-                :placeholder="yearPlaceholder"
-                :min="yearMin"
+                placeholder="755"
+                min="1"
                 :max="yearMax"
-                class="input input-bordered input-sm text-center w-21"
+                class="input input-bordered input-sm text-center w-20"
               />
-              <span class="text-sm font-medium text-base-content whitespace-nowrap">年</span>
+              <span class="text-sm font-medium text-base-content">年</span>
             </div>
 
             <!-- 月份输入 -->
@@ -107,13 +100,13 @@
                 placeholder="12"
                 min="1"
                 max="12"
-                class="input input-bordered input-sm text-center w-21"
+                class="input input-bordered input-sm text-center w-20"
               />
               <SearchableSelect
                 v-else
                 :model-value="monthValue"
                 :options="lunarMonthOptions"
-                placeholder="腊月"
+                placeholder="冬月"
                 value-key="value"
                 label-key="label"
                 search-key="searchValues"
@@ -122,7 +115,7 @@
               />
               <span
                 v-if="isGregorianType"
-                class="text-sm font-medium text-base-content whitespace-nowrap"
+                class="text-sm font-medium text-base-content"
               >
                 月
               </span>
@@ -139,13 +132,13 @@
                 placeholder="16"
                 min="1"
                 max="31"
-                class="input input-bordered input-sm text-center flex-1 w-21"
+                class="input input-bordered input-sm text-center flex-1 w-20"
               />
               <SearchableSelect
                 v-else
                 :model-value="dayValue"
                 :options="lunarDayOptions"
-                placeholder="初八"
+                placeholder="初九"
                 value-key="value"
                 label-key="label"
                 search-key="searchValues"
@@ -185,13 +178,12 @@
               type="checkbox"
               v-model="isLeapMonth"
               @change="updateDate"
-              class="toggle toggle-sm toggle-secondary"
+              class="toggle toggle-sm toggle-primary"
             />
             <span class="label-text text-sm">闰月</span>
           </label>
         </div>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -200,7 +192,6 @@
   import { CalendarType, type HistoricalDate } from "@/connects/common_pb";
   import type { Dynasty, EraName, Emperor } from "@/connects/dynasty_pb";
   import { DateInputUtils } from "@/utils/DateInputUtils";
-  import { ChineseNumberUtils } from "@/utils/ChineseNumberUtils";
   import { ERAS } from "../models/historical-data.ts";
   import SearchableSelect from "./SearchableSelect.vue";
 
@@ -295,7 +286,7 @@
     // 暂时提供1-61年的通用选项
     const options = [];
     for (let year = 1; year <= 61; year++) {
-      const chineseYear = ChineseNumberUtils.numberToEraYear(year, eraName.value);
+      const chineseYear = DateInputUtils.numberToEraYear(year, eraName.value);
       options.push({
         value: year,
         label: chineseYear,
@@ -364,9 +355,7 @@
   });
 
   // 年份相关属性
-  const yearPlaceholder = computed(() => (isGregorianType.value ? "755" : "755"));
-  const yearMin = computed(() => (isGregorianType.value ? 0 : 1));
-  const yearMax = computed(() => (isGregorianType.value ? 1840 : 3000));
+  const yearMax = computed(() => (isBC.value ? 4000 : 1839));
 
   // 处理input获得焦点时自动全选
   const handleInputFocus = (event: FocusEvent) => {
@@ -401,6 +390,10 @@
     dynastyName.value = value;
     emperorId.value = ""; // 清空皇帝选择
     eraName.value = ""; // 清空年号选择
+    eraYear.value = undefined; // 清空年号年份
+    eraMonth.value = undefined; // 清空年号月份
+    eraDay.value = undefined; // 清空年号日期
+
     updateDate();
 
     // 加载该朝代的皇帝列表
@@ -426,6 +419,9 @@
   const onEmperorChange = async (value: string) => {
     emperorId.value = value;
     eraName.value = ""; // 清空年号选择
+    eraYear.value = undefined; // 清空年号年份
+    eraMonth.value = undefined; // 清空年号月份
+    eraDay.value = undefined; // 清空年号日期
     updateDate();
 
     // 加载该皇帝的年号
@@ -453,6 +449,9 @@
 
   const onEraChange = (value: string) => {
     eraName.value = value;
+    eraYear.value = undefined; // 清空年号年份
+    eraMonth.value = undefined; // 清空年号月份
+    eraDay.value = undefined; // 清空年号日期
     updateDate();
   };
 
