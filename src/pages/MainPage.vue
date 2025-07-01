@@ -6,7 +6,7 @@
         v-model:begin-date="beginDate"
         v-model:end-date="endDate"
         @apply="onDateRangeApply"
-        size="md"
+        size="lg"
       />
     </div>
 

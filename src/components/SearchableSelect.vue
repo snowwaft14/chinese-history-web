@@ -5,7 +5,7 @@
       <input
         ref="inputRef"
         v-model="searchQuery"
-        @focus="showDropdown = true"
+        @focus="handleFocus"
         @keydown="handleKeydown"
         :placeholder="placeholder"
         :class="inputClass"
@@ -85,7 +85,7 @@
     placeholder?: string;
     valueKey?: string;
     labelKey?: string;
-    searchKeys?: string[];
+    searchKey?: string; // 指定搜索值的属性名
     allowClear?: boolean;
     disabled?: boolean;
     noDataText?: string;
@@ -96,7 +96,7 @@
     placeholder: "请选择",
     valueKey: "value",
     labelKey: "label",
-    searchKeys: () => ["label"],
+    searchKey: "searchValues", // 默认使用 searchValues
     allowClear: true,
     disabled: false,
     noDataText: "无匹配数据",
@@ -116,22 +116,23 @@
   const containerRef = ref<HTMLElement>();
   const inputRef = ref<HTMLInputElement>();
 
-  // 生成搜索文本 - 优先使用后端提供的searchValues
+  // 生成搜索文本 - 优先使用动态指定的搜索值属性
   const generateSearchText = (option: any): string => {
     const label = getOptionLabel(option);
 
-    // 如果后端提供了searchValues，直接使用（推荐方式）
+    // 如果提供了搜索值属性，优先使用
     if (
       option &&
       typeof option === "object" &&
-      option.searchValues &&
-      Array.isArray(option.searchValues)
+      props.searchKey &&
+      option[props.searchKey] &&
+      Array.isArray(option[props.searchKey])
     ) {
-      const searchValues = option.searchValues.join("|");
+      const searchValues = option[props.searchKey].join("|");
       return `${label}|${searchValues}`.toLowerCase();
     }
 
-    // 降级方案：如果没有searchValues，只使用原文
+    // 降级方案：如果没有搜索值属性，只使用原文
     return label.toLowerCase();
   };
 
@@ -211,12 +212,23 @@
     emit("change", undefined, null);
   };
 
+  // 处理输入框获得焦点
+  const handleFocus = () => {
+    showDropdown.value = true;
+    // 自动全选文本，方便用户重新输入
+    nextTick(() => {
+      inputRef.value?.select();
+    });
+  };
+
   // 切换下拉状态
   const toggleDropdown = () => {
     if (props.disabled) return;
     showDropdown.value = !showDropdown.value;
 
     if (showDropdown.value) {
+      // 点击展开时清空搜索查询，显示所有选项
+      searchQuery.value = "";
       nextTick(() => {
         inputRef.value?.focus();
       });
