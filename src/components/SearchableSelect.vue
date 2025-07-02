@@ -112,6 +112,7 @@
   const emit = defineEmits<{
     "update:modelValue": [value: any];
     change: [value: any, option: any];
+    expand: []; // 新增展开事件
   }>();
 
   // 响应式数据
@@ -241,17 +242,24 @@
 
   // 处理输入框获得焦点
   const handleFocus = () => {
+    const wasOpen = showDropdown.value;
     showDropdown.value = true;
     // 更新下拉框位置
     nextTick(() => {
       updateDropdownPosition();
       inputRef.value?.select();
     });
+    
+    // 如果是从关闭状态变为展开状态，触发展开事件
+    if (!wasOpen) {
+      emit("expand");
+    }
   };
 
   // 切换下拉状态
   const toggleDropdown = () => {
     if (props.disabled) return;
+    const wasOpen = showDropdown.value;
     showDropdown.value = !showDropdown.value;
 
     if (showDropdown.value) {
@@ -261,6 +269,11 @@
         updateDropdownPosition();
         inputRef.value?.focus();
       });
+      
+      // 如果是从关闭状态变为展开状态，触发展开事件
+      if (!wasOpen) {
+        emit("expand");
+      }
     }
   };
 

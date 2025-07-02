@@ -12,6 +12,7 @@
           search-key="searchValues"
           input-class="input input-bordered input-sm text-left text-xs w-18" 
           @change="onDynastyChange"
+          @expand="onDynastyExpand"
         />
 
         <SearchableSelect
@@ -181,6 +182,7 @@
   import { CalendarType, type HistoricalDate } from "@/connects/common_pb";
   import type { Dynasty, EraName, Emperor } from "@/connects/dynasty_pb";
   import { DateInputUtils } from "@/utils/DateInputUtils";
+  import { GlobalCacheInstances } from "@/utils/GlobalCacheInstances";
   import SearchableSelect from "./SearchableSelect.vue";
 
   // Props
@@ -219,17 +221,17 @@
   const eraMonth = ref<number>();
   const eraDay = ref<number>();
 
-  // 朝代数据 - 使用完整对象以保留searchValues
+  // 朝代数据 - 使用全局缓存
   const dynasties = ref<Dynasty[]>([]);
-  // 皇帝数据 - 使用完整对象以保留searchValues
+  // 皇帝数据 - 使用全局缓存
   const emperors = ref<Emperor[]>([]);
   const loadingEmperors = ref(false);
 
-  // 年号数据 - 使用完整对象以保留searchValues
+  // 年号数据 - 使用全局缓存
   const eras = ref<EraName[]>([]);
   const loadingEras = ref(false);
 
-  // 当前选中的年号详情
+  // 当前选中的年号详情 - 使用全局缓存
   const currentEraDetail = ref<EraName | null>(null);
 
   // 计算属性
@@ -384,6 +386,11 @@
   };
 
   // SearchableSelect事件处理
+  const onDynastyExpand = async () => {
+    console.log("朝代下拉框展开，重新加载朝代数据...");
+    await loadDynasties();
+  };
+
   const onDynastyChange = async (value: string) => {
     dynastyName.value = value;
     emperorId.value = ""; // 清空皇帝选择
@@ -394,13 +401,13 @@
 
     updateDate();
 
-    // 加载该朝代的皇帝列表
+    // 加载该朝代的皇帝列表（使用全局缓存）
     if (value) {
       try {
         loadingEmperors.value = true;
-        emperors.value = await DateInputUtils.getEmperorsByDynasty(value);
+        emperors.value = await GlobalCacheInstances.getEmperorsByDynasty(value);
         console.log(
-          `DateInput组件成功加载朝代 ${value} 的皇帝:`,
+          `DateInput组件成功从缓存加载朝代 ${value} 的皇帝:`,
           emperors.value.map((e) => e.id),
         );
       } catch (error) {
@@ -422,18 +429,15 @@
     eraDay.value = undefined; // 清空年号日期
     updateDate();
 
-    // 加载该皇帝的年号
+    // 加载该皇帝的年号（使用全局缓存）
     if (value) {
       try {
         loadingEras.value = true;
-        const emperor = await DateInputUtils.getEmperor(value);
-        if (emperor) {
-          eras.value = emperor.eraNames;
-          console.log(
-            `DateInput组件成功加载皇帝 ${value} 的年号:`,
-            eras.value.map((e) => e.name),
-          );
-        }
+        eras.value = await GlobalCacheInstances.getErasByEmperor(value);
+        console.log(
+          `DateInput组件成功从缓存加载皇帝 ${value} 的年号:`,
+          eras.value.map((e) => e.name),
+        );
       } catch (error) {
         console.error(`DateInput组件加载皇帝 ${value} 的年号失败:`, error);
         eras.value = [];
@@ -451,15 +455,14 @@
     eraMonth.value = undefined; // 清空年号月份
     eraDay.value = undefined; // 清空年号日期
     
-    // 获取年号详情，用于计算年份范围
+    // 获取年号详情，用于计算年份范围（使用全局缓存）
     if (value && dynastyName.value) {
       try {
-        console.log(`开始获取年号 ${value} 的详情...`);
-        const eraDetail = await DateInputUtils.getEraByName(dynastyName.value, value);
-        currentEraDetail.value = eraDetail || null;
+        console.log(`开始从缓存获取年号 ${value} 的详情...`);
+        currentEraDetail.value = await GlobalCacheInstances.getEraDetail(dynastyName.value, value);
         
         if (currentEraDetail.value) {
-          console.log(`成功获取年号 ${value} 的详情:`, {
+          console.log(`成功从缓存获取年号 ${value} 的详情:`, {
             name: currentEraDetail.value.name,
             startDate: currentEraDetail.value.startDate,
             endDate: currentEraDetail.value.endDate,
@@ -613,12 +616,12 @@
     }
   };
 
-  // 加载朝代数据
+  // 加载朝代数据（使用全局缓存）
   const loadDynasties = async () => {
     try {
-      dynasties.value = await DateInputUtils.getAllDynasties();
+      dynasties.value = await GlobalCacheInstances.getAllDynasties();
       console.log(
-        "DateInput组件成功加载朝代:",
+        "DateInput组件成功从缓存加载朝代:",
         dynasties.value.map((d) => d.name),
       );
     } catch (error) {

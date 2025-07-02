@@ -1,6 +1,4 @@
-import { computed, ref } from "vue";
-import type { Dynasty, EraName, Emperor } from "@/connects/dynasty_pb";
-import { dynastyServiceClient } from "@/services/dynastyService";
+import { computed } from "vue";
 
 // 农历月份名称
 const LUNAR_MONTHS = [
@@ -57,7 +55,7 @@ export class DateInputUtils {
   static readonly LUNAR_MONTHS = LUNAR_MONTHS;
   static readonly LUNAR_DAYS = LUNAR_DAYS;
 
-  // === 中文数字转换相关 (从ChineseNumberUtils迁移) ===
+  // === 中文数字转换相关 ===
   
   // 基础中文数字
   private static readonly CHINESE_NUMBERS = [
@@ -232,17 +230,6 @@ export class DateInputUtils {
     return this.numberToEraYear(year, eraName);
   }
 
-  // === 朝代数据相关 ===
-
-  // 朝代数据
-  private static dynasties = ref<Dynasty[]>([]);
-  private static dynastiesLoaded = ref(false);
-  private static loadingDynasties = ref(false);
-
-  // 年号数据缓存 (按朝代名称分组)
-  private static eraNamesByDynasty = ref<Record<string, EraName[]>>({});
-  private static loadingEras = ref<Record<string, boolean>>({});
-
   /**
    * 获取农历日期相关数据
    */
@@ -254,164 +241,5 @@ export class DateInputUtils {
       lunarMonths,
       lunarDays,
     };
-  }
-
-  /**
-   * 获取所有朝代数据
-   */
-  static async getAllDynasties(): Promise<Dynasty[]> {
-    try {
-      if (!DateInputUtils.dynastiesLoaded.value) {
-        DateInputUtils.loadingDynasties.value = true;
-        const dynasties = await dynastyServiceClient.getAllDynasties(true);
-        DateInputUtils.dynasties.value = dynasties;
-        DateInputUtils.dynastiesLoaded.value = true;
-        DateInputUtils.loadingDynasties.value = false;
-      }
-      return DateInputUtils.dynasties.value;
-    } catch (error) {
-      console.error("获取朝代数据失败:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * 获取朝代名称列表（用于下拉选择）
-   */
-  static async getDynastyNames(): Promise<string[]> {
-    const dynasties = await DateInputUtils.getAllDynasties();
-    return dynasties.map((dynasty) => dynasty.name);
-  }
-
-  /**
-   * 根据名称获取朝代详情
-   */
-  static async getDynastyByName(name: string): Promise<Dynasty | undefined> {
-    const dynasties = await DateInputUtils.getAllDynasties();
-    return dynasties.find((dynasty) => dynasty.name === name);
-  }
-
-  /**
-   * 检查是否正在加载朝代数据
-   */
-  static isLoadingDynasties(): boolean {
-    return DateInputUtils.loadingDynasties.value;
-  }
-
-  /**
-   * 获取朝代数据响应式引用（用于组件中的响应式更新）
-   */
-  static getDynastiesRef() {
-    return {
-      dynasties: computed(() => DateInputUtils.dynasties.value),
-      dynastiesLoaded: computed(() => DateInputUtils.dynastiesLoaded.value),
-      loadingDynasties: computed(() => DateInputUtils.loadingDynasties.value),
-    };
-  }
-
-  /**
-   * 获取指定朝代的年号列表
-   */
-  static async getErasByDynasty(dynastyName: string): Promise<EraName[]> {
-    if (!dynastyName) return [];
-
-    // 如果已经加载过该朝代的年号，直接返回缓存
-    if (DateInputUtils.eraNamesByDynasty.value[dynastyName]) {
-      return DateInputUtils.eraNamesByDynasty.value[dynastyName];
-    }
-
-    // 如果正在加载，等待加载完成
-    if (DateInputUtils.loadingEras.value[dynastyName]) {
-      while (DateInputUtils.loadingEras.value[dynastyName]) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
-      return DateInputUtils.eraNamesByDynasty.value[dynastyName] || [];
-    }
-
-    try {
-      DateInputUtils.loadingEras.value[dynastyName] = true;
-      console.log(`开始加载朝代 ${dynastyName} 的年号数据...`);
-
-      const eras = await dynastyServiceClient.getErasByDynasty(dynastyName);
-      DateInputUtils.eraNamesByDynasty.value[dynastyName] = eras;
-
-      console.log(
-        `成功加载朝代 ${dynastyName} 的 ${eras.length} 个年号:`,
-        eras.map((e) => e.name),
-      );
-      return eras;
-    } catch (error) {
-      console.error(`加载朝代 ${dynastyName} 的年号数据失败:`, error);
-      // 返回空数组，确保应用不会崩溃
-      return [];
-    } finally {
-      DateInputUtils.loadingEras.value[dynastyName] = false;
-    }
-  }
-
-  /**
-   * 获取指定朝代的年号名称列表（用于下拉选择）
-   */
-  static async getEraNamesByDynasty(dynastyName: string): Promise<string[]> {
-    const eras = await DateInputUtils.getErasByDynasty(dynastyName);
-    return eras.map((era) => era.name);
-  }
-
-  /**
-   * 根据朝代名称和年号名称获取年号详情
-   */
-  static async getEraByName(dynastyName: string, eraName: string): Promise<EraName | undefined> {
-    try {
-      // 直接从服务端获取年号详情
-      const era = await dynastyServiceClient.getEraByName(dynastyName, eraName);
-      return era;
-    } catch (error) {
-      console.error(`获取朝代 ${dynastyName} 的年号 ${eraName} 详情失败:`, error);
-      // 降级方案：从缓存中查找
-      const eras = await DateInputUtils.getErasByDynasty(dynastyName);
-      return eras.find((era) => era.name === eraName);
-    }
-  }
-
-  /**
-   * 根据朝代名称和年号名称获取年号详情（从缓存中查找）
-   * @deprecated 建议使用 getEraByName 方法
-   */
-  static async getEraByNameFromCache(dynastyName: string, eraName: string): Promise<EraName | undefined> {
-    const eras = await DateInputUtils.getErasByDynasty(dynastyName);
-    return eras.find((era) => era.name === eraName);
-  }
-
-  /**
-   * 检查是否正在加载指定朝代的年号数据
-   */
-  static isLoadingEras(dynastyName: string): boolean {
-    return DateInputUtils.loadingEras.value[dynastyName] || false;
-  }
-
-  /**
-   * 获取朝代下的所有皇帝
-   */
-  static async getEmperorsByDynasty(dynastyId: string): Promise<Emperor[]> {
-    try {
-      const emperors = await dynastyServiceClient.getEmperorsByDynasty(dynastyId, true);
-      return emperors;
-    } catch (error) {
-      console.error("获取皇帝数据失败:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * 获取皇帝详情
-   */
-  static async getEmperor(emperorId: string): Promise<Emperor | undefined> {
-    try {
-      const emperor = await dynastyServiceClient.getEmperor(emperorId, true);
-      return emperor;
-    } catch (error) {
-      console.error("获取皇帝详情失败:", error);
-      throw error;
-    }
   }
 }
