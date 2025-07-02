@@ -21,6 +21,7 @@
             @click="
               selectedTab = 'calendar';
               selectedCalendarType = CalendarType.GREGORIAN;
+              currentPresetName = '';
             "
             :checked="selectedTab === 'calendar' && selectedCalendarType === CalendarType.GREGORIAN"
           />
@@ -32,6 +33,7 @@
             @click="
               selectedTab = 'calendar';
               selectedCalendarType = CalendarType.LUNAR;
+              currentPresetName = '';
             "
             :checked="selectedTab === 'calendar' && selectedCalendarType === CalendarType.LUNAR"
           />
@@ -43,6 +45,7 @@
             @click="
               selectedTab = 'calendar';
               selectedCalendarType = CalendarType.ERA;
+              currentPresetName = '';
             "
             :checked="selectedTab === 'calendar' && selectedCalendarType === CalendarType.ERA"
           />
@@ -81,46 +84,74 @@
 
         <!-- 时代标签页内容 -->
         <div v-else-if="selectedTab === 'periods'" class="pt-2">
-          <div class="card bg-base-200 card-body p-3">
-            <div class="label">
+          <div class="card bg-base-200 card-body p-3 h-[360px] flex flex-col">
+            <div class="label mb-3 flex-shrink-0">
               <span class="label-text font-medium text-primary">朝代与时代选择</span>
             </div>
 
-            <!-- 朝代选择器 -->
-            <div class="mb-3">
-              <SearchableSelect
-                :options="dynastyOptions"
-                v-model="selectedDynasty"
-                @change="onDynastySelected"
-                placeholder="选择朝代..."
-                :input-class="'input input-bordered input-sm w-full pr-12'"
-              />
-            </div>
+            <!-- 左右布局容器 -->
+            <div class="flex gap-4 flex-1 min-h-0">
+              <!-- 左侧：朝代搜索列表 -->
+              <div class="w-1/3 flex flex-col min-h-0">
+                <div class="mb-2 flex-shrink-0">
+                  <SearchableSelect
+                    :options="dynastyOptions"
+                    v-model="selectedDynasty"
+                    @change="onDynastySelected"
+                    placeholder="搜索朝代..."
+                    :input-class="'input input-bordered input-sm w-full pr-12'"
+                  />
+                </div>
+                <!-- 朝代列表 -->
+                <div class="flex-1 space-y-1 overflow-y-auto scrollbar-thin border border-base-300 min-h-0">
+                  <button
+                    v-for="dynasty in dynasties"
+                    :key="dynasty.name"
+                    @click="selectedDynasty = dynasty.name; onDynastySelected(dynasty.name, { value: dynasty.name, label: dynasty.name })"
+                    :class="[
+                      'btn btn-ghost btn-sm w-full justify-start text-left p-2 h-auto normal-case',
+                      selectedDynasty === dynasty.name ? 'bg-primary/10 border-primary/20' : ''
+                    ]"
+                  >
+                    <div class="w-full">
+                      <div class="font-medium text-sm text-base-content">
+                        {{ dynasty.name }}
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
 
-            <!-- 时代列表 -->
-            <div class="space-y-2 max-h-40 overflow-y-auto scrollbar-thin">
-              <button
-                v-for="period in currentPeriods"
-                :key="period.name"
-                @click="applyPeriodRange(period)"
-                class="btn btn-ghost btn-sm w-full justify-start text-left p-3 h-auto normal-case"
-              >
-                <div class="w-full">
-                  <div class="font-medium text-base-content mb-1">
-                    {{ period.name }}
-                  </div>
-                  <div class="text-xs text-base-content/70">
-                    {{ period.description }}
+              <!-- 右侧：时代列表 -->
+              <div class="w-2/3 flex flex-col border border-base-300 min-h-0">
+                <div class="text-sm font-medium text-base-content/70 p-2 border-b border-base-300 flex-shrink-0">
+                  历史时期
+                </div>
+                <div class="flex-1 space-y-2 overflow-y-auto scrollbar-thin p-2 min-h-0">
+                  <button
+                    v-for="period in currentPeriods"
+                    :key="period.name"
+                    @click="applyPeriodRange(period)"
+                    class="btn btn-ghost btn-sm w-full justify-start text-left p-3 h-auto normal-case"
+                  >
+                    <div class="w-full">
+                      <div class="font-medium text-base-content mb-1">
+                        {{ period.name }}
+                      </div>
+                      <div class="text-xs text-base-content/70">
+                        {{ period.description }}
+                      </div>
+                    </div>
+                  </button>
+
+                  <!-- 如果没有选择朝代，显示提示 -->
+                  <div
+                    v-if="currentPeriods.length === 0"
+                    class="text-center text-sm text-base-content/50 py-4"
+                  >
+                    请先选择朝代查看对应的历史时期
                   </div>
                 </div>
-              </button>
-
-              <!-- 如果没有选择朝代，显示提示 -->
-              <div
-                v-if="currentPeriods.length === 0"
-                class="text-center text-sm text-base-content/50 py-4"
-              >
-                请先选择朝代查看对应的历史时期
               </div>
             </div>
           </div>
@@ -234,12 +265,12 @@
   // 根据size计算容器样式类
   const containerClass = computed(() => {
     const sizeMap = {
-      sm: "max-w-md min-w-[320px]", // 320px ~ 448px
-      md: "max-w-lg min-w-[400px]", // 400px ~ 512px
-      lg: "max-w-2xl min-w-[480px]", // 480px ~ 672px
-      xl: "max-w-4xl min-w-[600px]", // 600px ~ 896px
+      sm: "w-[420px]", // 固定 400px
+      md: "w-[460px]", // 固定 480px
+      lg: "w-[600px]", // 固定 560px
+      xl: "w-[640px]", // 固定 640px
     };
-    return `historical-date-selector relative w-full ${sizeMap[props.size]}`;
+    return `historical-date-selector relative ${sizeMap[props.size]}`;
   });
 
   // 根据当前状态获取显示文本
@@ -308,18 +339,17 @@
     // 设置当前预设名称，用于显示文本
     currentPresetName.value = period.name;
 
-    // 根据时代的日期类型设置纪年方式并切换到日历标签页
+    // 根据时代的日期类型设置纪年方式，但不自动切换标签页
     selectedCalendarType.value = period.start.calendarType;
-    selectedTab.value = "calendar";
 
     emit("update:beginDate", period.start);
     emit("update:endDate", period.end);
-    closeCollapse();
   };
 
   const reset = () => {
     const defaultType = CalendarType.GREGORIAN;
     selectedCalendarType.value = defaultType;
+    
     const defaultStart = HistoricalDateUtils.createDefaultDate(defaultType);
     const defaultEnd = HistoricalDateUtils.createDefaultDate(defaultType);
 

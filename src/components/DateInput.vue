@@ -2,7 +2,7 @@
   <div class="date-input-component w-full">
     <!-- 年号类型：响应式布局，充分利用可用空间 -->
     <template v-if="isEraType">
-      <div class="flex items-center gap-2 w-full">
+      <div class="flex flex-wrap items-center gap-1 w-full">
         <SearchableSelect
           v-model="dynastyName"
           :options="dynastyOptions"
@@ -10,7 +10,7 @@
           value-key="value"
           label-key="label"
           search-key="searchValues"
-          input-class="input input-bordered input-sm text-left text-xs w-20"
+          input-class="input input-bordered input-sm text-left text-xs w-18" 
           @change="onDynastyChange"
         />
 
@@ -21,7 +21,7 @@
           value-key="value"
           label-key="label"
           search-key="searchValues"
-          input-class="input input-bordered input-sm text-left text-xs w-29"
+          input-class="input input-bordered input-sm text-left text-xs w-27"
           @change="onEmperorChange"
         />
 
@@ -32,7 +32,7 @@
           value-key="value"
           label-key="label"
           search-key="searchValues"
-          input-class="input input-bordered input-sm text-left text-xs w-26"
+          input-class="input input-bordered input-sm text-left text-xs w-24"
           @change="onEraChange"
         />
 
@@ -43,7 +43,7 @@
           value-key="value"
           label-key="label"
           search-key="searchValues"
-          input-class="input input-bordered input-sm text-left text-xs w-26"
+          input-class="input input-bordered input-sm text-left text-xs w-24"
           @change="updateDate"
         />
 
@@ -54,7 +54,7 @@
           value-key="value"
           label-key="label"
           search-key="searchValues"
-          input-class="input input-bordered input-sm text-left text-xs w-21"
+          input-class="input input-bordered input-sm text-left text-xs w-18"
           @change="onMonthChange"
         />
 
@@ -65,7 +65,7 @@
           value-key="value"
           label-key="label"
           search-key="searchValues"
-          input-class="input input-bordered input-sm text-left text-xs w-21"
+          input-class="input input-bordered input-sm text-left text-xs w-18"
           @change="onDayChange"
         />
       </div>
@@ -148,8 +148,8 @@
 
   <!-- 选项区域 -->
   <div class="flex items-center gap-4" v-if="hasOptions">
-    <!-- 公元前选项（阳历和农历） -->
-    <div v-if="!isEraType" class="form-control w-fit">
+    <!-- 公元前选项（仅阳历） -->
+    <div v-if="isGregorianType" class="form-control w-fit">
       <label class="label cursor-pointer p-0 gap-2">
         <input
           type="checkbox"
@@ -229,6 +229,9 @@
   const eras = ref<EraName[]>([]);
   const loadingEras = ref(false);
 
+  // 当前选中的年号详情
+  const currentEraDetail = ref<EraName | null>(null);
+
   // 计算属性
   const { lunarMonths, lunarDays } = DateInputUtils.getLunarDate();
 
@@ -265,12 +268,24 @@
 
   // 年号年份选项
   const eraYearOptions = computed(() => {
-    if (!eraName.value || !dynastyName.value) {
+    if (!eraName.value || !dynastyName.value || !currentEraDetail.value) {
       return [];
     }
 
-    // 这里可以根据当前选择的年号动态生成年份选项
-    // 暂时提供1-61年的通用选项
+    // 如果有年号详情，根据实际时间范围生成选项
+    if (currentEraDetail.value.startDate && currentEraDetail.value.endDate) {
+      const startYear = currentEraDetail.value.startDate.year;
+      const endYear = currentEraDetail.value.endDate.year;
+      
+      // 计算年号持续的年数
+      const yearCount = endYear - startYear + 1;
+      
+      console.log(`年号 ${eraName.value} 的时间范围: ${startYear}-${endYear}年，共${yearCount}年`);
+      
+      return DateInputUtils.generateEraYearOptions(eraName.value, startYear, endYear);
+    }
+
+    // 降级方案：使用默认的1-61年
     const options = [];
     for (let year = 1; year <= 61; year++) {
       const chineseYear = DateInputUtils.numberToEraYear(year, eraName.value);
@@ -430,11 +445,37 @@
     }
   };
 
-  const onEraChange = (value: string) => {
+  const onEraChange = async (value: string) => {
     eraName.value = value;
     eraYear.value = undefined; // 清空年号年份
     eraMonth.value = undefined; // 清空年号月份
     eraDay.value = undefined; // 清空年号日期
+    
+    // 获取年号详情，用于计算年份范围
+    if (value && dynastyName.value) {
+      try {
+        console.log(`开始获取年号 ${value} 的详情...`);
+        const eraDetail = await DateInputUtils.getEraByName(dynastyName.value, value);
+        currentEraDetail.value = eraDetail || null;
+        
+        if (currentEraDetail.value) {
+          console.log(`成功获取年号 ${value} 的详情:`, {
+            name: currentEraDetail.value.name,
+            startDate: currentEraDetail.value.startDate,
+            endDate: currentEraDetail.value.endDate,
+            note: currentEraDetail.value.note
+          });
+        } else {
+          console.warn(`未找到年号 ${value} 的详情`);
+        }
+      } catch (error) {
+        console.error(`获取年号 ${value} 详情失败:`, error);
+        currentEraDetail.value = null;
+      }
+    } else {
+      currentEraDetail.value = null;
+    }
+    
     updateDate();
   };
 

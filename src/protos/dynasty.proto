@@ -111,6 +111,17 @@ message GetErasByEmperorRequest {
   string emperor_id = 1;                 // 皇帝ID
 }
 
+// 获取特定年号请求
+message GetEraByNameRequest {
+  string dynasty_id = 1;                 // 朝代ID
+  string era_name = 2;                   // 年号名称
+}
+
+// 获取单个年号响应
+message GetEraResponse {
+  EraName era_name = 1;                  // 年号信息
+}
+
 // 朝代服务
 service DynastyService {
   // 获取所有朝代
@@ -131,5 +142,7 @@ service DynastyService {
   // 获取朝代下的所有年号
   rpc GetErasByDynasty(GetErasByDynastyRequest) returns (GetErasResponse);
 
+  // 获取特定年号信息
+  rpc GetEraByName(GetEraByNameRequest) returns (GetEraResponse);
 
 } 

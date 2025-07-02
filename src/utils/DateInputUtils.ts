@@ -361,6 +361,23 @@ export class DateInputUtils {
    * 根据朝代名称和年号名称获取年号详情
    */
   static async getEraByName(dynastyName: string, eraName: string): Promise<EraName | undefined> {
+    try {
+      // 直接从服务端获取年号详情
+      const era = await dynastyServiceClient.getEraByName(dynastyName, eraName);
+      return era;
+    } catch (error) {
+      console.error(`获取朝代 ${dynastyName} 的年号 ${eraName} 详情失败:`, error);
+      // 降级方案：从缓存中查找
+      const eras = await DateInputUtils.getErasByDynasty(dynastyName);
+      return eras.find((era) => era.name === eraName);
+    }
+  }
+
+  /**
+   * 根据朝代名称和年号名称获取年号详情（从缓存中查找）
+   * @deprecated 建议使用 getEraByName 方法
+   */
+  static async getEraByNameFromCache(dynastyName: string, eraName: string): Promise<EraName | undefined> {
     const eras = await DateInputUtils.getErasByDynasty(dynastyName);
     return eras.find((era) => era.name === eraName);
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="relative" ref="containerRef">
     <!-- 输入框区域 -->
-    <div class="relative">
+    <div class="relative" ref="inputWrapperRef">
       <input
         ref="inputRef"
         v-model="searchQuery"
@@ -9,6 +9,7 @@
         @keydown="handleKeydown"
         :placeholder="placeholder"
         :class="inputClass"
+        class="p-1"
         autocomplete="off"
       />
 
@@ -48,11 +49,15 @@
         </svg>
       </button>
     </div>
+  </div>
 
-    <!-- 下拉列表 -->
+  <!-- 下拉列表 - 使用 Teleport 移动到 body -->
+  <Teleport to="body">
     <div
       v-if="showDropdown"
-      class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
+      ref="dropdownRef"
+      :style="dropdownStyle"
+      class="fixed z-[9999] bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
     >
       <!-- 搜索结果为空时的提示 -->
       <div v-if="filteredOptions.length === 0" class="px-3 py-2 text-gray-500 text-sm">
@@ -72,7 +77,7 @@
         v-html="highlightText(getOptionLabel(option))"
       />
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -115,6 +120,9 @@
   const highlightedIndex = ref(-1);
   const containerRef = ref<HTMLElement>();
   const inputRef = ref<HTMLInputElement>();
+  const inputWrapperRef = ref<HTMLElement>();
+  const dropdownRef = ref<HTMLElement>();
+  const dropdownPosition = ref({ top: 0, left: 0, width: 0 });
 
   // 生成搜索文本 - 优先使用动态指定的搜索值属性
   const generateSearchText = (option: any): string => {
@@ -170,6 +178,25 @@
     });
   });
 
+  // 下拉框样式计算
+  const dropdownStyle = computed(() => ({
+    top: `${dropdownPosition.value.top}px`,
+    left: `${dropdownPosition.value.left}px`,
+    width: `${dropdownPosition.value.width}px`,
+  }));
+
+  // 更新下拉框位置
+  const updateDropdownPosition = () => {
+    if (!inputWrapperRef.value) return;
+
+    const rect = inputWrapperRef.value.getBoundingClientRect();
+    dropdownPosition.value = {
+      top: rect.bottom + window.scrollY + 4, // 4px间距
+      left: rect.left + window.scrollX,
+      width: rect.width,
+    };
+  };
+
   // 高亮匹配文本 - 简化版本（专注前端职责）
   const highlightText = (text: string): string => {
     if (!searchQuery.value.trim()) {
@@ -215,8 +242,9 @@
   // 处理输入框获得焦点
   const handleFocus = () => {
     showDropdown.value = true;
-    // 自动全选文本，方便用户重新输入
+    // 更新下拉框位置
     nextTick(() => {
+      updateDropdownPosition();
       inputRef.value?.select();
     });
   };
@@ -230,6 +258,7 @@
       // 点击展开时清空搜索查询，显示所有选项
       searchQuery.value = "";
       nextTick(() => {
+        updateDropdownPosition();
         inputRef.value?.focus();
       });
     }
@@ -279,6 +308,19 @@
     }
   };
 
+  // 处理窗口大小变化和滚动
+  const handleResize = () => {
+    if (showDropdown.value) {
+      updateDropdownPosition();
+    }
+  };
+
+  const handleScroll = () => {
+    if (showDropdown.value) {
+      updateDropdownPosition();
+    }
+  };
+
   // 监听modelValue变化，更新显示文本
   watch(
     () => props.modelValue,
@@ -302,10 +344,14 @@
 
   onMounted(() => {
     document.addEventListener("click", handleClickOutside);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll, true); // 使用捕获模式监听所有滚动事件
   });
 
   onUnmounted(() => {
     document.removeEventListener("click", handleClickOutside);
+    window.removeEventListener("resize", handleResize);
+    window.removeEventListener("scroll", handleScroll, true);
   });
 </script>
 
