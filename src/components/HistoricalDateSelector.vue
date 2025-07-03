@@ -54,7 +54,7 @@
             name="my_tabs_2"
             class="tab"
             aria-label="时代"
-            @click="selectedTab = 'periods'"
+            @click="selectedTab = 'periods'; loadDynastiesData()"
             :checked="selectedTab === 'periods'"
           />
         </div>
@@ -393,6 +393,18 @@
     emit("update:endDate", dateRange.value.end);
   };
 
+  // 加载朝代数据的方法
+  const loadDynastiesData = async () => {
+    try {
+      console.log("重新加载朝代数据...");
+      dynasties.value = await dynastyServiceClient.getAllDynasties();
+      console.log(`成功加载 ${dynasties.value.length} 个朝代`);
+    } catch (error) {
+      console.error("加载朝代数据失败:", error);
+      dynasties.value = [];
+    }
+  };
+
   // 键盘事件处理
   const handleKeydown = (event: KeyboardEvent) => {
     if (event.key === "Escape" && isOpen.value) {
@@ -406,12 +418,8 @@
   onMounted(async () => {
     document.addEventListener("keydown", handleKeydown);
 
-    // 加载朝代数据
-    try {
-      dynasties.value = await dynastyServiceClient.getAllDynasties();
-    } catch (error) {
-      console.error("加载朝代数据失败:", error);
-    }
+    // 初始加载朝代数据
+    await loadDynastiesData();
   });
 
   onUnmounted(() => {

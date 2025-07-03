@@ -30,20 +30,28 @@ export class HistoricalDateUtils {
    * @returns 是否有效
    */
   static isValid(date: HistoricalDate): boolean {
-    // 对于年号类型，检查 eraYear 和相关字段
+    // 对于年号类型，检查基本字段
     if (date.calendarType === CalendarType.ERA) {
-      if (!date.eraYear || date.eraYear <= 0) return false;
-      if (!date.dynastyName || !date.eraName) return false;
+      // 必须有朝代名称，其他字段可以部分缺失
+      if (!date.dynastyName) return false;
+      
+      // 如果有皇帝ID但没有年号名称，无效
+      // 如果有年号名称但没有年号年份，表示年号第一年（有效）
+      // 如果有年号年份但没有月份，表示该年正月（有效）
+      // 如果有月份但没有日期，表示该月初一（有效）
+      
+      // 年号年份：0表示未设置（默认元年），大于0有效
+      if (date.eraYear < 0) return false;
     } else {
-      // 对于公元和农历，年份可以是负数（公元前），但不能是0（没有公元0年）
+      // 对于公元和农历，年份不能是0（没有公元0年）
       if (date.year === 0) return false;
     }
 
-    // 月份必须在1-12之间
-    if (date.month < 1 || date.month > 12) return false;
+    // 月份：0表示未设置（默认1月/正月），1-12有效
+    if (date.month < 0 || date.month > 12) return false;
 
-    // 日期必须在1-31之间（简化验证，不考虑具体月份的天数差异）
-    if (date.day < 1 || date.day > 31) return false;
+    // 日期：0表示未设置（默认1日/初一），1-31有效
+    if (date.day < 0 || date.day > 31) return false;
 
     return true;
   }
@@ -59,19 +67,24 @@ export class HistoricalDateUtils {
 
   /**
    * 格式化传统月日名称
-   * @param month 月份
-   * @param day 日期
+   * @param month 月份（0表示未设置）
+   * @param day 日期（0表示未设置）
    * @param isLeapMonth 是否闰月
    * @returns 格式化的月日字符串
    */
   private static formatTraditionalMonthDay(
-    month: number,
-    day: number,
+    month: number = 0,
+    day: number = 0,
     isLeapMonth: boolean = false,
   ): string {
     const leapPrefix = isLeapMonth ? "闰" : "";
-    const monthName = DateInputUtils.LUNAR_MONTHS[month - 1] || `${month}月`;
-    const dayName = DateInputUtils.LUNAR_DAYS[day - 1] || `${day}日`;
+    
+    // 处理0值：0表示未设置，使用默认值
+    const effectiveMonth = month || 1; // 默认正月
+    const effectiveDay = day || 1; // 默认初一
+    
+    const monthName = DateInputUtils.LUNAR_MONTHS[effectiveMonth - 1] || `${effectiveMonth}月`;
+    const dayName = DateInputUtils.LUNAR_DAYS[effectiveDay - 1] || `${effectiveDay}日`;
     return `${leapPrefix}${monthName}${dayName}`;
   }
 
@@ -81,7 +94,15 @@ export class HistoricalDateUtils {
    * @returns 格式化的阳历日期字符串
    */
   private static formatGregorianDate(date: HistoricalDate): string {
-    return `${this.formatYear(date.year)}年${date.month}月${date.day}日`;
+    if (!date.year) {
+      return "请选择年份";
+    }
+    
+    // 处理0值：0表示未设置，使用默认值
+    const effectiveMonth = date.month || 1; // 默认1月
+    const effectiveDay = date.day || 1; // 默认1日
+    
+    return `${this.formatYear(date.year)}年${effectiveMonth}月${effectiveDay}日`;
   }
 
   /**
@@ -90,6 +111,10 @@ export class HistoricalDateUtils {
    * @returns 格式化的农历日期字符串
    */
   private static formatLunarDate(date: HistoricalDate): string {
+    if (!date.year) {
+      return "请选择年份";
+    }
+    
     const traditionalMonthDay = this.formatTraditionalMonthDay(
       date.month,
       date.day,
@@ -104,13 +129,23 @@ export class HistoricalDateUtils {
    * @returns 格式化的年号日期字符串
    */
   private static formatEraDate(date: HistoricalDate): string {
+    if (!date.dynastyName) {
+      return "请选择朝代";
+    }
+    
+    if (!date.eraName) {
+      return `${date.dynastyName}开国元年正月初一`; // 默认该朝代开国元年
+    }
+    
     const traditionalMonthDay = this.formatTraditionalMonthDay(
       date.month,
       date.day,
       date.isLeapMonth,
     );
-    // 使用中文年份显示
-    const chineseEraYear = DateInputUtils.getEraYearDisplayText(date.eraYear, date.eraName);
+    
+    // 使用中文年份显示，0表示未设置，默认为元年
+    const eraYear = date.eraYear || 1; // 默认元年
+    const chineseEraYear = DateInputUtils.getEraYearDisplayText(eraYear, date.eraName);
     return `${date.dynastyName}${date.eraName}${chineseEraYear}${traditionalMonthDay}`;
   }
 

@@ -11,7 +11,7 @@
     </div>
 
     <!-- 查询按钮 -->
-    <div class="absolute top-4 left-[44rem] z-[90]" style="z-index: 90">
+    <div :class="queryButtonClass" style="z-index: 90">
       <button
         @click="performQuery"
         :disabled="loading || !isValidDateRange"
@@ -108,6 +108,22 @@
     return (
       HistoricalDateUtils.isValid(beginDate.value) && HistoricalDateUtils.isValid(endDate.value)
     );
+  });
+
+  // 计算属性：查询按钮的位置类，根据HistoricalDateSelector的size动态调整
+  const queryButtonClass = computed(() => {
+    // size="lg" 对应 w-[600px]，即600px宽度
+    // 按钮应该在选择器右侧16px处（4 + 600 + 16 = 620px from left）
+    const sizeToLeftMap = {
+      sm: "left-[440px]", // 4 + 420 + 16 = 440px
+      md: "left-[480px]", // 4 + 460 + 16 = 480px  
+      lg: "left-[620px]", // 4 + 600 + 16 = 620px
+      xl: "left-[660px]", // 4 + 640 + 16 = 660px
+    };
+    
+    // 默认使用lg大小的位置
+    const currentSize = "lg"; // 这里可以改为从props获取，如果需要动态调整的话
+    return `absolute top-4 ${sizeToLeftMap[currentSize]} z-[90]`;
   });
 
   // 图层类型选项
