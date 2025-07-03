@@ -54,7 +54,10 @@
             name="my_tabs_2"
             class="tab"
             aria-label="时代"
-            @click="selectedTab = 'periods'; loadDynastiesData()"
+            @click="
+              selectedTab = 'periods';
+              loadDynastiesData();
+            "
             :checked="selectedTab === 'periods'"
           />
         </div>
@@ -103,14 +106,19 @@
                   />
                 </div>
                 <!-- 朝代列表 -->
-                <div class="flex-1 space-y-1 overflow-y-auto scrollbar-thin border border-base-300 min-h-0">
+                <div
+                  class="flex-1 space-y-1 overflow-y-auto scrollbar-thin border border-base-300 min-h-0"
+                >
                   <button
                     v-for="dynasty in dynasties"
                     :key="dynasty.name"
-                    @click="selectedDynasty = dynasty.name; onDynastySelected(dynasty.name, { value: dynasty.name, label: dynasty.name })"
+                    @click="
+                      selectedDynasty = dynasty.name;
+                      onDynastySelected(dynasty.name, { value: dynasty.name, label: dynasty.name });
+                    "
                     :class="[
                       'btn btn-ghost btn-sm w-full justify-start text-left p-2 h-auto normal-case',
-                      selectedDynasty === dynasty.name ? 'bg-primary/10 border-primary/20' : ''
+                      selectedDynasty === dynasty.name ? 'bg-primary/10 border-primary/20' : '',
                     ]"
                   >
                     <div class="w-full">
@@ -124,7 +132,9 @@
 
               <!-- 右侧：时代列表 -->
               <div class="w-2/3 flex flex-col border border-base-300 min-h-0">
-                <div class="text-sm font-medium text-base-content/70 p-2 border-b border-base-300 flex-shrink-0">
+                <div
+                  class="text-sm font-medium text-base-content/70 p-2 border-b border-base-300 flex-shrink-0"
+                >
                   历史时期
                 </div>
                 <div class="flex-1 space-y-2 overflow-y-auto scrollbar-thin p-2 min-h-0">
@@ -204,6 +214,7 @@
         day: 16,
         isLeapMonth: false,
         dynastyName: "",
+        emperorId: "",
         eraName: "",
         eraYear: 0,
       }),
@@ -215,6 +226,7 @@
         day: 16,
         isLeapMonth: false,
         dynastyName: "",
+        emperorId: "",
         eraName: "",
         eraYear: 0,
       }),
@@ -349,7 +361,7 @@
   const reset = () => {
     const defaultType = CalendarType.GREGORIAN;
     selectedCalendarType.value = defaultType;
-    
+
     const defaultStart = HistoricalDateUtils.createDefaultDate(defaultType);
     const defaultEnd = HistoricalDateUtils.createDefaultDate(defaultType);
 

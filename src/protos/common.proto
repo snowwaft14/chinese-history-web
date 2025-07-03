@@ -26,6 +26,7 @@ message HistoricalDate {
   int32 day = 4;                  // 日（1~31）
   bool is_leap_month = 5;         // 是否闰月，仅对农历有效
   string dynasty_name = 6;        // 朝代（如"唐"，用于 ERA 类型）
-  string era_name = 7;            // 年号（如"贞观"，用于 ERA 类型）
-  int32 era_year = 8;             // 年号第几年（如3，表示贞观3年，用于 ERA 类型）
+  string emperor_id = 7;          // 皇帝ID（用于 ERA 类型）
+  string era_name = 8;            // 年号（如"贞观"，用于 ERA 类型）
+  int32 era_year = 9;             // 年号第几年（如3，表示贞观3年，用于 ERA 类型）
 } 

@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IjkKDUdyZWdvcmlhbkRhdGUSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBRILCgNkYXkYAyABKAUiwAEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBRILCgNkYXkYBCABKAUSFQoNaXNfbGVhcF9tb250aBgFIAEoCBIUCgxkeW5hc3R5X25hbWUYBiABKAkSEAoIZXJhX25hbWUYByABKAkSEAoIZXJhX3llYXIYCCABKAUqMQoMQ2FsZW5kYXJUeXBlEg0KCUdSRUdPUklBThAAEgkKBUxVTkFSEAESBwoDRVJBEAJCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z");
+  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IjkKDUdyZWdvcmlhbkRhdGUSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBRILCgNkYXkYAyABKAUi1AEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBRILCgNkYXkYBCABKAUSFQoNaXNfbGVhcF9tb250aBgFIAEoCBIUCgxkeW5hc3R5X25hbWUYBiABKAkSEgoKZW1wZXJvcl9pZBgHIAEoCRIQCghlcmFfbmFtZRgIIAEoCRIQCghlcmFfeWVhchgJIAEoBSoxCgxDYWxlbmRhclR5cGUSDQoJR1JFR09SSUFOEAASCQoFTFVOQVIQARIHCgNFUkEQAkIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM");
 
 /**
  * 公历日期结构
@@ -96,16 +96,23 @@ export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
   dynastyName: string;
 
   /**
+   * 皇帝ID（用于 ERA 类型）
+   *
+   * @generated from field: string emperor_id = 7;
+   */
+  emperorId: string;
+
+  /**
    * 年号（如"贞观"，用于 ERA 类型）
    *
-   * @generated from field: string era_name = 7;
+   * @generated from field: string era_name = 8;
    */
   eraName: string;
 
   /**
    * 年号第几年（如3，表示贞观3年，用于 ERA 类型）
    *
-   * @generated from field: int32 era_year = 8;
+   * @generated from field: int32 era_year = 9;
    */
   eraYear: number;
 };

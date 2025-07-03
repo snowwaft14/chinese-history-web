@@ -85,6 +85,7 @@
       day: 16,
       isLeapMonth: false,
       dynastyName: "",
+      emperorId: "",
       eraName: "",
       eraYear: 0,
     }),
@@ -98,6 +99,7 @@
       day: 16,
       isLeapMonth: false,
       dynastyName: "",
+      emperorId: "",
       eraName: "",
       eraYear: 0,
     }),
@@ -116,11 +118,11 @@
     // 按钮应该在选择器右侧16px处（4 + 600 + 16 = 620px from left）
     const sizeToLeftMap = {
       sm: "left-[440px]", // 4 + 420 + 16 = 440px
-      md: "left-[480px]", // 4 + 460 + 16 = 480px  
+      md: "left-[480px]", // 4 + 460 + 16 = 480px
       lg: "left-[620px]", // 4 + 600 + 16 = 620px
       xl: "left-[660px]", // 4 + 640 + 16 = 660px
     };
-    
+
     // 默认使用lg大小的位置
     const currentSize = "lg"; // 这里可以改为从props获取，如果需要动态调整的话
     return `absolute top-4 ${sizeToLeftMap[currentSize]} z-[90]`;

@@ -15,12 +15,12 @@ export class HistoricalDateUtils {
     return create(HistoricalDateSchema, {
       calendarType,
       year: calendarType === CalendarType.ERA ? 0 : 755,
-      month: 12,
-      day: 16,
+      month: calendarType === CalendarType.ERA ? 0 : 12,
+      day: calendarType === CalendarType.ERA ? 0 : 16,
       isLeapMonth: false,
-      dynastyName: calendarType === CalendarType.ERA ? "唐" : "",
-      eraName: calendarType === CalendarType.ERA ? "天宝" : "",
-      eraYear: calendarType === CalendarType.ERA ? 14 : 0,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
     });
   }
 
@@ -32,15 +32,8 @@ export class HistoricalDateUtils {
   static isValid(date: HistoricalDate): boolean {
     // 对于年号类型，检查基本字段
     if (date.calendarType === CalendarType.ERA) {
-      // 必须有朝代名称，其他字段可以部分缺失
-      if (!date.dynastyName) return false;
-      
-      // 如果有皇帝ID但没有年号名称，无效
-      // 如果有年号名称但没有年号年份，表示年号第一年（有效）
-      // 如果有年号年份但没有月份，表示该年正月（有效）
-      // 如果有月份但没有日期，表示该月初一（有效）
-      
-      // 年号年份：0表示未设置（默认元年），大于0有效
+      // 必须有朝代和皇帝，其他字段可以部分缺失
+      if (!date.dynastyName || !date.emperorId) return false;
       if (date.eraYear < 0) return false;
     } else {
       // 对于公元和农历，年份不能是0（没有公元0年）
@@ -78,11 +71,11 @@ export class HistoricalDateUtils {
     isLeapMonth: boolean = false,
   ): string {
     const leapPrefix = isLeapMonth ? "闰" : "";
-    
+
     // 处理0值：0表示未设置，使用默认值
     const effectiveMonth = month || 1; // 默认正月
     const effectiveDay = day || 1; // 默认初一
-    
+
     const monthName = DateInputUtils.LUNAR_MONTHS[effectiveMonth - 1] || `${effectiveMonth}月`;
     const dayName = DateInputUtils.LUNAR_DAYS[effectiveDay - 1] || `${effectiveDay}日`;
     return `${leapPrefix}${monthName}${dayName}`;
@@ -97,11 +90,11 @@ export class HistoricalDateUtils {
     if (!date.year) {
       return "请选择年份";
     }
-    
+
     // 处理0值：0表示未设置，使用默认值
     const effectiveMonth = date.month || 1; // 默认1月
     const effectiveDay = date.day || 1; // 默认1日
-    
+
     return `${this.formatYear(date.year)}年${effectiveMonth}月${effectiveDay}日`;
   }
 
@@ -114,13 +107,13 @@ export class HistoricalDateUtils {
     if (!date.year) {
       return "请选择年份";
     }
-    
+
     const traditionalMonthDay = this.formatTraditionalMonthDay(
       date.month,
       date.day,
       date.isLeapMonth,
     );
-    return `【农历】${this.formatYear(date.year)}年${traditionalMonthDay}`;
+    return `${this.formatYear(date.year)}年${traditionalMonthDay}`;
   }
 
   /**
@@ -132,21 +125,21 @@ export class HistoricalDateUtils {
     if (!date.dynastyName) {
       return "请选择朝代";
     }
-    
+
     if (!date.eraName) {
       return `${date.dynastyName}开国元年正月初一`; // 默认该朝代开国元年
     }
-    
+
     const traditionalMonthDay = this.formatTraditionalMonthDay(
       date.month,
       date.day,
       date.isLeapMonth,
     );
-    
+
     // 使用中文年份显示，0表示未设置，默认为元年
     const eraYear = date.eraYear || 1; // 默认元年
     const chineseEraYear = DateInputUtils.getEraYearDisplayText(eraYear, date.eraName);
-    return `${date.dynastyName}${date.eraName}${chineseEraYear}${traditionalMonthDay}`;
+    return `${date.emperorId}${date.eraName}${chineseEraYear}${traditionalMonthDay}`;
   }
 
   /**
@@ -187,28 +180,19 @@ export class HistoricalDateUtils {
     // 根据不同的日历类型显示不同格式
     switch (selectedCalendarType) {
       case CalendarType.ERA:
-        if (start.dynastyName && start.eraName && start.eraYear) {
-          const startText = this.formatEraDate(start);
-          const endText = this.formatEraDate(end);
-          return this.formatDateRange(startText, endText);
-        }
-        return "请选择年号时间范围";
+        const startText1 = this.formatEraDate(start);
+        const endText1 = this.formatEraDate(end);
+        return this.formatDateRange(startText1, endText1);
 
       case CalendarType.GREGORIAN:
-        if (start.year && start.month && start.day) {
-          const startText = this.formatGregorianDate(start);
-          const endText = this.formatGregorianDate(end);
-          return this.formatDateRange(startText, endText);
-        }
-        return "请选择公元时间范围";
+        const startText2 = this.formatGregorianDate(start);
+        const endText2 = this.formatGregorianDate(end);
+        return this.formatDateRange(startText2, endText2);
 
       case CalendarType.LUNAR:
-        if (start.year && start.month && start.day) {
-          const startText = this.formatLunarDate(start);
-          const endText = this.formatLunarDate(end);
-          return this.formatDateRange(startText, endText);
-        }
-        return "请选择农历时间范围";
+        const startText3 = this.formatLunarDate(start);
+        const endText3 = this.formatLunarDate(end);
+        return `农历 ${this.formatDateRange(startText3, endText3)}`;
 
       default:
         return "请选择时间范围";
