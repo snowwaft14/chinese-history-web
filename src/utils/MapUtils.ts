@@ -103,6 +103,12 @@ export class MapUtils {
       case LayerType.TERRITORY:
         this.renderTerritoryLayer(layer, geoData);
         break;
+      case LayerType.WAR:
+        this.renderWarLayer(layer, geoData);
+        break;
+      case LayerType.DISASTER:
+        this.renderDisasterLayer(layer, geoData);
+        break;
     }
   }
 
@@ -221,6 +227,68 @@ export class MapUtils {
     }
   }
 
+  // 渲染战争图层
+  private renderWarLayer(layer: LayerItem, geoData: any): void {
+    if (geoData.type === "Point") {
+      const [lng, lat] = geoData.coordinates;
+      const point = new window.BMap.Point(lng, lat);
+      const marker = new window.BMap.Marker(point);
+
+      const label = new window.BMap.Label(layer.name, {
+        offset: new window.BMap.Size(20, -10),
+        position: point,
+      });
+      label.setStyle({
+        color: "#fff",
+        backgroundColor: "#8B0000", // 深红色
+        border: "1px solid #B22222",
+        borderRadius: "3px",
+        padding: "2px 5px",
+        fontSize: "12px",
+        fontWeight: "bold",
+      });
+
+      marker.addEventListener("click", () => {
+        this.showLayerInfo(layer, point);
+      });
+
+      this.map!.addOverlay(marker);
+      this.map!.addOverlay(label);
+      this.overlays.set(layer.id, { marker, label });
+    }
+  }
+
+  // 渲染灾难图层
+  private renderDisasterLayer(layer: LayerItem, geoData: any): void {
+    if (geoData.type === "Point") {
+      const [lng, lat] = geoData.coordinates;
+      const point = new window.BMap.Point(lng, lat);
+      const marker = new window.BMap.Marker(point);
+
+      const label = new window.BMap.Label(layer.name, {
+        offset: new window.BMap.Size(20, -10),
+        position: point,
+      });
+      label.setStyle({
+        color: "#333",
+        backgroundColor: "#FFD700", // 金色
+        border: "1px solid #DAA520",
+        borderRadius: "3px",
+        padding: "2px 5px",
+        fontSize: "12px",
+        fontWeight: "bold",
+      });
+
+      marker.addEventListener("click", () => {
+        this.showLayerInfo(layer, point);
+      });
+
+      this.map!.addOverlay(marker);
+      this.map!.addOverlay(label);
+      this.overlays.set(layer.id, { marker, label });
+    }
+  }
+
   // 显示图层信息窗口
   private showLayerInfo(layer: LayerItem, point: any): void {
     const content = `
@@ -253,6 +321,8 @@ export class MapUtils {
       [LayerType.ROUTE]: "路线",
       [LayerType.TERRITORY]: "疆域",
       [LayerType.UNKNOWN]: "未知",
+      [LayerType.WAR]: "战争",
+      [LayerType.DISASTER]: "灾难",
     };
     return typeNames[type] || "未知";
   }

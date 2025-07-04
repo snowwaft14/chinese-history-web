@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file layer.proto.
  */
 export const file_layer: GenFile = /*@__PURE__*/
-  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3Rvcnki1wEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgGIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSDAoEdGFncxgHIAMoCSJuChBHZXRMYXllcnNSZXF1ZXN0Ei0KBXN0YXJ0GAEgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSKwoDZW5kGAIgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0qRwoJTGF5ZXJUeXBlEgsKB1VOS05PV04QABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEMmAKDExheWVyU2VydmljZRJQCglHZXRMYXllcnMSIC5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z", [file_common]);
+  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3Rvcnki1wEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgGIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSDAoEdGFncxgHIAMoCSJuChBHZXRMYXllcnNSZXF1ZXN0Ei0KBXN0YXJ0GAEgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSKwoDZW5kGAIgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0qXgoJTGF5ZXJUeXBlEgsKB1VOS05PV04QABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEEgcKA1dBUhAFEgwKCERJU0FTVEVSEAYyYAoMTGF5ZXJTZXJ2aWNlElAKCUdldExheWVycxIgLmNoaW5lc2VoaXN0b3J5LkdldExheWVyc1JlcXVlc3QaIS5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXNwb25zZUIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM", [file_common]);
 
 /**
  * 图层元素结构
@@ -122,24 +122,46 @@ export enum LayerType {
   UNKNOWN = 0,
 
   /**
+   * 城市
+   *
    * @generated from enum value: CITY = 1;
    */
   CITY = 1,
 
   /**
+   * 事件，战争意外的历史事件，例如王安石变法
+   *
    * @generated from enum value: EVENT = 2;
    */
   EVENT = 2,
 
   /**
+   * 领土
+   *
    * @generated from enum value: TERRITORY = 3;
    */
   TERRITORY = 3,
 
   /**
+   * 路线，例如晋文公退避三舍路线，楚军进军路线
+   *
    * @generated from enum value: ROUTE = 4;
    */
   ROUTE = 4,
+
+  /**
+   * 战争，例如城濮之战
+   *
+   * @generated from enum value: WAR = 5;
+   */
+  WAR = 5,
+
+  /**
+   * 灾难，例如地震
+   *
+   * @generated from enum value: DISASTER = 6;
+   */
+  DISASTER = 6,
 }
 
 /**

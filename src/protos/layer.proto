@@ -9,10 +9,12 @@ import "common.proto";
 // 枚举：图层类型
 enum LayerType {
   UNKNOWN = 0;
-  CITY = 1;
-  EVENT = 2;
-  TERRITORY = 3;
-  ROUTE = 4;
+  CITY = 1;       //城市
+  EVENT = 2;      //事件，战争意外的历史事件，例如王安石变法
+  TERRITORY = 3;  //领土
+  ROUTE = 4;      //路线，例如晋文公退避三舍路线，楚军进军路线
+  WAR = 5;        //战争，例如城濮之战
+  DISASTER = 6;   //灾难，例如地震
 }
 
 // 图层元素结构

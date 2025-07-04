@@ -141,6 +141,18 @@
       icon: "🛤️",
       description: "行军路线和交通要道",
     },
+    {
+      value: LayerType.WAR,
+      label: "战争",
+      icon: "⚔️",
+      description: "重要战役和冲突",
+    },
+    {
+      value: LayerType.DISASTER,
+      label: "灾难",
+      icon: "🌪️",
+      description: "自然灾害和流行病",
+    },
   ];
 
   // 选中的图层类型
@@ -149,6 +161,8 @@
     LayerType.EVENT,
     LayerType.TERRITORY,
     LayerType.ROUTE,
+    LayerType.WAR,
+    LayerType.DISASTER,
   ]);
 
   // 当前加载的图层数据
