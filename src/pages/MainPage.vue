@@ -2,25 +2,12 @@
   <div class="history-map-page w-screen h-screen overflow-hidden relative">
     <!-- 左上角：历史日期选择器 -->
     <div class="absolute top-4 left-4 z-[100]" style="z-index: 100">
-      <HistoricalDateSelector
+      <DateRangeSelector
         v-model:begin-date="beginDate"
         v-model:end-date="endDate"
         @apply="onDateRangeApply"
         size="lg"
       />
-    </div>
-
-    <!-- 查询按钮 -->
-    <div :class="queryButtonClass" style="z-index: 90">
-      <button
-        @click="performQuery"
-        :disabled="loading || !isValidDateRange"
-        class="btn btn-primary btn-lg shadow-xl"
-      >
-        <span v-if="!loading">🔍</span>
-        <span v-if="loading" class="loading loading-spinner loading-sm"></span>
-        <span>{{ loading ? "查询中..." : "查询图层" }}</span>
-      </button>
     </div>
 
     <!-- 右上角：图层类型选择器 -->
@@ -59,7 +46,7 @@
   import { create } from "@bufbuild/protobuf";
   import { ref, reactive, onMounted, computed } from "vue";
   import BaiduMap from "@/components/BaiduMap.vue";
-  import HistoricalDateSelector from "@/components/HistoricalDateSelector.vue";
+  import DateRangeSelector from "@/components/DateRangeSelector.vue";
   import LayerSelector from "@/components/LayerSelector.vue";
   import { XI_AN_CENTER } from "@/utils/MapUtils";
   import { layerServiceClient } from "@/services/layerService";

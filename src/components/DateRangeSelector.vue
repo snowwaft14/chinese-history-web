@@ -5,7 +5,7 @@
       <!-- Collapse 标题/触发器 -->
       <input type="checkbox" :checked="isOpen" @change="toggleCollapse" class="peer" />
       <div class="collapse-title text-sm font-medium text-left pr-4">
-        <div class="truncate">
+        <div class="truncate text-lg">
           {{ getDisplayText() }}
         </div>
       </div>
@@ -56,7 +56,6 @@
             aria-label="时代"
             @click="
               selectedTab = 'periods';
-              loadDynastiesData();
             "
             :checked="selectedTab === 'periods'"
           />
@@ -68,103 +67,55 @@
             <div class="label">
               <span class="label-text font-medium text-primary">开始日期</span>
             </div>
-            <DateInput
-              :calendar-type="selectedCalendarType"
-              :value="dateRange.start"
-              @update:value="updateStartDate"
+            <!-- 阳历选择器 -->
+            <GregorianDateSelector
+              v-if="selectedCalendarType === CalendarType.GREGORIAN"
+              :value="gregorianDateRange.start"
+              @update:value="updateGregorianStartDate"
             />
+            <!-- 农历选择器 -->
+            <LunarDateSelector
+              v-else-if="selectedCalendarType === CalendarType.LUNAR"
+              :value="lunarDateRange.start"
+              @update:value="updateLunarStartDate"
+            />
+            <!-- 年号选择器 -->
+            <EraDateSelector
+              v-else-if="selectedCalendarType === CalendarType.ERA"
+              :value="eraDateRange.start"
+              @update:value="updateEraStartDate"
+            />
+            
             <!-- 结束日期 -->
             <div class="label">
               <span class="label-text font-medium text-primary">结束日期</span>
             </div>
-            <DateInput
-              :calendar-type="selectedCalendarType"
-              :value="dateRange.end"
-              @update:value="updateEndDate"
+            <!-- 阳历选择器 -->
+            <GregorianDateSelector
+              v-if="selectedCalendarType === CalendarType.GREGORIAN"
+              :value="gregorianDateRange.end"
+              @update:value="updateGregorianEndDate"
+            />
+            <!-- 农历选择器 -->
+            <LunarDateSelector
+              v-else-if="selectedCalendarType === CalendarType.LUNAR"
+              :value="lunarDateRange.end"
+              @update:value="updateLunarEndDate"
+            />
+            <!-- 年号选择器 -->
+            <EraDateSelector
+              v-else-if="selectedCalendarType === CalendarType.ERA"
+              :value="eraDateRange.end"
+              @update:value="updateEraEndDate"
             />
           </div>
         </div>
 
         <!-- 时代标签页内容 -->
         <div v-else-if="selectedTab === 'periods'" class="pt-2">
-          <div class="card bg-base-200 card-body p-3 h-[360px] flex flex-col">
-            <div class="label mb-3 flex-shrink-0">
-              <span class="label-text font-medium text-primary">朝代与时代选择</span>
-            </div>
-
-            <!-- 左右布局容器 -->
-            <div class="flex gap-4 flex-1 min-h-0">
-              <!-- 左侧：朝代搜索列表 -->
-              <div class="w-1/3 flex flex-col min-h-0">
-                <div class="mb-2 flex-shrink-0">
-                  <SearchableSelect
-                    :options="dynastyOptions"
-                    v-model="selectedDynasty"
-                    @change="onDynastySelected"
-                    placeholder="搜索朝代..."
-                    :input-class="'input input-bordered input-sm w-full pr-12'"
-                  />
-                </div>
-                <!-- 朝代列表 -->
-                <div
-                  class="flex-1 space-y-1 overflow-y-auto scrollbar-thin border border-base-300 min-h-0"
-                >
-                  <button
-                    v-for="dynasty in dynasties"
-                    :key="dynasty.name"
-                    @click="
-                      selectedDynasty = dynasty.name;
-                      onDynastySelected(dynasty.name, { value: dynasty.name, label: dynasty.name });
-                    "
-                    :class="[
-                      'btn btn-ghost btn-sm w-full justify-start text-left p-2 h-auto normal-case',
-                      selectedDynasty === dynasty.name ? 'bg-primary/10 border-primary/20' : '',
-                    ]"
-                  >
-                    <div class="w-full">
-                      <div class="font-medium text-sm text-base-content">
-                        {{ dynasty.name }}
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <!-- 右侧：时代列表 -->
-              <div class="w-2/3 flex flex-col border border-base-300 min-h-0">
-                <div
-                  class="text-sm font-medium text-base-content/70 p-2 border-b border-base-300 flex-shrink-0"
-                >
-                  历史时期
-                </div>
-                <div class="flex-1 space-y-2 overflow-y-auto scrollbar-thin p-2 min-h-0">
-                  <button
-                    v-for="period in currentPeriods"
-                    :key="period.name"
-                    @click="applyPeriodRange(period)"
-                    class="btn btn-ghost btn-sm w-full justify-start text-left p-3 h-auto normal-case"
-                  >
-                    <div class="w-full">
-                      <div class="font-medium text-base-content mb-1">
-                        {{ period.name }}
-                      </div>
-                      <div class="text-xs text-base-content/70">
-                        {{ period.description }}
-                      </div>
-                    </div>
-                  </button>
-
-                  <!-- 如果没有选择朝代，显示提示 -->
-                  <div
-                    v-if="currentPeriods.length === 0"
-                    class="text-center text-sm text-base-content/50 py-4"
-                  >
-                    请先选择朝代查看对应的历史时期
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <PeriodSelector
+            @period-selected="onPeriodSelected"
+          />
         </div>
 
         <!-- 操作按钮 -->
@@ -184,7 +135,7 @@
 
 <script lang="ts">
   export default {
-    name: "HistoricalDateSelector",
+    name: "DateRangeSelector",
   };
 </script>
 
@@ -193,7 +144,10 @@
   import { CalendarType, type HistoricalDate, HistoricalDateSchema } from "@/connects/common_pb.ts";
   import { type Period, type Dynasty } from "@/connects/dynasty_pb.ts";
   import { create } from "@bufbuild/protobuf";
-  import DateInput from "./DateInput.vue";
+  import GregorianDateSelector from "./GregorianDateSelector.vue";
+  import LunarDateSelector from "./LunarDateSelector.vue";
+  import EraDateSelector from "./EraDateSelector.vue";
+  import PeriodSelector from "./PeriodSelector.vue";
   import SearchableSelect from "./SearchableSelect.vue";
   import { HistoricalDateUtils } from "../utils/HistoricalDateUtils.ts";
   import { dynastyServiceClient } from "@/services/dynastyService.ts";
@@ -244,35 +198,145 @@
   const isOpen = ref(false);
   const selectedTab = ref<"calendar" | "periods">("calendar");
   const selectedCalendarType = ref<CalendarType>(CalendarType.GREGORIAN);
-  const dateRange = ref({
-    start: { ...props.beginDate },
-    end: { ...props.endDate },
+  
+  // 拆分为三个专用的日期范围对象
+  const gregorianDateRange = ref({
+    start: create(HistoricalDateSchema, {
+      calendarType: CalendarType.GREGORIAN,
+      year: 755,
+      month: 12,
+      day: 16,
+      isLeapMonth: false,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
+      eraYear: 0,
+    }),
+    end: create(HistoricalDateSchema, {
+      calendarType: CalendarType.GREGORIAN,
+      year: 763,
+      month: 2,
+      day: 17,
+      isLeapMonth: false,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
+      eraYear: 0,
+    }),
   });
+
+  const lunarDateRange = ref({
+    start: create(HistoricalDateSchema, {
+      calendarType: CalendarType.LUNAR,
+      year: 755,
+      month: 11,
+      day: 9,
+      isLeapMonth: false,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
+      eraYear: 0,
+    }),
+    end: create(HistoricalDateSchema, {
+      calendarType: CalendarType.LUNAR,
+      year: 763,
+      month: 1,
+      day: 30,
+      isLeapMonth: false,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
+      eraYear: 0,
+    }),
+  });
+
+  const eraDateRange = ref({
+    start: create(HistoricalDateSchema, {
+      calendarType: CalendarType.ERA,
+      year: 0,
+      month: 11,
+      day: 9,
+      isLeapMonth: false,
+      dynastyName: "唐",
+      emperorId: "玄宗",
+      eraName: "天宝",
+      eraYear: 14,
+    }),
+    end: create(HistoricalDateSchema, {
+      calendarType: CalendarType.ERA,
+      year: 0,
+      month: 1,
+      day: 30,
+      isLeapMonth: false,
+      dynastyName: "唐",
+      emperorId: "唐代宗",
+      eraName: "宝应",
+      eraYear: 2,
+    }),
+  });  
 
   // 快速选择状态：记录当前是否使用快速选择的预设，以及预设名称
   const currentPresetName = ref<string>("");
+  
+  // 时代选择器的状态：存储选中的时代范围
+  const periodDateRange = ref({
+    start: create(HistoricalDateSchema, {
+      calendarType: CalendarType.GREGORIAN,
+      year: 755,
+      month: 12,
+      day: 16,
+      isLeapMonth: false,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
+      eraYear: 0,
+    }),
+    end: create(HistoricalDateSchema, {
+      calendarType: CalendarType.GREGORIAN,
+      year: 763,
+      month: 2,
+      day: 17,
+      isLeapMonth: false,
+      dynastyName: "",
+      emperorId: "",
+      eraName: "",
+      eraYear: 0,
+    }),
+    periodName: "",
+  });
 
-  // 朝代和时代相关数据
-  const dynasties = ref<Dynasty[]>([]);
-  const selectedDynasty = ref<string>("");
-  const currentPeriods = ref<Period[]>([]);
 
-  // 朝代选项，用于SearchableSelect组件
-  const dynastyOptions = computed(() =>
-    dynasties.value.map((dynasty) => ({
-      value: dynasty.name,
-      label: dynasty.name,
-      searchValues: dynasty.searchValues,
-    })),
-  );
 
   // 计算属性
   const isValidRange = computed(() => {
+    const currentRange = getCurrentDateRange();
     return (
-      HistoricalDateUtils.isValid(dateRange.value.start) &&
-      HistoricalDateUtils.isValid(dateRange.value.end)
+      HistoricalDateUtils.isValid(currentRange.start) &&
+      HistoricalDateUtils.isValid(currentRange.end)
     );
   });
+
+  // 获取当前选中的日期范围
+  const getCurrentDateRange = () => {
+    // 如果选择的是时代选项卡，返回时代日期范围
+    if (selectedTab.value === 'periods') {
+      return {
+        start: periodDateRange.value.start,
+        end: periodDateRange.value.end,
+      };
+    }
+
+    switch (selectedCalendarType.value) {
+      case CalendarType.GREGORIAN:
+        return gregorianDateRange.value;
+      case CalendarType.LUNAR:
+        return lunarDateRange.value;
+      case CalendarType.ERA:
+        return eraDateRange.value;
+      default:
+        return gregorianDateRange.value;
+    }
+  };
 
   // 根据size计算容器样式类
   const containerClass = computed(() => {
@@ -282,14 +346,15 @@
       lg: "w-[600px]", // 固定 560px
       xl: "w-[640px]", // 固定 640px
     };
-    return `historical-date-selector relative ${sizeMap[props.size]}`;
+    return `date-range-selector relative ${sizeMap[props.size]}`;
   });
 
   // 根据当前状态获取显示文本
   const getDisplayText = () => {
+    const currentRange = getCurrentDateRange();
     return HistoricalDateUtils.getDisplayText(
-      dateRange.value.start,
-      dateRange.value.end,
+      currentRange.start,
+      currentRange.end,
       selectedCalendarType.value,
       currentPresetName.value,
     );
@@ -305,55 +370,63 @@
     isOpen.value = false;
   };
 
-  const updateStartDate = (date: HistoricalDate) => {
-    dateRange.value.start = { ...date, calendarType: selectedCalendarType.value };
-    // 手动修改日期时清除预设状态
+  // 阳历日期更新方法
+  const updateGregorianStartDate = (date: HistoricalDate) => {
+    gregorianDateRange.value.start = { ...date };
     currentPresetName.value = "";
-    emit("update:beginDate", dateRange.value.start);
+    emit("update:beginDate", gregorianDateRange.value.start);
   };
 
-  const updateEndDate = (date: HistoricalDate) => {
-    dateRange.value.end = { ...date, calendarType: selectedCalendarType.value };
-    // 手动修改日期时清除预设状态
+  const updateGregorianEndDate = (date: HistoricalDate) => {
+    gregorianDateRange.value.end = { ...date };
     currentPresetName.value = "";
-    emit("update:endDate", dateRange.value.end);
+    emit("update:endDate", gregorianDateRange.value.end);
   };
 
-  // 朝代选择处理
-  const onDynastySelected = async (dynastyName: string, option: any) => {
-    console.log("朝代选择事件触发:", dynastyName, option);
+  // 农历日期更新方法
+  const updateLunarStartDate = (date: HistoricalDate) => {
+    lunarDateRange.value.start = { ...date };
+    currentPresetName.value = "";
+    emit("update:beginDate", lunarDateRange.value.start);
+  };
 
-    // 查找选中朝代的详细信息
-    const selectedDynastyData = dynasties.value.find((d) => d.name === dynastyName);
-    if (selectedDynastyData) {
-      currentPeriods.value = selectedDynastyData.periods;
-      console.log(
-        "找到朝代数据:",
-        selectedDynastyData.name,
-        "时代数量:",
-        selectedDynastyData.periods.length,
-      );
-    } else {
-      currentPeriods.value = [];
-      console.log("未找到朝代数据:", dynastyName);
-    }
+  const updateLunarEndDate = (date: HistoricalDate) => {
+    lunarDateRange.value.end = { ...date };
+    currentPresetName.value = "";
+    emit("update:endDate", lunarDateRange.value.end);
+  };
+
+  // 年号日期更新方法
+  const updateEraStartDate = (date: HistoricalDate) => {
+    eraDateRange.value.start = { ...date };
+    currentPresetName.value = "";
+    emit("update:beginDate", eraDateRange.value.start);
+  };
+
+  const updateEraEndDate = (date: HistoricalDate) => {
+    eraDateRange.value.end = { ...date };
+    currentPresetName.value = "";
+    emit("update:endDate", eraDateRange.value.end);
+  };
+
+  // 时代选择器相关方法
+  const onPeriodSelected = (period: Period) => {
+    applyPeriodRange(period);
   };
 
   // 应用时代范围
   const applyPeriodRange = (period: Period) => {
     if (!period.start || !period.end) return;
 
-    // 应用选中的时代日期范围
-    dateRange.value = {
-      start: period.start,
-      end: period.end,
+    // 更新时代日期范围
+    periodDateRange.value = {
+      start: { ...period.start },
+      end: { ...period.end },
+      periodName: period.name,
     };
+
     // 设置当前预设名称，用于显示文本
     currentPresetName.value = period.name;
-
-    // 根据时代的日期类型设置纪年方式，但不自动切换标签页
-    selectedCalendarType.value = period.start.calendarType;
-
     emit("update:beginDate", period.start);
     emit("update:endDate", period.end);
   };
@@ -365,7 +438,8 @@
     const defaultStart = HistoricalDateUtils.createDefaultDate(defaultType);
     const defaultEnd = HistoricalDateUtils.createDefaultDate(defaultType);
 
-    dateRange.value = {
+    // 重置对应的日期范围对象
+    gregorianDateRange.value = {
       start: defaultStart,
       end: defaultEnd,
     };
@@ -378,44 +452,46 @@
 
   const apply = () => {
     if (isValidRange.value) {
-      emit("apply", dateRange.value.start, dateRange.value.end);
+      const currentRange = getCurrentDateRange();
+      emit("apply", currentRange.start, currentRange.end);
     }
   };
 
   const applyAndClose = () => {
     if (isValidRange.value) {
-      emit("apply", dateRange.value.start, dateRange.value.end);
+      const currentRange = getCurrentDateRange();
+      emit("apply", currentRange.start, currentRange.end);
       closeCollapse();
     }
   };
 
   // 监听日历类型变化，更新日期格式
   const updateCalendarType = (newType: CalendarType) => {
-    const defaultStart = HistoricalDateUtils.createDefaultDate(newType);
-    const defaultEnd = HistoricalDateUtils.createDefaultDate(newType);
 
-    dateRange.value = {
-      start: { ...defaultStart, calendarType: newType },
-      end: { ...defaultEnd, calendarType: newType },
-    };
+    let defaultStart: HistoricalDate = HistoricalDateUtils.createDefaultDate(newType);
+    let defaultEnd: HistoricalDate = HistoricalDateUtils.createDefaultDate(newType);
+
+    switch(newType){
+      case CalendarType.GREGORIAN:
+        defaultStart = { ...gregorianDateRange.value.start, calendarType: CalendarType.GREGORIAN};
+        defaultEnd = { ...gregorianDateRange.value.end, calendarType: CalendarType.GREGORIAN};
+      break;
+      case CalendarType.LUNAR:
+        defaultStart = { ...lunarDateRange.value.start, calendarType: CalendarType.LUNAR};
+        defaultEnd = { ...lunarDateRange.value.end, calendarType: CalendarType.LUNAR};
+      break;
+      case CalendarType.ERA:
+        defaultStart = { ...eraDateRange.value.start, calendarType: CalendarType.ERA};
+        defaultEnd = { ...eraDateRange.value.end, calendarType: CalendarType.ERA};
+    }    
 
     // 切换日历类型时清除预设状态
     currentPresetName.value = "";
-    emit("update:beginDate", dateRange.value.start);
-    emit("update:endDate", dateRange.value.end);
+    emit("update:beginDate", defaultStart);
+    emit("update:endDate", defaultEnd);
   };
 
-  // 加载朝代数据的方法
-  const loadDynastiesData = async () => {
-    try {
-      console.log("重新加载朝代数据...");
-      dynasties.value = await dynastyServiceClient.getAllDynasties();
-      console.log(`成功加载 ${dynasties.value.length} 个朝代`);
-    } catch (error) {
-      console.error("加载朝代数据失败:", error);
-      dynasties.value = [];
-    }
-  };
+
 
   // 键盘事件处理
   const handleKeydown = (event: KeyboardEvent) => {
@@ -429,9 +505,7 @@
 
   onMounted(async () => {
     document.addEventListener("keydown", handleKeydown);
-
-    // 初始加载朝代数据
-    await loadDynastiesData();
+    // PeriodSelector组件会自己处理朝代数据加载
   });
 
   onUnmounted(() => {
@@ -460,7 +534,7 @@
   }
 
   /* 确保组件在合适的层级 */
-  .historical-date-selector {
+  .date-range-selector {
     z-index: 40;
   }
 

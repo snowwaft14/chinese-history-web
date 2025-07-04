@@ -84,7 +84,7 @@ export class DateInputUtils {
    * @param eraName 年号名称，用于特殊处理
    * @returns 中文年份字符串
    */
-  static numberToEraYear(year: number, eraName: string = ""): string {
+  private static numberToEraYear(year: number, eraName: string = ""): string {
     if (year < 1 || year > 61) {
       return `${year}年`;
     }
@@ -173,7 +173,7 @@ export class DateInputUtils {
    * @param endYear 结束年份（实际历史年份）
    * @returns 年份选项数组
    */
-  static generateEraYearOptions(eraName: string, startYear: number, endYear: number): Array<{
+  public static generateEraYearOptions(eraName: string, startYear: number, endYear: number): Array<{
     value: number;
     label: string;
     searchValues: string[];
@@ -228,18 +228,5 @@ export class DateInputUtils {
    */
   static getEraYearDisplayText(year: number, eraName: string = ""): string {
     return this.numberToEraYear(year, eraName);
-  }
-
-  /**
-   * 获取农历日期相关数据
-   */
-  static getLunarDate() {
-    const lunarMonths = computed(() => DateInputUtils.LUNAR_MONTHS);
-    const lunarDays = computed(() => DateInputUtils.LUNAR_DAYS);
-
-    return {
-      lunarMonths,
-      lunarDays,
-    };
   }
 }
