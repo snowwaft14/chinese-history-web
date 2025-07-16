@@ -16,6 +16,14 @@ message City {
   repeated string search_values = 6;    // 搜索辅助工具，例如拼音、声母
 }
 
+// 城市状态枚举
+enum CityStatus {
+  ACTIVE = 0;                           // 活跃/存在
+  INACTIVE = 1;                         // 废弃/不存在
+  RUINED = 2;                           // 废墟
+  REBUILT = 3;                          // 重建
+}
+
 // 城市在特定历史时期的状态
 message CityHistory {
   string id = 1;                        // 历史记录唯一标识符
@@ -26,6 +34,7 @@ message CityHistory {
   string geometry_json = 6;             // 地理位置JSON（GeoJSON格式）
   AdministrativeLevel admin_level = 7;  // 行政级别
   string dynasty_name = 8;              // 所属朝代
+  CityStatus status = 9;                // 城市状态
 }
 
 // 行政级别枚举
@@ -68,6 +77,7 @@ message GetCityHistoryRequest {
   string city_id = 1;                   // 城市ID
   GregorianDate start_date = 2;         // 开始日期（可选）
   GregorianDate end_date = 3;           // 结束日期（可选）
+  CityStatus status = 4;                // 城市状态过滤（可选）
 }
 
 // 根据名称搜索城市请求
@@ -75,6 +85,7 @@ message SearchCitiesRequest {
   string name = 1;                      // 城市名称（支持模糊搜索）
   string dynasty_name = 2;              // 朝代名称（可选）
   AdministrativeLevel admin_level = 3;  // 行政级别（可选）
+  CityStatus status = 4;                // 城市状态过滤（可选）
 }
 
 // 搜索城市响应
@@ -86,6 +97,7 @@ message SearchCitiesResponse {
 message GetCitiesByPeriodRequest {
   GregorianDate date = 1;               // 历史日期
   repeated AdministrativeLevel admin_levels = 2; // 行政级别过滤（可选）
+  CityStatus status = 3;                // 城市状态过滤（可选）
 }
 
 // 获取特定时期的城市列表响应

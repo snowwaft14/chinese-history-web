@@ -8,7 +8,7 @@ import "common.proto";
 
 // 枚举：图层类型
 enum LayerType {
-  UNKNOWN = 0;
+  DEFAULT = 0;
   CITY = 1;       //城市
   EVENT = 2;      //事件，战争意外的历史事件，例如王安石变法
   TERRITORY = 3;  //领土
