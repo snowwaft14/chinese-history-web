@@ -4,8 +4,8 @@
     <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-box shadow-lg">
       <!-- Collapse 标题/触发器 -->
       <input type="checkbox" :checked="isOpen" @change="toggleCollapse" class="peer" />
-      <div class="collapse-title text-sm font-medium text-left pr-4">
-        <div class="truncate text-lg">
+      <div class="collapse-title">
+        <div class="truncate text-md text-left">
           {{ getDisplayText() }}
         </div>
       </div>
