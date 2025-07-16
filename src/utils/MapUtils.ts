@@ -37,6 +37,10 @@ export class MapUtils {
         // 设置地图中心和缩放级别
         this.map.centerAndZoom(center, options.zoom);
 
+        this.map.setMapStyleV2({     
+          styleId: '82dbe3c84f659f887770cdc9904ad1ed'
+        });
+
         // 启用滚轮缩放
         if (options.enableScrollWheelZoom !== false) {
           this.map.enableScrollWheelZoom(true);

@@ -21,6 +21,7 @@ export interface BaiduMapInstance {
   clearOverlays: () => void;
   addEventListener: (event: string, handler: Function) => void;
   openInfoWindow: (infoWindow: any, point: any) => void;
+  setMapStyleV2: (style: any) => void;
 }
 
 export interface BaiduMapMarker {
