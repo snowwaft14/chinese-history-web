@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
+
+package chinesehistory;
+
+import "common.proto";
+
+// 城市实体 - 跨越朝代和历史时期的概念
+message City {
+  string id = 1;                        // 城市唯一标识符
+  string name = 2;                      // 城市现代名称（如"西安"）
+  string description = 3;               // 城市描述
+  repeated CityHistory history = 4;     // 城市历史轨迹
+  repeated string tags = 5;             // 标签
+  repeated string search_values = 6;    // 搜索辅助工具，例如拼音、声母
+}
+
+// 城市在特定历史时期的状态
+message CityHistory {
+  string id = 1;                        // 历史记录唯一标识符
+  string city_id = 2;                   // 关联的城市ID
+  string name = 3;                      // 该时期的城市名称（如"长安"、"咸阳"）
+  string description = 4;               // 该时期的城市描述
+  GregorianDate start_date = 5;         // 开始日期
+  string geometry_json = 6;             // 地理位置JSON（GeoJSON格式）
+  AdministrativeLevel admin_level = 7;  // 行政级别
+  string dynasty_name = 8;              // 所属朝代
+}
+
+// 行政级别枚举
+enum AdministrativeLevel {
+  UNKNOWN = 0;                          // 未知
+  CAPITAL = 1;                          // 都城
+  PROVINCIAL_CAPITAL = 2;               // 省会
+  PREFECTURE = 3;                       // 府
+  COUNTY = 4;                           // 县
+  TOWN = 5;                             // 镇
+  VILLAGE = 6;                          // 村
+  MILITARY_FORT = 7;                    // 军事要塞
+  TRADING_POST = 8;                     // 贸易据点
+  RELIGIOUS_CENTER = 9;                 // 宗教中心
+  PASS = 10;                            // 关隘（如虎牢关、函谷关）
+}
+
+// 获取所有城市响应
+message GetCitiesResponse {
+  repeated City cities = 1;
+}
+
+// 获取单个城市响应
+message GetCityResponse {
+  City city = 1;
+}
+
+// 获取城市历史轨迹响应
+message GetCityHistoryResponse {
+  repeated CityHistory history = 1;
+}
+
+// 获取城市请求
+message GetCityByIdRequest {
+  string city_id = 1;                   // 城市ID
+}
+
+// 获取城市历史轨迹请求
+message GetCityHistoryRequest {
+  string city_id = 1;                   // 城市ID
+  GregorianDate start_date = 2;         // 开始日期（可选）
+  GregorianDate end_date = 3;           // 结束日期（可选）
+}
+
+// 根据名称搜索城市请求
+message SearchCitiesRequest {
+  string name = 1;                      // 城市名称（支持模糊搜索）
+  string dynasty_name = 2;              // 朝代名称（可选）
+  AdministrativeLevel admin_level = 3;  // 行政级别（可选）
+}
+
+// 搜索城市响应
+message SearchCitiesResponse {
+  repeated City cities = 1;
+}
+
+// 获取特定时期的城市列表请求
+message GetCitiesByPeriodRequest {
+  GregorianDate date = 1;               // 历史日期
+  repeated AdministrativeLevel admin_levels = 2; // 行政级别过滤（可选）
+}
+
+// 获取特定时期的城市列表响应
+message GetCitiesByPeriodResponse {
+  repeated CityHistory city_states = 1; // 该时期的城市状态列表
+} 
