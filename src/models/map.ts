@@ -22,6 +22,8 @@ export interface BaiduMapInstance {
   addEventListener: (event: string, handler: Function) => void;
   openInfoWindow: (infoWindow: any, point: any) => void;
   setMapStyleV2: (style: any) => void;
+  setZoom: (zoom: number) => void;
+  getZoom: () => number;
 }
 
 export interface BaiduMapMarker {
@@ -55,10 +57,10 @@ export interface BaiduMapInfoWindow {
 // 扩展 window 对象以包含百度地图 API
 declare global {
   interface Window {
-    BMap: {
+    BMapGL: {
       Map: new (container: string | HTMLElement) => BaiduMapInstance;
       Point: new (lng: number, lat: number) => any;
-      Marker: new (point: any) => BaiduMapMarker;
+      Marker: new (point: any, opts?: any) => BaiduMapMarker;
       Polyline: new (points: any[], opts?: any) => BaiduMapPolyline;
       Polygon: new (points: any[], opts?: any) => BaiduMapPolygon;
       InfoWindow: new (content: string, opts?: any) => BaiduMapInfoWindow;

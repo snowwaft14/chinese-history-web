@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chinese History Web</title>
-    <script src="https://api.map.baidu.com/api?v=3.0&ak=FvZ7imn3ksGT84wErLUY3ax3UrXjr9ra"></script>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese History Web</title>
+  <script>
+    // 百度地图API加载完成回调
+    window.initBaiduMap = function () {
+      console.log('百度地图API加载完成');
+      window.baiduMapReady = true;
+      // 触发自定义事件，通知应用百度地图API已准备就绪
+      window.dispatchEvent(new CustomEvent('baiduMapReady'));
+    };
+
+    // 初始化标志
+    window.baiduMapReady = false;
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- 将百度地图API加载移到body中，确保document.body存在 -->
+  <script type="text/javascript"
+    src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=FvZ7imn3ksGT84wErLUY3ax3UrXjr9ra&callback=initBaiduMap"></script>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
