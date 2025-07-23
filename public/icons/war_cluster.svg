@@ -1,0 +1,13 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 外圈 -->
+  <circle cx="24" cy="24" r="22" fill="#f5222d" stroke="#ffffff" stroke-width="3"/>
+  <!-- 内圈装饰 -->
+  <circle cx="24" cy="24" r="16" fill="#ffffff" fill-opacity="0.2"/>
+  <!-- 战争图标简化版 - 盾牌和剑 -->
+  <path d="M16 18 L32 18 L30 22 L32 26 L16 26 L18 22 Z" fill="#ffffff"/>
+  <rect x="23" y="14" width="2" height="8" fill="#ffffff"/>
+  <circle cx="24" cy="22" r="2" fill="#8B0000"/>
+  <!-- 装饰元素 -->
+  <path d="M14 20 L16 18 L14 16" stroke="#ffffff" stroke-width="1" fill="none"/>
+  <path d="M34 20 L32 18 L34 16" stroke="#ffffff" stroke-width="1" fill="none"/>
+</svg>

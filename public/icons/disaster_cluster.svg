@@ -1,0 +1,12 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 外圈 -->
+  <circle cx="24" cy="24" r="22" fill="#fa8c16" stroke="#ffffff" stroke-width="3"/>
+  <!-- 内圈装饰 -->
+  <circle cx="24" cy="24" r="16" fill="#ffffff" fill-opacity="0.2"/>
+  <!-- 灾难图标简化版 - 警告星形 -->
+  <path d="M24 12 L26 18 L32 18 L27 22 L29 28 L24 24 L19 28 L21 22 L16 18 L22 18 Z" fill="#ffffff"/>
+  <circle cx="24" cy="22" r="1.5" fill="#8B0000"/>
+  <!-- 装饰闪电 -->
+  <path d="M14 14 L18 20 L16 20 L20 26" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+  <path d="M34 14 L30 20 L32 20 L28 26" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+</svg>

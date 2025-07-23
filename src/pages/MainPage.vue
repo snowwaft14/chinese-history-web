@@ -31,11 +31,13 @@
       </div>
     </div>
 
-    <!-- 地图容器 -->
-    <BaiduMap
+    <!-- 地图容器 - 使用新的高德地图组件 -->
+    <AmapComponent
       ref="mapRef"
       :center="XI_AN_CENTER"
       :zoom="8"
+      :map-style="MapStyleManager.STYLE_HISTORY"
+      :use-custom-style="true"
       @map-ready="onMapReady"
       class="w-full h-full"
     />
@@ -45,19 +47,20 @@
 <script setup lang="ts">
   import { create } from "@bufbuild/protobuf";
   import { ref, reactive, onMounted, computed } from "vue";
-  import BaiduMap from "@/components/BaiduMap.vue";
+  import AmapComponent from "@/components/AmapComponent.vue"; // 替换为高德地图组件
   import DateRangeSelector from "@/components/DateRangeSelector.vue";
   import LayerSelector from "@/components/LayerSelector.vue";
-  import { XI_AN_CENTER } from "@/utils/MapUtils";
+  import { XI_AN_CENTER } from "@/types/map";
+  import { MapStyleManager } from "@/utils/amap/MapStyleManager";
   import { layerServiceClient } from "@/services/layerService";
   import { LayerType } from "@/connects/layer_pb";
   import type { LayerItem } from "@/connects/layer_pb";
-  import type { MapUtils } from "@/utils/MapUtils";
+  import type { AmapAdapter } from "@/utils/AMapUtils";
   import { CalendarType, type HistoricalDate, HistoricalDateSchema } from "@/connects/common_pb";
   import { HistoricalDateUtils } from "@/utils/HistoricalDateUtils";
 
   // 响应式数据
-  const mapRef = ref<InstanceType<typeof BaiduMap>>();
+  const mapRef = ref<InstanceType<typeof AmapComponent>>();
   const loading = ref(false);
   const error = ref<string>("");
   const layerCount = ref(0);
@@ -169,10 +172,10 @@
   const currentLayers = ref<LayerItem[]>([]);
 
   // 地图服务实例
-  let mapService: MapUtils | null = null;
+  let mapService: AmapAdapter | null = null;
 
   // 地图准备就绪回调
-  const onMapReady = (service: MapUtils) => {
+  const onMapReady = (service: AmapAdapter) => {
     mapService = service;
     console.log("地图已准备就绪");
     // 地图准备好后，可以进行初始查询
