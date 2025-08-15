@@ -103,8 +103,7 @@ export class GlobalCacheInstances {
       eraInstanceName,
       async () => {
         console.log(`开始从服务器加载皇帝 ${emperorId} 的年号数据...`);
-        const emperor = await dynastyServiceClient.getEmperor(emperorId, true);
-        const eras = emperor ? emperor.eraNames : [];
+        const eras = await dynastyServiceClient.getErasByEmperor(emperorId);
         console.log(`成功加载皇帝 ${emperorId} 的 ${eras.length} 个年号:`, eras.map((e: EraName) => e.name));
         return eras;
       },

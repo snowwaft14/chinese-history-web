@@ -16,6 +16,8 @@ import {
   GetEmperorByIdRequestSchema,
   type GetEraByNameRequest,
   GetEraByNameRequestSchema,
+  type GetErasByEmperorRequest,
+  GetErasByEmperorRequestSchema,
 } from "../connects/dynasty_pb";
 import { create } from "@bufbuild/protobuf";
 import { transport } from "./connect";
@@ -135,6 +137,28 @@ export class DynastyServiceClient {
       return response.emperor;
     } catch (error) {
       console.error("获取皇帝详情失败:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * 获取皇帝的所有年号
+   * @param emperorId 皇帝ID
+   * @returns 年号数据响应
+   */
+  async getErasByEmperor(emperorId: string): Promise<EraName[]> {
+    try {
+      // 创建请求对象
+      const request: GetErasByEmperorRequest = create(GetErasByEmperorRequestSchema, {
+        emperorId: emperorId,
+      });
+
+      // 调用gRPC服务
+      const response = await client.getErasByEmperor(request);
+
+      return response.eraNames;
+    } catch (error) {
+      console.error("获取皇帝年号数据失败:", error);
       throw error;
     }
   }
