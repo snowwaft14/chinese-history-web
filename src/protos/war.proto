@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
+
+package chinesehistory;
+
+import "common.proto";
+
+// 战争实体 - 历史上的军事冲突
+message War {
+  string id = 1;                        // 战争唯一标识符
+  string name = 2;                      // 战争名称（如"城濮之战"）
+  string description = 3;               // 战争描述
+  GregorianDate start_date = 4;         // 开始日期
+  GregorianDate end_date = 5;           // 结束日期
+  string geometry_json = 6;             // 地理位置JSON（GeoJSON格式）
+  WarType war_type = 7;                 // 战争类型
+  repeated string tags = 8;             // 标签
+  repeated string search_values = 9;    // 搜索辅助工具，例如拼音、声母
+}
+
+// 战争类型枚举
+enum WarType {
+  UNKNOWN_WAR = 0;                      // 未知
+  CIVIL_WAR = 1;                        // 内战
+  FOREIGN_WAR = 2;                      // 对外战争
+  REBELLION = 3;                        // 叛乱
+  PEASANT_UPRISING = 4;                 // 农民起义
+  SUCCESSION_WAR = 5;                   // 王位继承战争
+  TERRITORIAL_WAR = 6;                  // 领土争夺战
+  DEFENSIVE_WAR = 7;                    // 防御战争
+  CONQUEST_WAR = 8;                     // 征服战争
+}
+
+// 获取所有战争响应
+message GetWarsResponse {
+  repeated War wars = 1;
+}
+
+// 获取单个战争响应
+message GetWarResponse {
+  War war = 1;
+}
+
+// 获取战争请求
+message GetWarByIdRequest {
+  string war_id = 1;                    // 战争ID
+}
+
+// 根据名称搜索战争请求
+message SearchWarsRequest {
+  string name = 1;                      // 战争名称（支持模糊搜索）
+  WarType war_type = 2;                 // 战争类型（可选）
+}
+
+// 搜索战争响应
+message SearchWarsResponse {
+  repeated War wars = 1;
+}
+
+// 获取特定时期的战争列表请求
+message GetWarsByPeriodRequest {
+  GregorianDate start_date = 1;         // 开始日期
+  GregorianDate end_date = 2;           // 结束日期
+  repeated WarType war_types = 3;       // 战争类型过滤（可选）
+}
+
+// 获取特定时期的战争列表响应
+message GetWarsByPeriodResponse {
+  repeated War wars = 1;                // 该时期的战争列表
+}
+
+service WarService {
+  rpc GetWars(GetWarsResponse) returns (GetWarsResponse);
+  rpc GetWarById(GetWarByIdRequest) returns (GetWarResponse);
+  rpc SearchWars(SearchWarsRequest) returns (SearchWarsResponse);
+  rpc GetWarsByPeriod(GetWarsByPeriodRequest) returns (GetWarsByPeriodResponse);
+}

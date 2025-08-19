@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+option csharp_namespace = "Newinfosoft.ChineseHistory.Server.ServiceBase";
+
+package chinesehistory;
+
+import "common.proto";
+
+// 历史事件实体 - 除战争外的重要历史事件
+message Event {
+  string id = 1;                        // 事件唯一标识符
+  string name = 2;                      // 事件名称（如"王安石变法"）
+  string description = 3;               // 事件描述
+  GregorianDate start_date = 4;         // 开始日期
+  GregorianDate end_date = 5;           // 结束日期
+  string geometry_json = 6;             // 地理位置JSON（GeoJSON格式）
+  EventType event_type = 7;             // 事件类型
+  EventImportance importance = 8;       // 事件重要性
+  repeated string tags = 9;            // 标签
+  repeated string search_values = 10;   // 搜索辅助工具，例如拼音、声母
+}
+
+// 事件类型枚举
+enum EventType {
+  UNKNOWN_EVENT = 0;                    // 未知
+  POLITICAL_REFORM = 1;                 // 政治改革
+  ECONOMIC_REFORM = 2;                  // 经济改革
+  SOCIAL_REFORM = 3;                    // 社会改革
+  CULTURAL_EVENT = 4;                   // 文化事件
+  RELIGIOUS_EVENT = 5;                  // 宗教事件
+  DIPLOMATIC_EVENT = 6;                 // 外交事件
+  NATURAL_DISASTER = 7;                 // 自然灾害
+  TECHNOLOGICAL_ADVANCEMENT = 8;        // 技术进步
+  CONSTRUCTION_PROJECT = 9;             // 建设项目
+  LEGAL_REFORM = 10;                    // 法律改革
+  MILITARY_REFORM = 11;                 // 军事改革
+  SUCCESSION_EVENT = 12;                // 王位继承事件
+  CORONATION = 13;                      // 登基典礼
+  DEATH_OF_RULER = 14;                  // 统治者去世
+  TREATY_SIGNING = 15;                  // 条约签署
+  TRADE_AGREEMENT = 16;                 // 贸易协定
+  EXPLORATION = 17;                     // 探索活动
+  MIGRATION = 18;                       // 人口迁移
+  EPIDEMIC = 19;                        // 疫病流行
+}
+
+// 事件重要性枚举
+enum EventImportance {
+  UNKNOWN_IMPORTANCE = 0;               // 未知重要性
+  LOCAL = 1;                            // 地方性事件
+  REGIONAL = 2;                         // 区域性事件
+  NATIONAL = 3;                         // 全国性事件
+  INTERNATIONAL = 4;                    // 国际性事件
+  WORLD_CHANGING = 5;                   // 改变世界的事件
+}
+
+// 获取所有事件响应
+message GetEventsResponse {
+  repeated Event events = 1;
+}
+
+// 获取单个事件响应
+message GetEventResponse {
+  Event event = 1;
+}
+
+// 获取事件请求
+message GetEventByIdRequest {
+  string event_id = 1;                  // 事件ID
+}
+
+// 根据名称搜索事件请求
+message SearchEventsRequest {
+  string name = 1;                      // 事件名称（支持模糊搜索）
+  EventType event_type = 2;             // 事件类型（可选）
+  EventImportance importance = 3;       // 事件重要性（可选）
+}
+
+// 搜索事件响应
+message SearchEventsResponse {
+  repeated Event events = 1;
+}
+
+// 获取特定时期的事件列表请求
+message GetEventsByPeriodRequest {
+  GregorianDate start_date = 1;         // 开始日期
+  GregorianDate end_date = 2;           // 结束日期
+  repeated EventType event_types = 3;   // 事件类型过滤（可选）
+}
+
+// 获取特定时期的事件列表响应
+message GetEventsByPeriodResponse {
+  repeated Event events = 1;            // 该时期的事件列表
+}
+
+service EventService {
+  rpc GetEvents(GetEventsResponse) returns (GetEventsResponse);
+  rpc GetEventById(GetEventByIdRequest) returns (GetEventResponse);
+  rpc SearchEvents(SearchEventsRequest) returns (SearchEventsResponse);
+  rpc GetEventsByPeriod(GetEventsByPeriodRequest) returns (GetEventsByPeriodResponse);
+}
