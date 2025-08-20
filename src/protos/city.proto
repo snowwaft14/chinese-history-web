@@ -20,8 +20,6 @@ message City {
 enum CityStatus {
   ACTIVE = 0;                           // 活跃/存在
   INACTIVE = 1;                         // 废弃/不存在
-  RUINED = 2;                           // 废墟
-  REBUILT = 3;                          // 重建
 }
 
 // 城市在特定历史时期的状态

@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { HistoricalDate } from "./common_pb";
+import type { GregorianDate } from "./common_pb";
 import { file_common } from "./common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file dynasty.proto.
  */
 export const file_dynasty: GenFile = /*@__PURE__*/
-  fileDesc("Cg1keW5hc3R5LnByb3RvEg5jaGluZXNlaGlzdG9yeSLLAQoHRHluYXN0eRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhIKCnN0YXJ0X3llYXIYAyABKAUSEAoIZW5kX3llYXIYBCABKAUSJwoHcGVyaW9kcxgFIAMoCzIWLmNoaW5lc2VoaXN0b3J5LlBlcmlvZBIpCghlbXBlcm9ycxgGIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVtcGVyb3ISDAoEdGFncxgHIAMoCRIVCg1zZWFyY2hfdmFsdWVzGAggAygJIp4BCgZQZXJpb2QSDAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCRItCgVzdGFydBgDIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEisKA2VuZBgEIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEhUKDXNlYXJjaF92YWx1ZXMYBSADKAkiwAMKB0VtcGVyb3ISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgt0ZW1wbGVfbmFtZRgDIAEoCRIXCg9wb3N0aHVtb3VzX25hbWUYBCABKAkSFQoNY291cnRlc3lfbmFtZRgFIAEoCRIUCgxkeW5hc3R5X25hbWUYBiABKAkSKgoJZXJhX25hbWVzGAcgAygLMhcuY2hpbmVzZWhpc3RvcnkuRXJhTmFtZRIzCgtyZWlnbl9zdGFydBgIIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEjEKCXJlaWduX2VuZBgJIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEi0KBWJpcnRoGAogASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSLQoFZGVhdGgYCyABKAsyHi5jaGluZXNlaGlzdG9yeS5IaXN0b3JpY2FsRGF0ZRISCgpiaXJ0aHBsYWNlGAwgASgJEhQKDGJ1cmlhbF9wbGFjZRgNIAEoCRINCgVub3RlcxgOIAEoCRIVCg1zZWFyY2hfdmFsdWVzGA8gAygJIqIBCgdFcmFOYW1lEgwKBG5hbWUYASABKAkSMgoKc3RhcnRfZGF0ZRgCIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEjAKCGVuZF9kYXRlGAMgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSDAoEbm90ZRgEIAEoCRIVCg1zZWFyY2hfdmFsdWVzGAUgAygJIkIKFEdldER5bmFzdGllc1Jlc3BvbnNlEioKCWR5bmFzdGllcxgBIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkR5bmFzdHkiPgoSR2V0RHluYXN0eVJlc3BvbnNlEigKB2R5bmFzdHkYASABKAsyFy5jaGluZXNlaGlzdG9yeS5EeW5hc3R5IkAKE0dldEVtcGVyb3JzUmVzcG9uc2USKQoIZW1wZXJvcnMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5FbXBlcm9yIj4KEkdldEVtcGVyb3JSZXNwb25zZRIoCgdlbXBlcm9yGAEgASgLMhcuY2hpbmVzZWhpc3RvcnkuRW1wZXJvciI9Cg9HZXRFcmFzUmVzcG9uc2USKgoJZXJhX25hbWVzGAEgAygLMhcuY2hpbmVzZWhpc3RvcnkuRXJhTmFtZSIYChZHZXRBbGxEeW5hc3RpZXNSZXF1ZXN0IisKFUdldEVtcGVyb3JCeUlkUmVxdWVzdBISCgplbXBlcm9yX2lkGAEgASgJIisKFUdldER5bmFzdHlCeUlkUmVxdWVzdBISCgpkeW5hc3R5X2lkGAEgASgJIjEKG0dldEVtcGVyb3JzQnlEeW5hc3R5UmVxdWVzdBISCgpkeW5hc3R5X2lkGAEgASgJIi0KF0dldEVyYXNCeUR5bmFzdHlSZXF1ZXN0EhIKCmR5bmFzdHlfaWQYASABKAkiLQoXR2V0RXJhc0J5RW1wZXJvclJlcXVlc3QSEgoKZW1wZXJvcl9pZBgBIAEoCSI7ChNHZXRFcmFCeU5hbWVSZXF1ZXN0EhIKCmR5bmFzdHlfaWQYASABKAkSEAoIZXJhX25hbWUYAiABKAkiOwoOR2V0RXJhUmVzcG9uc2USKQoIZXJhX25hbWUYASABKAsyFy5jaGluZXNlaGlzdG9yeS5FcmFOYW1lMqIFCg5EeW5hc3R5U2VydmljZRJfCg9HZXRBbGxEeW5hc3RpZXMSJi5jaGluZXNlaGlzdG9yeS5HZXRBbGxEeW5hc3RpZXNSZXF1ZXN0GiQuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0aWVzUmVzcG9uc2USWwoOR2V0RHluYXN0eUJ5SWQSJS5jaGluZXNlaGlzdG9yeS5HZXREeW5hc3R5QnlJZFJlcXVlc3QaIi5jaGluZXNlaGlzdG9yeS5HZXREeW5hc3R5UmVzcG9uc2USaAoUR2V0RW1wZXJvcnNCeUR5bmFzdHkSKy5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yc0J5RHluYXN0eVJlcXVlc3QaIy5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yc1Jlc3BvbnNlElcKCkdldEVtcGVyb3ISJS5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yQnlJZFJlcXVlc3QaIi5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yUmVzcG9uc2USXAoQR2V0RXJhc0J5RW1wZXJvchInLmNoaW5lc2VoaXN0b3J5LkdldEVyYXNCeUVtcGVyb3JSZXF1ZXN0Gh8uY2hpbmVzZWhpc3RvcnkuR2V0RXJhc1Jlc3BvbnNlElwKEEdldEVyYXNCeUR5bmFzdHkSJy5jaGluZXNlaGlzdG9yeS5HZXRFcmFzQnlEeW5hc3R5UmVxdWVzdBofLmNoaW5lc2VoaXN0b3J5LkdldEVyYXNSZXNwb25zZRJTCgxHZXRFcmFCeU5hbWUSIy5jaGluZXNlaGlzdG9yeS5HZXRFcmFCeU5hbWVSZXF1ZXN0Gh4uY2hpbmVzZWhpc3RvcnkuR2V0RXJhUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z", [file_common]);
+  fileDesc("Cg1keW5hc3R5LnByb3RvEg5jaGluZXNlaGlzdG9yeSLLAQoHRHluYXN0eRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhIKCnN0YXJ0X3llYXIYAyABKAUSEAoIZW5kX3llYXIYBCABKAUSJwoHcGVyaW9kcxgFIAMoCzIWLmNoaW5lc2VoaXN0b3J5LlBlcmlvZBIpCghlbXBlcm9ycxgGIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVtcGVyb3ISDAoEdGFncxgHIAMoCRIVCg1zZWFyY2hfdmFsdWVzGAggAygJIpwBCgZQZXJpb2QSDAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCRIsCgVzdGFydBgDIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSKgoDZW5kGAQgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIVCg1zZWFyY2hfdmFsdWVzGAUgAygJIrwDCgdFbXBlcm9yEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLdGVtcGxlX25hbWUYAyABKAkSFwoPcG9zdGh1bW91c19uYW1lGAQgASgJEhUKDWNvdXJ0ZXN5X25hbWUYBSABKAkSFAoMZHluYXN0eV9uYW1lGAYgASgJEioKCWVyYV9uYW1lcxgHIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVyYU5hbWUSMgoLcmVpZ25fc3RhcnQYCCABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEjAKCXJlaWduX2VuZBgJIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLAoFYmlydGgYCiABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEiwKBWRlYXRoGAsgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRISCgpiaXJ0aHBsYWNlGAwgASgJEhQKDGJ1cmlhbF9wbGFjZRgNIAEoCRINCgVub3RlcxgOIAEoCRIVCg1zZWFyY2hfdmFsdWVzGA8gAygJIqABCgdFcmFOYW1lEgwKBG5hbWUYASABKAkSMQoKc3RhcnRfZGF0ZRgCIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYAyABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEgwKBG5vdGUYBCABKAkSFQoNc2VhcmNoX3ZhbHVlcxgFIAMoCSJCChRHZXREeW5hc3RpZXNSZXNwb25zZRIqCglkeW5hc3RpZXMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5EeW5hc3R5Ij4KEkdldER5bmFzdHlSZXNwb25zZRIoCgdkeW5hc3R5GAEgASgLMhcuY2hpbmVzZWhpc3RvcnkuRHluYXN0eSJAChNHZXRFbXBlcm9yc1Jlc3BvbnNlEikKCGVtcGVyb3JzGAEgAygLMhcuY2hpbmVzZWhpc3RvcnkuRW1wZXJvciI+ChJHZXRFbXBlcm9yUmVzcG9uc2USKAoHZW1wZXJvchgBIAEoCzIXLmNoaW5lc2VoaXN0b3J5LkVtcGVyb3IiPQoPR2V0RXJhc1Jlc3BvbnNlEioKCWVyYV9uYW1lcxgBIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVyYU5hbWUiGAoWR2V0QWxsRHluYXN0aWVzUmVxdWVzdCIrChVHZXRFbXBlcm9yQnlJZFJlcXVlc3QSEgoKZW1wZXJvcl9pZBgBIAEoCSIrChVHZXREeW5hc3R5QnlJZFJlcXVlc3QSEgoKZHluYXN0eV9pZBgBIAEoCSIxChtHZXRFbXBlcm9yc0J5RHluYXN0eVJlcXVlc3QSEgoKZHluYXN0eV9pZBgBIAEoCSItChdHZXRFcmFzQnlEeW5hc3R5UmVxdWVzdBISCgpkeW5hc3R5X2lkGAEgASgJIi0KF0dldEVyYXNCeUVtcGVyb3JSZXF1ZXN0EhIKCmVtcGVyb3JfaWQYASABKAkiOwoTR2V0RXJhQnlOYW1lUmVxdWVzdBISCgpkeW5hc3R5X2lkGAEgASgJEhAKCGVyYV9uYW1lGAIgASgJIjsKDkdldEVyYVJlc3BvbnNlEikKCGVyYV9uYW1lGAEgASgLMhcuY2hpbmVzZWhpc3RvcnkuRXJhTmFtZTKiBQoORHluYXN0eVNlcnZpY2USXwoPR2V0QWxsRHluYXN0aWVzEiYuY2hpbmVzZWhpc3RvcnkuR2V0QWxsRHluYXN0aWVzUmVxdWVzdBokLmNoaW5lc2VoaXN0b3J5LkdldER5bmFzdGllc1Jlc3BvbnNlElsKDkdldER5bmFzdHlCeUlkEiUuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0eUJ5SWRSZXF1ZXN0GiIuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0eVJlc3BvbnNlEmgKFEdldEVtcGVyb3JzQnlEeW5hc3R5EisuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvcnNCeUR5bmFzdHlSZXF1ZXN0GiMuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvcnNSZXNwb25zZRJXCgpHZXRFbXBlcm9yEiUuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvckJ5SWRSZXF1ZXN0GiIuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvclJlc3BvbnNlElwKEEdldEVyYXNCeUVtcGVyb3ISJy5jaGluZXNlaGlzdG9yeS5HZXRFcmFzQnlFbXBlcm9yUmVxdWVzdBofLmNoaW5lc2VoaXN0b3J5LkdldEVyYXNSZXNwb25zZRJcChBHZXRFcmFzQnlEeW5hc3R5EicuY2hpbmVzZWhpc3RvcnkuR2V0RXJhc0J5RHluYXN0eVJlcXVlc3QaHy5jaGluZXNlaGlzdG9yeS5HZXRFcmFzUmVzcG9uc2USUwoMR2V0RXJhQnlOYW1lEiMuY2hpbmVzZWhpc3RvcnkuR2V0RXJhQnlOYW1lUmVxdWVzdBoeLmNoaW5lc2VoaXN0b3J5LkdldEVyYVJlc3BvbnNlQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw", [file_common]);
 
 /**
  * 王朝，例如唐、宋、元、明、清
@@ -91,16 +91,16 @@ export type Period = Message<"chinesehistory.Period"> & {
   /**
    * 开始日期
    *
-   * @generated from field: chinesehistory.HistoricalDate start = 3;
+   * @generated from field: chinesehistory.GregorianDate start = 3;
    */
-  start?: HistoricalDate;
+  start?: GregorianDate;
 
   /**
    * 结束日期 
    *
-   * @generated from field: chinesehistory.HistoricalDate end = 4;
+   * @generated from field: chinesehistory.GregorianDate end = 4;
    */
-  end?: HistoricalDate;
+  end?: GregorianDate;
 
   /**
    * 搜索辅助工具，例如拼音、声母
@@ -175,30 +175,30 @@ export type Emperor = Message<"chinesehistory.Emperor"> & {
   /**
    * 在位起始
    *
-   * @generated from field: chinesehistory.HistoricalDate reign_start = 8;
+   * @generated from field: chinesehistory.GregorianDate reign_start = 8;
    */
-  reignStart?: HistoricalDate;
+  reignStart?: GregorianDate;
 
   /**
    * 在位结束
    *
-   * @generated from field: chinesehistory.HistoricalDate reign_end = 9;
+   * @generated from field: chinesehistory.GregorianDate reign_end = 9;
    */
-  reignEnd?: HistoricalDate;
+  reignEnd?: GregorianDate;
 
   /**
    * 出生日期
    *
-   * @generated from field: chinesehistory.HistoricalDate birth = 10;
+   * @generated from field: chinesehistory.GregorianDate birth = 10;
    */
-  birth?: HistoricalDate;
+  birth?: GregorianDate;
 
   /**
    * 去世日期
    *
-   * @generated from field: chinesehistory.HistoricalDate death = 11;
+   * @generated from field: chinesehistory.GregorianDate death = 11;
    */
-  death?: HistoricalDate;
+  death?: GregorianDate;
 
   /**
    * 出生地
@@ -252,16 +252,16 @@ export type EraName = Message<"chinesehistory.EraName"> & {
   /**
    * 年号开始日期
    *
-   * @generated from field: chinesehistory.HistoricalDate start_date = 2;
+   * @generated from field: chinesehistory.GregorianDate start_date = 2;
    */
-  startDate?: HistoricalDate;
+  startDate?: GregorianDate;
 
   /**
    * 年号结束日期
    *
-   * @generated from field: chinesehistory.HistoricalDate end_date = 3;
+   * @generated from field: chinesehistory.GregorianDate end_date = 3;
    */
-  endDate?: HistoricalDate;
+  endDate?: GregorianDate;
 
   /**
    * 补充信息（如更改原因、事件）

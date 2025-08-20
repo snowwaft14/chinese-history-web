@@ -22,8 +22,8 @@ message Dynasty {
 message Period {
   string name = 1;
   string description = 2;
-  HistoricalDate start = 3;           // 开始日期
-  HistoricalDate end = 4;             // 结束日期 
+  GregorianDate start = 3;           // 开始日期
+  GregorianDate end = 4;             // 结束日期 
   repeated string search_values = 5;    // 搜索辅助工具，例如拼音、声母
 }
 
@@ -37,10 +37,10 @@ message Emperor {
   string dynasty_name = 6;               // 所属朝代ID，如"唐朝"
   repeated EraName era_names = 7;        // 所有年号
 
-  HistoricalDate reign_start = 8;        // 在位起始
-  HistoricalDate reign_end = 9;          // 在位结束
-  HistoricalDate birth = 10;             // 出生日期
-  HistoricalDate death = 11;             // 去世日期
+  GregorianDate reign_start = 8;        // 在位起始
+  GregorianDate reign_end = 9;          // 在位结束
+  GregorianDate birth = 10;             // 出生日期
+  GregorianDate death = 11;             // 去世日期
 
   string birthplace = 12;                // 出生地
   string burial_place = 13;              // 陵墓或安葬地
@@ -51,8 +51,8 @@ message Emperor {
 // 年号
 message EraName {
   string name = 1;                       // 年号名称，如"贞观"
-  HistoricalDate start_date = 2;         // 年号开始日期
-  HistoricalDate end_date = 3;           // 年号结束日期
+  GregorianDate start_date = 2;         // 年号开始日期
+  GregorianDate end_date = 3;           // 年号结束日期
   string note = 4;                       // 补充信息（如更改原因、事件）
   repeated string search_values = 5;     // 搜索辅助工具，例如拼音、声母
 }
