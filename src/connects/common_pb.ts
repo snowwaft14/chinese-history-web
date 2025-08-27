@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IjkKDUdyZWdvcmlhbkRhdGUSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBRILCgNkYXkYAyABKAUi1AEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBRILCgNkYXkYBCABKAUSFQoNaXNfbGVhcF9tb250aBgFIAEoCBIUCgxkeW5hc3R5X25hbWUYBiABKAkSEgoKZW1wZXJvcl9pZBgHIAEoCRIQCghlcmFfbmFtZRgIIAEoCRIQCghlcmFfeWVhchgJIAEoBSoxCgxDYWxlbmRhclR5cGUSDQoJR1JFR09SSUFOEAASCQoFTFVOQVIQARIHCgNFUkEQAkIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM");
+  fileDesc("Cgxjb21tb24ucHJvdG8SDmNoaW5lc2VoaXN0b3J5IjkKDUdyZWdvcmlhbkRhdGUSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBRILCgNkYXkYAyABKAUi1AEKDkhpc3RvcmljYWxEYXRlEjMKDWNhbGVuZGFyX3R5cGUYASABKA4yHC5jaGluZXNlaGlzdG9yeS5DYWxlbmRhclR5cGUSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBRILCgNkYXkYBCABKAUSFQoNaXNfbGVhcF9tb250aBgFIAEoCBIUCgxkeW5hc3R5X25hbWUYBiABKAkSEgoKZW1wZXJvcl9pZBgHIAEoCRIQCghlcmFfbmFtZRgIIAEoCRIQCghlcmFfeWVhchgJIAEoBSJeChZCYXRjaE9wZXJhdGlvblJlc3BvbnNlEhUKDXN1Y2Nlc3NfY291bnQYASABKAUSFQoNZmFpbHVyZV9jb3VudBgCIAEoBRIWCg5lcnJvcl9tZXNzYWdlcxgDIAMoCSoxCgxDYWxlbmRhclR5cGUSDQoJR1JFR09SSUFOEAASCQoFTFVOQVIQARIHCgNFUkEQAkIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM");
 
 /**
  * 公历日期结构
@@ -123,6 +123,41 @@ export type HistoricalDate = Message<"chinesehistory.HistoricalDate"> & {
  */
 export const HistoricalDateSchema: GenMessage<HistoricalDate> = /*@__PURE__*/
   messageDesc(file_common, 1);
+
+/**
+ * 通用批量操作响应
+ *
+ * @generated from message chinesehistory.BatchOperationResponse
+ */
+export type BatchOperationResponse = Message<"chinesehistory.BatchOperationResponse"> & {
+  /**
+   * 成功处理的数量
+   *
+   * @generated from field: int32 success_count = 1;
+   */
+  successCount: number;
+
+  /**
+   * 失败处理的数量
+   *
+   * @generated from field: int32 failure_count = 2;
+   */
+  failureCount: number;
+
+  /**
+   * 错误信息
+   *
+   * @generated from field: repeated string error_messages = 3;
+   */
+  errorMessages: string[];
+};
+
+/**
+ * Describes the message chinesehistory.BatchOperationResponse.
+ * Use `create(BatchOperationResponseSchema)` to create a new message.
+ */
+export const BatchOperationResponseSchema: GenMessage<BatchOperationResponse> = /*@__PURE__*/
+  messageDesc(file_common, 2);
 
 /**
  * 枚举：历史纪年类型

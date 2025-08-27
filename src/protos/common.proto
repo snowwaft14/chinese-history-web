@@ -30,3 +30,12 @@ message HistoricalDate {
   string era_name = 8;            // 年号（如"贞观"，用于 ERA 类型）
   int32 era_year = 9;             // 年号第几年（如3，表示贞观3年，用于 ERA 类型）
 } 
+
+// =========================== 通用批量操作响应 ===========================
+
+// 通用批量操作响应
+message BatchOperationResponse {
+  int32 success_count = 1;               // 成功处理的数量
+  int32 failure_count = 2;               // 失败处理的数量
+  repeated string error_messages = 3;    // 错误信息
+}

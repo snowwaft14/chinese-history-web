@@ -28,10 +28,20 @@ message LayerItem {
   repeated string tags = 7;
 }
 
-// 请求结构：按历史时间范围获取图层
+// 获取图层请求（无查询条件）
 message GetLayersRequest {
-  HistoricalDate start = 1; // 起始时间
-  HistoricalDate end = 2;   // 结束时间
+  // 空请求，获取所有图层
+}
+
+// 查找图层请求（包含所有可能的查询条件）
+message FindLayersRequest {
+  HistoricalDate start = 1;              // 起始时间（可选）
+  HistoricalDate end = 2;                // 结束时间（可选）
+  LayerType layer_type = 3;              // 图层类型（可选）
+  repeated LayerType layer_types = 4;    // 图层类型过滤（可选）
+  string item_id = 5;                    // 图层项目ID（可选）
+  string name = 6;                       // 图层项目名称（可选）
+  repeated string tags = 7;              // 标签过滤（可选）
 }
 
 // 返回结构
@@ -39,6 +49,30 @@ message GetLayersResponse {
   repeated LayerItem items = 1;
 }
 
+// =========================== 批量CRUD操作 ===========================
+
+// 批量图层项目操作请求
+message UpsertLayerItemsRequest {
+  repeated LayerItem layer_items = 1;    // 要插入或更新的图层项目列表
+}
+
+// 批量删除图层项目请求
+message DeleteLayerItemsRequest {
+  repeated string layer_item_ids = 1;    // 要删除的图层项目ID列表
+}
+
 service LayerService {
+  // ============== 查询操作 ==============
+  // 获取所有图层
   rpc GetLayers(GetLayersRequest) returns (GetLayersResponse);
+  
+  // 查找图层（根据条件）
+  rpc FindLayers(FindLayersRequest) returns (GetLayersResponse);
+  
+  // ============== 批量CRUD操作 ==============
+  // 批量插入或更新图层项目
+  rpc UpsertLayerItems(UpsertLayerItemsRequest) returns (BatchOperationResponse);
+  
+  // 批量删除图层项目
+  rpc DeleteLayerItems(DeleteLayerItemsRequest) returns (BatchOperationResponse);
 } 

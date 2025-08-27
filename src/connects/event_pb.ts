@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GregorianDate } from "./common_pb";
+import type { BatchOperationResponseSchema, GregorianDate } from "./common_pb";
 import { file_common } from "./common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file event.proto.
  */
 export const file_event: GenFile = /*@__PURE__*/
-  fileDesc("CgtldmVudC5wcm90bxIOY2hpbmVzZWhpc3RvcnkiugIKBUV2ZW50EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSMQoKc3RhcnRfZGF0ZRgEIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYBSABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEhUKDWdlb21ldHJ5X2pzb24YBiABKAkSLQoKZXZlbnRfdHlwZRgHIAEoDjIZLmNoaW5lc2VoaXN0b3J5LkV2ZW50VHlwZRIzCgppbXBvcnRhbmNlGAggASgOMh8uY2hpbmVzZWhpc3RvcnkuRXZlbnRJbXBvcnRhbmNlEgwKBHRhZ3MYCSADKAkSFQoNc2VhcmNoX3ZhbHVlcxgKIAMoCSI6ChFHZXRFdmVudHNSZXNwb25zZRIlCgZldmVudHMYASADKAsyFS5jaGluZXNlaGlzdG9yeS5FdmVudCI4ChBHZXRFdmVudFJlc3BvbnNlEiQKBWV2ZW50GAEgASgLMhUuY2hpbmVzZWhpc3RvcnkuRXZlbnQiJwoTR2V0RXZlbnRCeUlkUmVxdWVzdBIQCghldmVudF9pZBgBIAEoCSKHAQoTU2VhcmNoRXZlbnRzUmVxdWVzdBIMCgRuYW1lGAEgASgJEi0KCmV2ZW50X3R5cGUYAiABKA4yGS5jaGluZXNlaGlzdG9yeS5FdmVudFR5cGUSMwoKaW1wb3J0YW5jZRgDIAEoDjIfLmNoaW5lc2VoaXN0b3J5LkV2ZW50SW1wb3J0YW5jZSI9ChRTZWFyY2hFdmVudHNSZXNwb25zZRIlCgZldmVudHMYASADKAsyFS5jaGluZXNlaGlzdG9yeS5FdmVudCKuAQoYR2V0RXZlbnRzQnlQZXJpb2RSZXF1ZXN0EjEKCnN0YXJ0X2RhdGUYASABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEi8KCGVuZF9kYXRlGAIgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIuCgtldmVudF90eXBlcxgDIAMoDjIZLmNoaW5lc2VoaXN0b3J5LkV2ZW50VHlwZSJCChlHZXRFdmVudHNCeVBlcmlvZFJlc3BvbnNlEiUKBmV2ZW50cxgBIAMoCzIVLmNoaW5lc2VoaXN0b3J5LkV2ZW50KqIDCglFdmVudFR5cGUSEQoNVU5LTk9XTl9FVkVOVBAAEhQKEFBPTElUSUNBTF9SRUZPUk0QARITCg9FQ09OT01JQ19SRUZPUk0QAhIRCg1TT0NJQUxfUkVGT1JNEAMSEgoOQ1VMVFVSQUxfRVZFTlQQBBITCg9SRUxJR0lPVVNfRVZFTlQQBRIUChBESVBMT01BVElDX0VWRU5UEAYSFAoQTkFUVVJBTF9ESVNBU1RFUhAHEh0KGVRFQ0hOT0xPR0lDQUxfQURWQU5DRU1FTlQQCBIYChRDT05TVFJVQ1RJT05fUFJPSkVDVBAJEhAKDExFR0FMX1JFRk9STRAKEhMKD01JTElUQVJZX1JFRk9STRALEhQKEFNVQ0NFU1NJT05fRVZFTlQQDBIOCgpDT1JPTkFUSU9OEA0SEgoOREVBVEhfT0ZfUlVMRVIQDhISCg5UUkVBVFlfU0lHTklORxAPEhMKD1RSQURFX0FHUkVFTUVOVBAQEg8KC0VYUExPUkFUSU9OEBESDQoJTUlHUkFUSU9OEBISDAoIRVBJREVNSUMQEyp3Cg9FdmVudEltcG9ydGFuY2USFgoSVU5LTk9XTl9JTVBPUlRBTkNFEAASCQoFTE9DQUwQARIMCghSRUdJT05BTBACEgwKCE5BVElPTkFMEAMSEQoNSU5URVJOQVRJT05BTBAEEhIKDldPUkxEX0NIQU5HSU5HEAUy/QIKDEV2ZW50U2VydmljZRJRCglHZXRFdmVudHMSIS5jaGluZXNlaGlzdG9yeS5HZXRFdmVudHNSZXNwb25zZRohLmNoaW5lc2VoaXN0b3J5LkdldEV2ZW50c1Jlc3BvbnNlElUKDEdldEV2ZW50QnlJZBIjLmNoaW5lc2VoaXN0b3J5LkdldEV2ZW50QnlJZFJlcXVlc3QaIC5jaGluZXNlaGlzdG9yeS5HZXRFdmVudFJlc3BvbnNlElkKDFNlYXJjaEV2ZW50cxIjLmNoaW5lc2VoaXN0b3J5LlNlYXJjaEV2ZW50c1JlcXVlc3QaJC5jaGluZXNlaGlzdG9yeS5TZWFyY2hFdmVudHNSZXNwb25zZRJoChFHZXRFdmVudHNCeVBlcmlvZBIoLmNoaW5lc2VoaXN0b3J5LkdldEV2ZW50c0J5UGVyaW9kUmVxdWVzdBopLmNoaW5lc2VoaXN0b3J5LkdldEV2ZW50c0J5UGVyaW9kUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z", [file_common]);
+  fileDesc("CgtldmVudC5wcm90bxIOY2hpbmVzZWhpc3RvcnkiugIKBUV2ZW50EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSMQoKc3RhcnRfZGF0ZRgEIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYBSABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEhUKDWdlb21ldHJ5X2pzb24YBiABKAkSLQoKZXZlbnRfdHlwZRgHIAEoDjIZLmNoaW5lc2VoaXN0b3J5LkV2ZW50VHlwZRIzCgppbXBvcnRhbmNlGAggASgOMh8uY2hpbmVzZWhpc3RvcnkuRXZlbnRJbXBvcnRhbmNlEgwKBHRhZ3MYCSADKAkSFQoNc2VhcmNoX3ZhbHVlcxgKIAMoCSI6ChFHZXRFdmVudHNSZXNwb25zZRIlCgZldmVudHMYASADKAsyFS5jaGluZXNlaGlzdG9yeS5FdmVudCISChBHZXRFdmVudHNSZXF1ZXN0IrkCChFGaW5kRXZlbnRzUmVxdWVzdBIQCghldmVudF9pZBgBIAEoCRIMCgRuYW1lGAIgASgJEi0KCmV2ZW50X3R5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5FdmVudFR5cGUSMwoKaW1wb3J0YW5jZRgEIAEoDjIfLmNoaW5lc2VoaXN0b3J5LkV2ZW50SW1wb3J0YW5jZRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgGIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLgoLZXZlbnRfdHlwZXMYByADKA4yGS5jaGluZXNlaGlzdG9yeS5FdmVudFR5cGUSDAoEdGFncxgIIAMoCSI8ChNVcHNlcnRFdmVudHNSZXF1ZXN0EiUKBmV2ZW50cxgBIAMoCzIVLmNoaW5lc2VoaXN0b3J5LkV2ZW50IigKE0RlbGV0ZUV2ZW50c1JlcXVlc3QSEQoJZXZlbnRfaWRzGAEgAygJKqIDCglFdmVudFR5cGUSEQoNVU5LTk9XTl9FVkVOVBAAEhQKEFBPTElUSUNBTF9SRUZPUk0QARITCg9FQ09OT01JQ19SRUZPUk0QAhIRCg1TT0NJQUxfUkVGT1JNEAMSEgoOQ1VMVFVSQUxfRVZFTlQQBBITCg9SRUxJR0lPVVNfRVZFTlQQBRIUChBESVBMT01BVElDX0VWRU5UEAYSFAoQTkFUVVJBTF9ESVNBU1RFUhAHEh0KGVRFQ0hOT0xPR0lDQUxfQURWQU5DRU1FTlQQCBIYChRDT05TVFJVQ1RJT05fUFJPSkVDVBAJEhAKDExFR0FMX1JFRk9STRAKEhMKD01JTElUQVJZX1JFRk9STRALEhQKEFNVQ0NFU1NJT05fRVZFTlQQDBIOCgpDT1JPTkFUSU9OEA0SEgoOREVBVEhfT0ZfUlVMRVIQDhISCg5UUkVBVFlfU0lHTklORxAPEhMKD1RSQURFX0FHUkVFTUVOVBAQEg8KC0VYUExPUkFUSU9OEBESDQoJTUlHUkFUSU9OEBISDAoIRVBJREVNSUMQEyp3Cg9FdmVudEltcG9ydGFuY2USFgoSVU5LTk9XTl9JTVBPUlRBTkNFEAASCQoFTE9DQUwQARIMCghSRUdJT05BTBACEgwKCE5BVElPTkFMEAMSEQoNSU5URVJOQVRJT05BTBAEEhIKDldPUkxEX0NIQU5HSU5HEAUy7gIKDEV2ZW50U2VydmljZRJQCglHZXRFdmVudHMSIC5jaGluZXNlaGlzdG9yeS5HZXRFdmVudHNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0RXZlbnRzUmVzcG9uc2USUgoKRmluZEV2ZW50cxIhLmNoaW5lc2VoaXN0b3J5LkZpbmRFdmVudHNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0RXZlbnRzUmVzcG9uc2USWwoMVXBzZXJ0RXZlbnRzEiMuY2hpbmVzZWhpc3RvcnkuVXBzZXJ0RXZlbnRzUmVxdWVzdBomLmNoaW5lc2VoaXN0b3J5LkJhdGNoT3BlcmF0aW9uUmVzcG9uc2USWwoMRGVsZXRlRXZlbnRzEiMuY2hpbmVzZWhpc3RvcnkuRGVsZXRlRXZlbnRzUmVxdWVzdBomLmNoaW5lc2VoaXN0b3J5LkJhdGNoT3BlcmF0aW9uUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z", [file_common]);
 
 /**
  * 历史事件实体 - 除战争外的重要历史事件
@@ -99,7 +99,7 @@ export const EventSchema: GenMessage<Event> = /*@__PURE__*/
   messageDesc(file_event, 0);
 
 /**
- * 获取所有事件响应
+ * 获取多个事件响应（统一用于GetEvents和FindEvents）
  *
  * @generated from message chinesehistory.GetEventsResponse
  */
@@ -118,142 +118,100 @@ export const GetEventsResponseSchema: GenMessage<GetEventsResponse> = /*@__PURE_
   messageDesc(file_event, 1);
 
 /**
- * 获取单个事件响应
+ * 获取事件请求（无查询条件）
  *
- * @generated from message chinesehistory.GetEventResponse
+ * 空请求，获取所有事件
+ *
+ * @generated from message chinesehistory.GetEventsRequest
  */
-export type GetEventResponse = Message<"chinesehistory.GetEventResponse"> & {
-  /**
-   * @generated from field: chinesehistory.Event event = 1;
-   */
-  event?: Event;
+export type GetEventsRequest = Message<"chinesehistory.GetEventsRequest"> & {
 };
 
 /**
- * Describes the message chinesehistory.GetEventResponse.
- * Use `create(GetEventResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.GetEventsRequest.
+ * Use `create(GetEventsRequestSchema)` to create a new message.
  */
-export const GetEventResponseSchema: GenMessage<GetEventResponse> = /*@__PURE__*/
+export const GetEventsRequestSchema: GenMessage<GetEventsRequest> = /*@__PURE__*/
   messageDesc(file_event, 2);
 
 /**
- * 获取事件请求
+ * 查找事件请求（包含所有可能的查询条件）
  *
- * @generated from message chinesehistory.GetEventByIdRequest
+ * @generated from message chinesehistory.FindEventsRequest
  */
-export type GetEventByIdRequest = Message<"chinesehistory.GetEventByIdRequest"> & {
+export type FindEventsRequest = Message<"chinesehistory.FindEventsRequest"> & {
   /**
-   * 事件ID
+   * 事件ID（可选）
    *
    * @generated from field: string event_id = 1;
    */
   eventId: string;
-};
 
-/**
- * Describes the message chinesehistory.GetEventByIdRequest.
- * Use `create(GetEventByIdRequestSchema)` to create a new message.
- */
-export const GetEventByIdRequestSchema: GenMessage<GetEventByIdRequest> = /*@__PURE__*/
-  messageDesc(file_event, 3);
-
-/**
- * 根据名称搜索事件请求
- *
- * @generated from message chinesehistory.SearchEventsRequest
- */
-export type SearchEventsRequest = Message<"chinesehistory.SearchEventsRequest"> & {
   /**
-   * 事件名称（支持模糊搜索）
+   * 事件名称（支持模糊搜索）（可选）
    *
-   * @generated from field: string name = 1;
+   * @generated from field: string name = 2;
    */
   name: string;
 
   /**
    * 事件类型（可选）
    *
-   * @generated from field: chinesehistory.EventType event_type = 2;
+   * @generated from field: chinesehistory.EventType event_type = 3;
    */
   eventType: EventType;
 
   /**
    * 事件重要性（可选）
    *
-   * @generated from field: chinesehistory.EventImportance importance = 3;
+   * @generated from field: chinesehistory.EventImportance importance = 4;
    */
   importance: EventImportance;
-};
 
-/**
- * Describes the message chinesehistory.SearchEventsRequest.
- * Use `create(SearchEventsRequestSchema)` to create a new message.
- */
-export const SearchEventsRequestSchema: GenMessage<SearchEventsRequest> = /*@__PURE__*/
-  messageDesc(file_event, 4);
-
-/**
- * 搜索事件响应
- *
- * @generated from message chinesehistory.SearchEventsResponse
- */
-export type SearchEventsResponse = Message<"chinesehistory.SearchEventsResponse"> & {
   /**
-   * @generated from field: repeated chinesehistory.Event events = 1;
-   */
-  events: Event[];
-};
-
-/**
- * Describes the message chinesehistory.SearchEventsResponse.
- * Use `create(SearchEventsResponseSchema)` to create a new message.
- */
-export const SearchEventsResponseSchema: GenMessage<SearchEventsResponse> = /*@__PURE__*/
-  messageDesc(file_event, 5);
-
-/**
- * 获取特定时期的事件列表请求
- *
- * @generated from message chinesehistory.GetEventsByPeriodRequest
- */
-export type GetEventsByPeriodRequest = Message<"chinesehistory.GetEventsByPeriodRequest"> & {
-  /**
-   * 开始日期
+   * 开始日期（可选）
    *
-   * @generated from field: chinesehistory.GregorianDate start_date = 1;
+   * @generated from field: chinesehistory.GregorianDate start_date = 5;
    */
   startDate?: GregorianDate;
 
   /**
-   * 结束日期
+   * 结束日期（可选）
    *
-   * @generated from field: chinesehistory.GregorianDate end_date = 2;
+   * @generated from field: chinesehistory.GregorianDate end_date = 6;
    */
   endDate?: GregorianDate;
 
   /**
    * 事件类型过滤（可选）
    *
-   * @generated from field: repeated chinesehistory.EventType event_types = 3;
+   * @generated from field: repeated chinesehistory.EventType event_types = 7;
    */
   eventTypes: EventType[];
+
+  /**
+   * 标签过滤（可选）
+   *
+   * @generated from field: repeated string tags = 8;
+   */
+  tags: string[];
 };
 
 /**
- * Describes the message chinesehistory.GetEventsByPeriodRequest.
- * Use `create(GetEventsByPeriodRequestSchema)` to create a new message.
+ * Describes the message chinesehistory.FindEventsRequest.
+ * Use `create(FindEventsRequestSchema)` to create a new message.
  */
-export const GetEventsByPeriodRequestSchema: GenMessage<GetEventsByPeriodRequest> = /*@__PURE__*/
-  messageDesc(file_event, 6);
+export const FindEventsRequestSchema: GenMessage<FindEventsRequest> = /*@__PURE__*/
+  messageDesc(file_event, 3);
 
 /**
- * 获取特定时期的事件列表响应
+ * 批量事件操作请求
  *
- * @generated from message chinesehistory.GetEventsByPeriodResponse
+ * @generated from message chinesehistory.UpsertEventsRequest
  */
-export type GetEventsByPeriodResponse = Message<"chinesehistory.GetEventsByPeriodResponse"> & {
+export type UpsertEventsRequest = Message<"chinesehistory.UpsertEventsRequest"> & {
   /**
-   * 该时期的事件列表
+   * 要插入或更新的事件列表
    *
    * @generated from field: repeated chinesehistory.Event events = 1;
    */
@@ -261,11 +219,32 @@ export type GetEventsByPeriodResponse = Message<"chinesehistory.GetEventsByPerio
 };
 
 /**
- * Describes the message chinesehistory.GetEventsByPeriodResponse.
- * Use `create(GetEventsByPeriodResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.UpsertEventsRequest.
+ * Use `create(UpsertEventsRequestSchema)` to create a new message.
  */
-export const GetEventsByPeriodResponseSchema: GenMessage<GetEventsByPeriodResponse> = /*@__PURE__*/
-  messageDesc(file_event, 7);
+export const UpsertEventsRequestSchema: GenMessage<UpsertEventsRequest> = /*@__PURE__*/
+  messageDesc(file_event, 4);
+
+/**
+ * 批量删除事件请求
+ *
+ * @generated from message chinesehistory.DeleteEventsRequest
+ */
+export type DeleteEventsRequest = Message<"chinesehistory.DeleteEventsRequest"> & {
+  /**
+   * 要删除的事件ID列表
+   *
+   * @generated from field: repeated string event_ids = 1;
+   */
+  eventIds: string[];
+};
+
+/**
+ * Describes the message chinesehistory.DeleteEventsRequest.
+ * Use `create(DeleteEventsRequestSchema)` to create a new message.
+ */
+export const DeleteEventsRequestSchema: GenMessage<DeleteEventsRequest> = /*@__PURE__*/
+  messageDesc(file_event, 5);
 
 /**
  * 事件类型枚举
@@ -480,36 +459,46 @@ export const EventImportanceSchema: GenEnum<EventImportance> = /*@__PURE__*/
  */
 export const EventService: GenService<{
   /**
+   * ============== 查询操作 ==============
+   * 获取所有事件
+   *
    * @generated from rpc chinesehistory.EventService.GetEvents
    */
   getEvents: {
     methodKind: "unary";
-    input: typeof GetEventsResponseSchema;
+    input: typeof GetEventsRequestSchema;
     output: typeof GetEventsResponseSchema;
   },
   /**
-   * @generated from rpc chinesehistory.EventService.GetEventById
+   * 查找事件（根据条件）
+   *
+   * @generated from rpc chinesehistory.EventService.FindEvents
    */
-  getEventById: {
+  findEvents: {
     methodKind: "unary";
-    input: typeof GetEventByIdRequestSchema;
-    output: typeof GetEventResponseSchema;
+    input: typeof FindEventsRequestSchema;
+    output: typeof GetEventsResponseSchema;
   },
   /**
-   * @generated from rpc chinesehistory.EventService.SearchEvents
+   * ============== 批量CRUD操作 ==============
+   * 批量插入或更新事件
+   *
+   * @generated from rpc chinesehistory.EventService.UpsertEvents
    */
-  searchEvents: {
+  upsertEvents: {
     methodKind: "unary";
-    input: typeof SearchEventsRequestSchema;
-    output: typeof SearchEventsResponseSchema;
+    input: typeof UpsertEventsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
   },
   /**
-   * @generated from rpc chinesehistory.EventService.GetEventsByPeriod
+   * 批量删除事件
+   *
+   * @generated from rpc chinesehistory.EventService.DeleteEvents
    */
-  getEventsByPeriod: {
+  deleteEvents: {
     methodKind: "unary";
-    input: typeof GetEventsByPeriodRequestSchema;
-    output: typeof GetEventsByPeriodResponseSchema;
+    input: typeof DeleteEventsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_event, 0);

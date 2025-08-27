@@ -2,9 +2,9 @@
 // @generated from file city.proto (package chinesehistory, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GregorianDate } from "./common_pb";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { BatchOperationResponseSchema, GregorianDate } from "./common_pb";
 import { file_common } from "./common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file city.proto.
  */
 export const file_city: GenFile = /*@__PURE__*/
-  fileDesc("CgpjaXR5LnByb3RvEg5jaGluZXNlaGlzdG9yeSKIAQoEQ2l0eRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEiwKB2hpc3RvcnkYBCADKAsyGy5jaGluZXNlaGlzdG9yeS5DaXR5SGlzdG9yeRIMCgR0YWdzGAUgAygJEhUKDXNlYXJjaF92YWx1ZXMYBiADKAkikwIKC0NpdHlIaXN0b3J5EgoKAmlkGAEgASgJEg8KB2NpdHlfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEoCRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIVCg1nZW9tZXRyeV9qc29uGAYgASgJEjgKC2FkbWluX2xldmVsGAcgASgOMiMuY2hpbmVzZWhpc3RvcnkuQWRtaW5pc3RyYXRpdmVMZXZlbBIUCgxkeW5hc3R5X25hbWUYCCABKAkSKgoGc3RhdHVzGAkgASgOMhouY2hpbmVzZWhpc3RvcnkuQ2l0eVN0YXR1cyI5ChFHZXRDaXRpZXNSZXNwb25zZRIkCgZjaXRpZXMYASADKAsyFC5jaGluZXNlaGlzdG9yeS5DaXR5IjUKD0dldENpdHlSZXNwb25zZRIiCgRjaXR5GAEgASgLMhQuY2hpbmVzZWhpc3RvcnkuQ2l0eSJGChZHZXRDaXR5SGlzdG9yeVJlc3BvbnNlEiwKB2hpc3RvcnkYASADKAsyGy5jaGluZXNlaGlzdG9yeS5DaXR5SGlzdG9yeSIlChJHZXRDaXR5QnlJZFJlcXVlc3QSDwoHY2l0eV9pZBgBIAEoCSK4AQoVR2V0Q2l0eUhpc3RvcnlSZXF1ZXN0Eg8KB2NpdHlfaWQYASABKAkSMQoKc3RhcnRfZGF0ZRgCIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYAyABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEioKBnN0YXR1cxgEIAEoDjIaLmNoaW5lc2VoaXN0b3J5LkNpdHlTdGF0dXMinwEKE1NlYXJjaENpdGllc1JlcXVlc3QSDAoEbmFtZRgBIAEoCRIUCgxkeW5hc3R5X25hbWUYAiABKAkSOAoLYWRtaW5fbGV2ZWwYAyABKA4yIy5jaGluZXNlaGlzdG9yeS5BZG1pbmlzdHJhdGl2ZUxldmVsEioKBnN0YXR1cxgEIAEoDjIaLmNoaW5lc2VoaXN0b3J5LkNpdHlTdGF0dXMiPAoUU2VhcmNoQ2l0aWVzUmVzcG9uc2USJAoGY2l0aWVzGAEgAygLMhQuY2hpbmVzZWhpc3RvcnkuQ2l0eSKuAQoYR2V0Q2l0aWVzQnlQZXJpb2RSZXF1ZXN0EisKBGRhdGUYASABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEjkKDGFkbWluX2xldmVscxgCIAMoDjIjLmNoaW5lc2VoaXN0b3J5LkFkbWluaXN0cmF0aXZlTGV2ZWwSKgoGc3RhdHVzGAMgASgOMhouY2hpbmVzZWhpc3RvcnkuQ2l0eVN0YXR1cyJNChlHZXRDaXRpZXNCeVBlcmlvZFJlc3BvbnNlEjAKC2NpdHlfc3RhdGVzGAEgAygLMhsuY2hpbmVzZWhpc3RvcnkuQ2l0eUhpc3RvcnkqJgoKQ2l0eVN0YXR1cxIKCgZBQ1RJVkUQABIMCghJTkFDVElWRRABKr8BChNBZG1pbmlzdHJhdGl2ZUxldmVsEgsKB1VOS05PV04QABILCgdDQVBJVEFMEAESFgoSUFJPVklOQ0lBTF9DQVBJVEFMEAISDgoKUFJFRkVDVFVSRRADEgoKBkNPVU5UWRAEEggKBFRPV04QBRILCgdWSUxMQUdFEAYSEQoNTUlMSVRBUllfRk9SVBAHEhAKDFRSQURJTkdfUE9TVBAIEhQKEFJFTElHSU9VU19DRU5URVIQCRIICgRQQVNTEApCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z", [file_common]);
+  fileDesc("CgpjaXR5LnByb3RvEg5jaGluZXNlaGlzdG9yeSKIAQoEQ2l0eRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEiwKB2hpc3RvcnkYBCADKAsyGy5jaGluZXNlaGlzdG9yeS5DaXR5SGlzdG9yeRIMCgR0YWdzGAUgAygJEhUKDXNlYXJjaF92YWx1ZXMYBiADKAkikwIKC0NpdHlIaXN0b3J5EgoKAmlkGAEgASgJEg8KB2NpdHlfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRITCgtkZXNjcmlwdGlvbhgEIAEoCRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIVCg1nZW9tZXRyeV9qc29uGAYgASgJEjgKC2FkbWluX2xldmVsGAcgASgOMiMuY2hpbmVzZWhpc3RvcnkuQWRtaW5pc3RyYXRpdmVMZXZlbBIUCgxkeW5hc3R5X25hbWUYCCABKAkSKgoGc3RhdHVzGAkgASgOMhouY2hpbmVzZWhpc3RvcnkuQ2l0eVN0YXR1cyI5ChFHZXRDaXRpZXNSZXNwb25zZRIkCgZjaXRpZXMYASADKAsyFC5jaGluZXNlaGlzdG9yeS5DaXR5Ik8KGEdldENpdHlIaXN0b3JpZXNSZXNwb25zZRIzCg5jaXR5X2hpc3RvcmllcxgBIAMoCzIbLmNoaW5lc2VoaXN0b3J5LkNpdHlIaXN0b3J5IhIKEEdldENpdGllc1JlcXVlc3QiGQoXR2V0Q2l0eUhpc3Rvcmllc1JlcXVlc3QivAEKEUZpbmRDaXRpZXNSZXF1ZXN0Eg8KB2NpdHlfaWQYASABKAkSDAoEbmFtZRgCIAEoCRIUCgxkeW5hc3R5X25hbWUYAyABKAkSOAoLYWRtaW5fbGV2ZWwYBCABKA4yIy5jaGluZXNlaGlzdG9yeS5BZG1pbmlzdHJhdGl2ZUxldmVsEioKBnN0YXR1cxgFIAEoDjIaLmNoaW5lc2VoaXN0b3J5LkNpdHlTdGF0dXMSDAoEdGFncxgGIAMoCSKjAgoYRmluZENpdHlIaXN0b3JpZXNSZXF1ZXN0Eg8KB2NpdHlfaWQYASABKAkSMQoKc3RhcnRfZGF0ZRgCIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYAyABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEioKBnN0YXR1cxgEIAEoDjIaLmNoaW5lc2VoaXN0b3J5LkNpdHlTdGF0dXMSKwoEZGF0ZRgFIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSOQoMYWRtaW5fbGV2ZWxzGAYgAygOMiMuY2hpbmVzZWhpc3RvcnkuQWRtaW5pc3RyYXRpdmVMZXZlbCI7ChNVcHNlcnRDaXRpZXNSZXF1ZXN0EiQKBmNpdGllcxgBIAMoCzIULmNoaW5lc2VoaXN0b3J5LkNpdHkiJwoTRGVsZXRlQ2l0aWVzUmVxdWVzdBIQCghjaXR5X2lkcxgBIAMoCSJRChpVcHNlcnRDaXR5SGlzdG9yaWVzUmVxdWVzdBIzCg5jaXR5X2hpc3RvcmllcxgBIAMoCzIbLmNoaW5lc2VoaXN0b3J5LkNpdHlIaXN0b3J5KiYKCkNpdHlTdGF0dXMSCgoGQUNUSVZFEAASDAoISU5BQ1RJVkUQASq/AQoTQWRtaW5pc3RyYXRpdmVMZXZlbBILCgdVTktOT1dOEAASCwoHQ0FQSVRBTBABEhYKElBST1ZJTkNJQUxfQ0FQSVRBTBACEg4KClBSRUZFQ1RVUkUQAxIKCgZDT1VOVFkQBBIICgRUT1dOEAUSCwoHVklMTEFHRRAGEhEKDU1JTElUQVJZX0ZPUlQQBxIQCgxUUkFESU5HX1BPU1QQCBIUChBSRUxJR0lPVVNfQ0VOVEVSEAkSCAoEUEFTUxAKMqgFCgtDaXR5U2VydmljZRJQCglHZXRDaXRpZXMSIC5jaGluZXNlaGlzdG9yeS5HZXRDaXRpZXNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0Q2l0aWVzUmVzcG9uc2USUgoKRmluZENpdGllcxIhLmNoaW5lc2VoaXN0b3J5LkZpbmRDaXRpZXNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0Q2l0aWVzUmVzcG9uc2USZQoQR2V0Q2l0eUhpc3RvcmllcxInLmNoaW5lc2VoaXN0b3J5LkdldENpdHlIaXN0b3JpZXNSZXF1ZXN0GiguY2hpbmVzZWhpc3RvcnkuR2V0Q2l0eUhpc3Rvcmllc1Jlc3BvbnNlEmcKEUZpbmRDaXR5SGlzdG9yaWVzEiguY2hpbmVzZWhpc3RvcnkuRmluZENpdHlIaXN0b3JpZXNSZXF1ZXN0GiguY2hpbmVzZWhpc3RvcnkuR2V0Q2l0eUhpc3Rvcmllc1Jlc3BvbnNlElsKDFVwc2VydENpdGllcxIjLmNoaW5lc2VoaXN0b3J5LlVwc2VydENpdGllc1JlcXVlc3QaJi5jaGluZXNlaGlzdG9yeS5CYXRjaE9wZXJhdGlvblJlc3BvbnNlElsKDERlbGV0ZUNpdGllcxIjLmNoaW5lc2VoaXN0b3J5LkRlbGV0ZUNpdGllc1JlcXVlc3QaJi5jaGluZXNlaGlzdG9yeS5CYXRjaE9wZXJhdGlvblJlc3BvbnNlEmkKE1Vwc2VydENpdHlIaXN0b3JpZXMSKi5jaGluZXNlaGlzdG9yeS5VcHNlcnRDaXR5SGlzdG9yaWVzUmVxdWVzdBomLmNoaW5lc2VoaXN0b3J5LkJhdGNoT3BlcmF0aW9uUmVzcG9uc2VCMKoCLU5ld2luZm9zb2Z0LkNoaW5lc2VIaXN0b3J5LlNlcnZlci5TZXJ2aWNlQmFzZWIGcHJvdG8z", [file_common]);
 
 /**
  * 城市实体 - 跨越朝代和历史时期的概念
@@ -148,7 +148,7 @@ export const CityHistorySchema: GenMessage<CityHistory> = /*@__PURE__*/
   messageDesc(file_city, 1);
 
 /**
- * 获取所有城市响应
+ * 获取多个城市响应（统一用于GetCities和FindCities）
  *
  * @generated from message chinesehistory.GetCitiesResponse
  */
@@ -167,72 +167,122 @@ export const GetCitiesResponseSchema: GenMessage<GetCitiesResponse> = /*@__PURE_
   messageDesc(file_city, 2);
 
 /**
- * 获取单个城市响应
+ * 获取多个城市历史响应（统一用于GetCityHistories和FindCityHistories）
  *
- * @generated from message chinesehistory.GetCityResponse
+ * @generated from message chinesehistory.GetCityHistoriesResponse
  */
-export type GetCityResponse = Message<"chinesehistory.GetCityResponse"> & {
+export type GetCityHistoriesResponse = Message<"chinesehistory.GetCityHistoriesResponse"> & {
   /**
-   * @generated from field: chinesehistory.City city = 1;
+   * @generated from field: repeated chinesehistory.CityHistory city_histories = 1;
    */
-  city?: City;
+  cityHistories: CityHistory[];
 };
 
 /**
- * Describes the message chinesehistory.GetCityResponse.
- * Use `create(GetCityResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.GetCityHistoriesResponse.
+ * Use `create(GetCityHistoriesResponseSchema)` to create a new message.
  */
-export const GetCityResponseSchema: GenMessage<GetCityResponse> = /*@__PURE__*/
+export const GetCityHistoriesResponseSchema: GenMessage<GetCityHistoriesResponse> = /*@__PURE__*/
   messageDesc(file_city, 3);
 
 /**
- * 获取城市历史轨迹响应
+ * 获取城市请求（无查询条件）
  *
- * @generated from message chinesehistory.GetCityHistoryResponse
+ * 空请求，获取所有城市
+ *
+ * @generated from message chinesehistory.GetCitiesRequest
  */
-export type GetCityHistoryResponse = Message<"chinesehistory.GetCityHistoryResponse"> & {
-  /**
-   * @generated from field: repeated chinesehistory.CityHistory history = 1;
-   */
-  history: CityHistory[];
+export type GetCitiesRequest = Message<"chinesehistory.GetCitiesRequest"> & {
 };
 
 /**
- * Describes the message chinesehistory.GetCityHistoryResponse.
- * Use `create(GetCityHistoryResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.GetCitiesRequest.
+ * Use `create(GetCitiesRequestSchema)` to create a new message.
  */
-export const GetCityHistoryResponseSchema: GenMessage<GetCityHistoryResponse> = /*@__PURE__*/
+export const GetCitiesRequestSchema: GenMessage<GetCitiesRequest> = /*@__PURE__*/
   messageDesc(file_city, 4);
 
 /**
- * 获取城市请求
+ * 获取城市历史请求（无查询条件）
  *
- * @generated from message chinesehistory.GetCityByIdRequest
+ * 空请求，获取所有城市历史
+ *
+ * @generated from message chinesehistory.GetCityHistoriesRequest
  */
-export type GetCityByIdRequest = Message<"chinesehistory.GetCityByIdRequest"> & {
+export type GetCityHistoriesRequest = Message<"chinesehistory.GetCityHistoriesRequest"> & {
+};
+
+/**
+ * Describes the message chinesehistory.GetCityHistoriesRequest.
+ * Use `create(GetCityHistoriesRequestSchema)` to create a new message.
+ */
+export const GetCityHistoriesRequestSchema: GenMessage<GetCityHistoriesRequest> = /*@__PURE__*/
+  messageDesc(file_city, 5);
+
+/**
+ * 查找城市请求（包含所有可能的查询条件）
+ *
+ * @generated from message chinesehistory.FindCitiesRequest
+ */
+export type FindCitiesRequest = Message<"chinesehistory.FindCitiesRequest"> & {
   /**
-   * 城市ID
+   * 城市ID（可选）
    *
    * @generated from field: string city_id = 1;
    */
   cityId: string;
+
+  /**
+   * 城市名称（支持模糊搜索）（可选）
+   *
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * 朝代名称（可选）
+   *
+   * @generated from field: string dynasty_name = 3;
+   */
+  dynastyName: string;
+
+  /**
+   * 行政级别（可选）
+   *
+   * @generated from field: chinesehistory.AdministrativeLevel admin_level = 4;
+   */
+  adminLevel: AdministrativeLevel;
+
+  /**
+   * 城市状态过滤（可选）
+   *
+   * @generated from field: chinesehistory.CityStatus status = 5;
+   */
+  status: CityStatus;
+
+  /**
+   * 标签过滤（可选）
+   *
+   * @generated from field: repeated string tags = 6;
+   */
+  tags: string[];
 };
 
 /**
- * Describes the message chinesehistory.GetCityByIdRequest.
- * Use `create(GetCityByIdRequestSchema)` to create a new message.
+ * Describes the message chinesehistory.FindCitiesRequest.
+ * Use `create(FindCitiesRequestSchema)` to create a new message.
  */
-export const GetCityByIdRequestSchema: GenMessage<GetCityByIdRequest> = /*@__PURE__*/
-  messageDesc(file_city, 5);
+export const FindCitiesRequestSchema: GenMessage<FindCitiesRequest> = /*@__PURE__*/
+  messageDesc(file_city, 6);
 
 /**
- * 获取城市历史轨迹请求
+ * 查找城市历史请求（包含所有可能的查询条件）
  *
- * @generated from message chinesehistory.GetCityHistoryRequest
+ * @generated from message chinesehistory.FindCityHistoriesRequest
  */
-export type GetCityHistoryRequest = Message<"chinesehistory.GetCityHistoryRequest"> & {
+export type FindCityHistoriesRequest = Message<"chinesehistory.FindCityHistoriesRequest"> & {
   /**
-   * 城市ID
+   * 城市ID（可选）
    *
    * @generated from field: string city_id = 1;
    */
@@ -258,130 +308,90 @@ export type GetCityHistoryRequest = Message<"chinesehistory.GetCityHistoryReques
    * @generated from field: chinesehistory.CityStatus status = 4;
    */
   status: CityStatus;
-};
 
-/**
- * Describes the message chinesehistory.GetCityHistoryRequest.
- * Use `create(GetCityHistoryRequestSchema)` to create a new message.
- */
-export const GetCityHistoryRequestSchema: GenMessage<GetCityHistoryRequest> = /*@__PURE__*/
-  messageDesc(file_city, 6);
-
-/**
- * 根据名称搜索城市请求
- *
- * @generated from message chinesehistory.SearchCitiesRequest
- */
-export type SearchCitiesRequest = Message<"chinesehistory.SearchCitiesRequest"> & {
   /**
-   * 城市名称（支持模糊搜索）
+   * 历史日期（可选）
    *
-   * @generated from field: string name = 1;
-   */
-  name: string;
-
-  /**
-   * 朝代名称（可选）
-   *
-   * @generated from field: string dynasty_name = 2;
-   */
-  dynastyName: string;
-
-  /**
-   * 行政级别（可选）
-   *
-   * @generated from field: chinesehistory.AdministrativeLevel admin_level = 3;
-   */
-  adminLevel: AdministrativeLevel;
-
-  /**
-   * 城市状态过滤（可选）
-   *
-   * @generated from field: chinesehistory.CityStatus status = 4;
-   */
-  status: CityStatus;
-};
-
-/**
- * Describes the message chinesehistory.SearchCitiesRequest.
- * Use `create(SearchCitiesRequestSchema)` to create a new message.
- */
-export const SearchCitiesRequestSchema: GenMessage<SearchCitiesRequest> = /*@__PURE__*/
-  messageDesc(file_city, 7);
-
-/**
- * 搜索城市响应
- *
- * @generated from message chinesehistory.SearchCitiesResponse
- */
-export type SearchCitiesResponse = Message<"chinesehistory.SearchCitiesResponse"> & {
-  /**
-   * @generated from field: repeated chinesehistory.City cities = 1;
-   */
-  cities: City[];
-};
-
-/**
- * Describes the message chinesehistory.SearchCitiesResponse.
- * Use `create(SearchCitiesResponseSchema)` to create a new message.
- */
-export const SearchCitiesResponseSchema: GenMessage<SearchCitiesResponse> = /*@__PURE__*/
-  messageDesc(file_city, 8);
-
-/**
- * 获取特定时期的城市列表请求
- *
- * @generated from message chinesehistory.GetCitiesByPeriodRequest
- */
-export type GetCitiesByPeriodRequest = Message<"chinesehistory.GetCitiesByPeriodRequest"> & {
-  /**
-   * 历史日期
-   *
-   * @generated from field: chinesehistory.GregorianDate date = 1;
+   * @generated from field: chinesehistory.GregorianDate date = 5;
    */
   date?: GregorianDate;
 
   /**
    * 行政级别过滤（可选）
    *
-   * @generated from field: repeated chinesehistory.AdministrativeLevel admin_levels = 2;
+   * @generated from field: repeated chinesehistory.AdministrativeLevel admin_levels = 6;
    */
   adminLevels: AdministrativeLevel[];
-
-  /**
-   * 城市状态过滤（可选）
-   *
-   * @generated from field: chinesehistory.CityStatus status = 3;
-   */
-  status: CityStatus;
 };
 
 /**
- * Describes the message chinesehistory.GetCitiesByPeriodRequest.
- * Use `create(GetCitiesByPeriodRequestSchema)` to create a new message.
+ * Describes the message chinesehistory.FindCityHistoriesRequest.
+ * Use `create(FindCityHistoriesRequestSchema)` to create a new message.
  */
-export const GetCitiesByPeriodRequestSchema: GenMessage<GetCitiesByPeriodRequest> = /*@__PURE__*/
+export const FindCityHistoriesRequestSchema: GenMessage<FindCityHistoriesRequest> = /*@__PURE__*/
+  messageDesc(file_city, 7);
+
+/**
+ * 批量城市操作请求
+ *
+ * @generated from message chinesehistory.UpsertCitiesRequest
+ */
+export type UpsertCitiesRequest = Message<"chinesehistory.UpsertCitiesRequest"> & {
+  /**
+   * 要插入或更新的城市列表
+   *
+   * @generated from field: repeated chinesehistory.City cities = 1;
+   */
+  cities: City[];
+};
+
+/**
+ * Describes the message chinesehistory.UpsertCitiesRequest.
+ * Use `create(UpsertCitiesRequestSchema)` to create a new message.
+ */
+export const UpsertCitiesRequestSchema: GenMessage<UpsertCitiesRequest> = /*@__PURE__*/
+  messageDesc(file_city, 8);
+
+/**
+ * 批量删除城市请求
+ *
+ * @generated from message chinesehistory.DeleteCitiesRequest
+ */
+export type DeleteCitiesRequest = Message<"chinesehistory.DeleteCitiesRequest"> & {
+  /**
+   * 要删除的城市ID列表
+   *
+   * @generated from field: repeated string city_ids = 1;
+   */
+  cityIds: string[];
+};
+
+/**
+ * Describes the message chinesehistory.DeleteCitiesRequest.
+ * Use `create(DeleteCitiesRequestSchema)` to create a new message.
+ */
+export const DeleteCitiesRequestSchema: GenMessage<DeleteCitiesRequest> = /*@__PURE__*/
   messageDesc(file_city, 9);
 
 /**
- * 获取特定时期的城市列表响应
+ * 批量城市历史操作请求
  *
- * @generated from message chinesehistory.GetCitiesByPeriodResponse
+ * @generated from message chinesehistory.UpsertCityHistoriesRequest
  */
-export type GetCitiesByPeriodResponse = Message<"chinesehistory.GetCitiesByPeriodResponse"> & {
+export type UpsertCityHistoriesRequest = Message<"chinesehistory.UpsertCityHistoriesRequest"> & {
   /**
-   * 该时期的城市状态列表
+   * 要插入或更新的城市历史列表
    *
-   * @generated from field: repeated chinesehistory.CityHistory city_states = 1;
+   * @generated from field: repeated chinesehistory.CityHistory city_histories = 1;
    */
-  cityStates: CityHistory[];
+  cityHistories: CityHistory[];
 };
 
 /**
- * Describes the message chinesehistory.GetCitiesByPeriodResponse.
- * Use `create(GetCitiesByPeriodResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.UpsertCityHistoriesRequest.
+ * Use `create(UpsertCityHistoriesRequestSchema)` to create a new message.
  */
-export const GetCitiesByPeriodResponseSchema: GenMessage<GetCitiesByPeriodResponse> = /*@__PURE__*/
+export const UpsertCityHistoriesRequestSchema: GenMessage<UpsertCityHistoriesRequest> = /*@__PURE__*/
   messageDesc(file_city, 10);
 
 /**
@@ -500,4 +510,83 @@ export enum AdministrativeLevel {
  */
 export const AdministrativeLevelSchema: GenEnum<AdministrativeLevel> = /*@__PURE__*/
   enumDesc(file_city, 1);
+
+/**
+ * @generated from service chinesehistory.CityService
+ */
+export const CityService: GenService<{
+  /**
+   * ============== 查询操作 ==============
+   * 获取所有城市
+   *
+   * @generated from rpc chinesehistory.CityService.GetCities
+   */
+  getCities: {
+    methodKind: "unary";
+    input: typeof GetCitiesRequestSchema;
+    output: typeof GetCitiesResponseSchema;
+  },
+  /**
+   * 查找城市（根据条件）
+   *
+   * @generated from rpc chinesehistory.CityService.FindCities
+   */
+  findCities: {
+    methodKind: "unary";
+    input: typeof FindCitiesRequestSchema;
+    output: typeof GetCitiesResponseSchema;
+  },
+  /**
+   * 获取所有城市历史
+   *
+   * @generated from rpc chinesehistory.CityService.GetCityHistories
+   */
+  getCityHistories: {
+    methodKind: "unary";
+    input: typeof GetCityHistoriesRequestSchema;
+    output: typeof GetCityHistoriesResponseSchema;
+  },
+  /**
+   * 查找城市历史（根据条件）
+   *
+   * @generated from rpc chinesehistory.CityService.FindCityHistories
+   */
+  findCityHistories: {
+    methodKind: "unary";
+    input: typeof FindCityHistoriesRequestSchema;
+    output: typeof GetCityHistoriesResponseSchema;
+  },
+  /**
+   * ============== 批量CRUD操作 ==============
+   * 批量插入或更新城市
+   *
+   * @generated from rpc chinesehistory.CityService.UpsertCities
+   */
+  upsertCities: {
+    methodKind: "unary";
+    input: typeof UpsertCitiesRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量删除城市
+   *
+   * @generated from rpc chinesehistory.CityService.DeleteCities
+   */
+  deleteCities: {
+    methodKind: "unary";
+    input: typeof DeleteCitiesRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量插入或更新城市历史
+   *
+   * @generated from rpc chinesehistory.CityService.UpsertCityHistories
+   */
+  upsertCityHistories: {
+    methodKind: "unary";
+    input: typeof UpsertCityHistoriesRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_city, 0);
 

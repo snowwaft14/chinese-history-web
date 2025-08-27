@@ -54,48 +54,52 @@ enum EventImportance {
   WORLD_CHANGING = 5;                   // 改变世界的事件
 }
 
-// 获取所有事件响应
+// 获取多个事件响应（统一用于GetEvents和FindEvents）
 message GetEventsResponse {
   repeated Event events = 1;
 }
 
-// 获取单个事件响应
-message GetEventResponse {
-  Event event = 1;
+// 获取事件请求（无查询条件）
+message GetEventsRequest {
+  // 空请求，获取所有事件
 }
 
-// 获取事件请求
-message GetEventByIdRequest {
-  string event_id = 1;                  // 事件ID
+// 查找事件请求（包含所有可能的查询条件）
+message FindEventsRequest {
+  string event_id = 1;                   // 事件ID（可选）
+  string name = 2;                       // 事件名称（支持模糊搜索）（可选）
+  EventType event_type = 3;              // 事件类型（可选）
+  EventImportance importance = 4;        // 事件重要性（可选）
+  GregorianDate start_date = 5;          // 开始日期（可选）
+  GregorianDate end_date = 6;            // 结束日期（可选）
+  repeated EventType event_types = 7;    // 事件类型过滤（可选）
+  repeated string tags = 8;              // 标签过滤（可选）
 }
 
-// 根据名称搜索事件请求
-message SearchEventsRequest {
-  string name = 1;                      // 事件名称（支持模糊搜索）
-  EventType event_type = 2;             // 事件类型（可选）
-  EventImportance importance = 3;       // 事件重要性（可选）
+// =========================== 批量CRUD操作 ===========================
+
+// 批量事件操作请求
+message UpsertEventsRequest {
+  repeated Event events = 1;             // 要插入或更新的事件列表
 }
 
-// 搜索事件响应
-message SearchEventsResponse {
-  repeated Event events = 1;
-}
-
-// 获取特定时期的事件列表请求
-message GetEventsByPeriodRequest {
-  GregorianDate start_date = 1;         // 开始日期
-  GregorianDate end_date = 2;           // 结束日期
-  repeated EventType event_types = 3;   // 事件类型过滤（可选）
-}
-
-// 获取特定时期的事件列表响应
-message GetEventsByPeriodResponse {
-  repeated Event events = 1;            // 该时期的事件列表
+// 批量删除事件请求
+message DeleteEventsRequest {
+  repeated string event_ids = 1;         // 要删除的事件ID列表
 }
 
 service EventService {
-  rpc GetEvents(GetEventsResponse) returns (GetEventsResponse);
-  rpc GetEventById(GetEventByIdRequest) returns (GetEventResponse);
-  rpc SearchEvents(SearchEventsRequest) returns (SearchEventsResponse);
-  rpc GetEventsByPeriod(GetEventsByPeriodRequest) returns (GetEventsByPeriodResponse);
+  // ============== 查询操作 ==============
+  // 获取所有事件
+  rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
+  
+  // 查找事件（根据条件）
+  rpc FindEvents(FindEventsRequest) returns (GetEventsResponse);
+  
+  // ============== 批量CRUD操作 ==============
+  // 批量插入或更新事件
+  rpc UpsertEvents(UpsertEventsRequest) returns (BatchOperationResponse);
+  
+  // 批量删除事件
+  rpc DeleteEvents(DeleteEventsRequest) returns (BatchOperationResponse);
 }

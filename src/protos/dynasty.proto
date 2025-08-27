@@ -62,87 +62,127 @@ message GetDynastiesResponse {
   repeated Dynasty dynasties = 1;
 }
 
-// 获取单个朝代响应
-message GetDynastyResponse {
-  Dynasty dynasty = 1;
-}
-
 // 获取多个皇帝响应
 message GetEmperorsResponse {
   repeated Emperor emperors = 1;
 }
 
-// 获取单个皇帝响应
-message GetEmperorResponse {
-  Emperor emperor = 1;
-}
-
-// 获取多个朝代的年号响应
+// 获取多个年号响应
 message GetErasResponse {
   repeated EraName era_names = 1;       // 年号列表
 }
 
-message GetAllDynastiesRequest{
-
+// 获取朝代请求（无查询条件）
+message GetDynastiesRequest {
+  // 空请求，获取所有朝代
 }
 
-// 获取皇帝详情请求
-message GetEmperorByIdRequest {
-  string emperor_id = 1;                 // 皇帝ID
+// 查找朝代请求（包含所有可能的查询条件）
+message FindDynastiesRequest {
+  string dynasty_id = 1;                 // 朝代ID（可选）
+  string name = 2;                       // 朝代名称（可选）
+  int32 start_year = 3;                  // 开始年份（可选）
+  int32 end_year = 4;                    // 结束年份（可选）
+  repeated string tags = 5;              // 标签过滤（可选）
 }
 
-// 获取单个朝代详情请求
-message GetDynastyByIdRequest {
-  string dynasty_id = 1;                 // 朝代ID
+// 查找皇帝请求（包含所有可能的查询条件）
+message FindEmperorsRequest {
+  string emperor_id = 1;                 // 皇帝ID（可选）
+  string dynasty_name = 2;               // 朝代名称（可选）
+  string name = 3;                       // 皇帝姓名（可选）
+  string temple_name = 4;                // 庙号（可选）
 }
 
-// 获取朝代皇帝请求
-message GetEmperorsByDynastyRequest {
-  string dynasty_id = 1;                 // 朝代ID
+// 查找年号请求（包含所有可能的查询条件）
+message FindErasRequest {
+  string dynasty_id = 1;                 // 朝代ID（可选）
+  string emperor_id = 2;                 // 皇帝ID（可选）
+  string era_name = 3;                   // 年号名称（可选）
 }
 
-// 获取朝代年号请求
-message GetErasByDynastyRequest {
-  string dynasty_id = 1;               // 朝代ID
+// 获取皇帝请求（无查询条件）
+message GetEmperorsRequest {
+  // 空请求，获取所有皇帝
 }
 
-// 获取朝代皇帝请求
-message GetErasByEmperorRequest {
-  string emperor_id = 1;                 // 皇帝ID
+// 获取年号请求（无查询条件）
+message GetErasRequest {
+  // 空请求，获取所有年号
 }
 
-// 获取特定年号请求
-message GetEraByNameRequest {
-  string dynasty_id = 1;                 // 朝代ID
-  string era_name = 2;                   // 年号名称
+// =========================== 批量CRUD操作 ===========================
+
+// 批量朝代操作请求
+message UpsertDynastiesRequest {
+  repeated Dynasty dynasties = 1;        // 要插入或更新的朝代列表
 }
 
-// 获取单个年号响应
-message GetEraResponse {
-  EraName era_name = 1;                  // 年号信息
+// 批量删除朝代请求
+message DeleteDynastiesRequest {
+  repeated string dynasty_names = 1;     // 要删除的朝代名称列表
+}
+
+// 批量皇帝操作请求
+message UpsertEmperorsRequest {
+  repeated Emperor emperors = 1;         // 要插入或更新的皇帝列表
+}
+
+// 批量删除皇帝请求
+message DeleteEmperorsRequest {
+  repeated string emperor_ids = 1;       // 要删除的皇帝ID列表
+}
+
+// 批量时期操作请求
+message UpsertPeriodsRequest {
+  repeated Period periods = 1;           // 要插入或更新的时期列表
+  string dynasty_name = 2;               // 所属朝代名称
+}
+
+// 批量年号操作请求
+message UpsertEraNamesRequest {
+  repeated EraName era_names = 1;        // 要插入或更新的年号列表
+  string emperor_id = 2;                 // 所属皇帝ID
 }
 
 // 朝代服务
 service DynastyService {
+  // ============== 查询操作 ==============
   // 获取所有朝代
-  rpc GetAllDynasties(GetAllDynastiesRequest) returns (GetDynastiesResponse);
+  rpc GetDynasties(GetDynastiesRequest) returns (GetDynastiesResponse);
 
-  // 获取单个朝代详情
-  rpc GetDynastyById(GetDynastyByIdRequest) returns (GetDynastyResponse);
+  // 查找朝代（根据条件）
+  rpc FindDynasties(FindDynastiesRequest) returns (GetDynastiesResponse);
   
-  // 获取某个朝代下的皇帝
-  rpc GetEmperorsByDynasty(GetEmperorsByDynastyRequest) returns (GetEmperorsResponse);
+  // 获取所有皇帝
+  rpc GetEmperors(GetEmperorsRequest) returns (GetEmperorsResponse);
 
-  // 获取皇帝详情
-  rpc GetEmperor(GetEmperorByIdRequest) returns (GetEmperorResponse);
+  // 查找皇帝（根据条件）
+  rpc FindEmperors(FindEmperorsRequest) returns (GetEmperorsResponse);
 
-  // 获取某个皇帝下的年号
-  rpc GetErasByEmperor(GetErasByEmperorRequest) returns (GetErasResponse);
+  // 获取所有年号
+  rpc GetEras(GetErasRequest) returns (GetErasResponse);
   
-  // 获取朝代下的所有年号
-  rpc GetErasByDynasty(GetErasByDynastyRequest) returns (GetErasResponse);
+  // 查找年号（根据条件）
+  rpc FindEras(FindErasRequest) returns (GetErasResponse);
 
-  // 获取特定年号信息
-  rpc GetEraByName(GetEraByNameRequest) returns (GetEraResponse);
+  // ============== 批量CRUD操作 ==============
+  // 批量插入或更新朝代
+  rpc UpsertDynasties(UpsertDynastiesRequest) returns (BatchOperationResponse);
+  
+  // 批量删除朝代
+  rpc DeleteDynasties(DeleteDynastiesRequest) returns (BatchOperationResponse);
+  
+  // 批量插入或更新皇帝
+  rpc UpsertEmperors(UpsertEmperorsRequest) returns (BatchOperationResponse);
+  
+  // 批量删除皇帝
+  rpc DeleteEmperors(DeleteEmperorsRequest) returns (BatchOperationResponse);
+  
+  // 批量插入或更新时期
+  rpc UpsertPeriods(UpsertPeriodsRequest) returns (BatchOperationResponse);
+  
+  // 批量插入或更新年号
+  rpc UpsertEraNames(UpsertEraNamesRequest) returns (BatchOperationResponse);
 
 } 

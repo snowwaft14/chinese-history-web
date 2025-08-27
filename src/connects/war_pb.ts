@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GregorianDate } from "./common_pb";
+import type { BatchOperationResponseSchema, GregorianDate } from "./common_pb";
 import { file_common } from "./common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file war.proto.
  */
 export const file_war: GenFile = /*@__PURE__*/
-  fileDesc("Cgl3YXIucHJvdG8SDmNoaW5lc2VoaXN0b3J5Iv8BCgNXYXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIxCgpzdGFydF9kYXRlGAQgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgFIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSFQoNZ2VvbWV0cnlfanNvbhgGIAEoCRIpCgh3YXJfdHlwZRgHIAEoDjIXLmNoaW5lc2VoaXN0b3J5LldhclR5cGUSDAoEdGFncxgIIAMoCRIVCg1zZWFyY2hfdmFsdWVzGAkgAygJIjQKD0dldFdhcnNSZXNwb25zZRIhCgR3YXJzGAEgAygLMhMuY2hpbmVzZWhpc3RvcnkuV2FyIjIKDkdldFdhclJlc3BvbnNlEiAKA3dhchgBIAEoCzITLmNoaW5lc2VoaXN0b3J5LldhciIjChFHZXRXYXJCeUlkUmVxdWVzdBIOCgZ3YXJfaWQYASABKAkiTAoRU2VhcmNoV2Fyc1JlcXVlc3QSDAoEbmFtZRgBIAEoCRIpCgh3YXJfdHlwZRgCIAEoDjIXLmNoaW5lc2VoaXN0b3J5LldhclR5cGUiNwoSU2VhcmNoV2Fyc1Jlc3BvbnNlEiEKBHdhcnMYASADKAsyEy5jaGluZXNlaGlzdG9yeS5XYXIiqAEKFkdldFdhcnNCeVBlcmlvZFJlcXVlc3QSMQoKc3RhcnRfZGF0ZRgBIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYAiABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEioKCXdhcl90eXBlcxgDIAMoDjIXLmNoaW5lc2VoaXN0b3J5LldhclR5cGUiPAoXR2V0V2Fyc0J5UGVyaW9kUmVzcG9uc2USIQoEd2FycxgBIAMoCzITLmNoaW5lc2VoaXN0b3J5LldhciqtAQoHV2FyVHlwZRIPCgtVTktOT1dOX1dBUhAAEg0KCUNJVklMX1dBUhABEg8KC0ZPUkVJR05fV0FSEAISDQoJUkVCRUxMSU9OEAMSFAoQUEVBU0FOVF9VUFJJU0lORxAEEhIKDlNVQ0NFU1NJT05fV0FSEAUSEwoPVEVSUklUT1JJQUxfV0FSEAYSEQoNREVGRU5TSVZFX1dBUhAHEhAKDENPTlFVRVNUX1dBUhAIMuMCCgpXYXJTZXJ2aWNlEksKB0dldFdhcnMSHy5jaGluZXNlaGlzdG9yeS5HZXRXYXJzUmVzcG9uc2UaHy5jaGluZXNlaGlzdG9yeS5HZXRXYXJzUmVzcG9uc2USTwoKR2V0V2FyQnlJZBIhLmNoaW5lc2VoaXN0b3J5LkdldFdhckJ5SWRSZXF1ZXN0Gh4uY2hpbmVzZWhpc3RvcnkuR2V0V2FyUmVzcG9uc2USUwoKU2VhcmNoV2FycxIhLmNoaW5lc2VoaXN0b3J5LlNlYXJjaFdhcnNSZXF1ZXN0GiIuY2hpbmVzZWhpc3RvcnkuU2VhcmNoV2Fyc1Jlc3BvbnNlEmIKD0dldFdhcnNCeVBlcmlvZBImLmNoaW5lc2VoaXN0b3J5LkdldFdhcnNCeVBlcmlvZFJlcXVlc3QaJy5jaGluZXNlaGlzdG9yeS5HZXRXYXJzQnlQZXJpb2RSZXNwb25zZUIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM", [file_common]);
+  fileDesc("Cgl3YXIucHJvdG8SDmNoaW5lc2VoaXN0b3J5Iv8BCgNXYXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIxCgpzdGFydF9kYXRlGAQgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgFIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSFQoNZ2VvbWV0cnlfanNvbhgGIAEoCRIpCgh3YXJfdHlwZRgHIAEoDjIXLmNoaW5lc2VoaXN0b3J5LldhclR5cGUSDAoEdGFncxgIIAMoCRIVCg1zZWFyY2hfdmFsdWVzGAkgAygJIjQKD0dldFdhcnNSZXNwb25zZRIhCgR3YXJzGAEgAygLMhMuY2hpbmVzZWhpc3RvcnkuV2FyIhAKDkdldFdhcnNSZXF1ZXN0IvgBCg9GaW5kV2Fyc1JlcXVlc3QSDgoGd2FyX2lkGAEgASgJEgwKBG5hbWUYAiABKAkSKQoId2FyX3R5cGUYAyABKA4yFy5jaGluZXNlaGlzdG9yeS5XYXJUeXBlEjEKCnN0YXJ0X2RhdGUYBCABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEi8KCGVuZF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIqCgl3YXJfdHlwZXMYBiADKA4yFy5jaGluZXNlaGlzdG9yeS5XYXJUeXBlEgwKBHRhZ3MYByADKAkiNgoRVXBzZXJ0V2Fyc1JlcXVlc3QSIQoEd2FycxgBIAMoCzITLmNoaW5lc2VoaXN0b3J5LldhciIkChFEZWxldGVXYXJzUmVxdWVzdBIPCgd3YXJfaWRzGAEgAygJKq0BCgdXYXJUeXBlEg8KC1VOS05PV05fV0FSEAASDQoJQ0lWSUxfV0FSEAESDwoLRk9SRUlHTl9XQVIQAhINCglSRUJFTExJT04QAxIUChBQRUFTQU5UX1VQUklTSU5HEAQSEgoOU1VDQ0VTU0lPTl9XQVIQBRITCg9URVJSSVRPUklBTF9XQVIQBhIRCg1ERUZFTlNJVkVfV0FSEAcSEAoMQ09OUVVFU1RfV0FSEAgy2AIKCldhclNlcnZpY2USSgoHR2V0V2FycxIeLmNoaW5lc2VoaXN0b3J5LkdldFdhcnNSZXF1ZXN0Gh8uY2hpbmVzZWhpc3RvcnkuR2V0V2Fyc1Jlc3BvbnNlEkwKCEZpbmRXYXJzEh8uY2hpbmVzZWhpc3RvcnkuRmluZFdhcnNSZXF1ZXN0Gh8uY2hpbmVzZWhpc3RvcnkuR2V0V2Fyc1Jlc3BvbnNlElcKClVwc2VydFdhcnMSIS5jaGluZXNlaGlzdG9yeS5VcHNlcnRXYXJzUmVxdWVzdBomLmNoaW5lc2VoaXN0b3J5LkJhdGNoT3BlcmF0aW9uUmVzcG9uc2USVwoKRGVsZXRlV2FycxIhLmNoaW5lc2VoaXN0b3J5LkRlbGV0ZVdhcnNSZXF1ZXN0GiYuY2hpbmVzZWhpc3RvcnkuQmF0Y2hPcGVyYXRpb25SZXNwb25zZUIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM", [file_common]);
 
 /**
  * 战争实体 - 历史上的军事冲突
@@ -92,7 +92,7 @@ export const WarSchema: GenMessage<War> = /*@__PURE__*/
   messageDesc(file_war, 0);
 
 /**
- * 获取所有战争响应
+ * 获取多个战争响应（统一用于GetWars和FindWars）
  *
  * @generated from message chinesehistory.GetWarsResponse
  */
@@ -111,135 +111,93 @@ export const GetWarsResponseSchema: GenMessage<GetWarsResponse> = /*@__PURE__*/
   messageDesc(file_war, 1);
 
 /**
- * 获取单个战争响应
+ * 获取战争请求（无查询条件）
  *
- * @generated from message chinesehistory.GetWarResponse
+ * 空请求，获取所有战争
+ *
+ * @generated from message chinesehistory.GetWarsRequest
  */
-export type GetWarResponse = Message<"chinesehistory.GetWarResponse"> & {
-  /**
-   * @generated from field: chinesehistory.War war = 1;
-   */
-  war?: War;
+export type GetWarsRequest = Message<"chinesehistory.GetWarsRequest"> & {
 };
 
 /**
- * Describes the message chinesehistory.GetWarResponse.
- * Use `create(GetWarResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.GetWarsRequest.
+ * Use `create(GetWarsRequestSchema)` to create a new message.
  */
-export const GetWarResponseSchema: GenMessage<GetWarResponse> = /*@__PURE__*/
+export const GetWarsRequestSchema: GenMessage<GetWarsRequest> = /*@__PURE__*/
   messageDesc(file_war, 2);
 
 /**
- * 获取战争请求
+ * 查找战争请求（包含所有可能的查询条件）
  *
- * @generated from message chinesehistory.GetWarByIdRequest
+ * @generated from message chinesehistory.FindWarsRequest
  */
-export type GetWarByIdRequest = Message<"chinesehistory.GetWarByIdRequest"> & {
+export type FindWarsRequest = Message<"chinesehistory.FindWarsRequest"> & {
   /**
-   * 战争ID
+   * 战争ID（可选）
    *
    * @generated from field: string war_id = 1;
    */
   warId: string;
-};
 
-/**
- * Describes the message chinesehistory.GetWarByIdRequest.
- * Use `create(GetWarByIdRequestSchema)` to create a new message.
- */
-export const GetWarByIdRequestSchema: GenMessage<GetWarByIdRequest> = /*@__PURE__*/
-  messageDesc(file_war, 3);
-
-/**
- * 根据名称搜索战争请求
- *
- * @generated from message chinesehistory.SearchWarsRequest
- */
-export type SearchWarsRequest = Message<"chinesehistory.SearchWarsRequest"> & {
   /**
-   * 战争名称（支持模糊搜索）
+   * 战争名称（支持模糊搜索）（可选）
    *
-   * @generated from field: string name = 1;
+   * @generated from field: string name = 2;
    */
   name: string;
 
   /**
    * 战争类型（可选）
    *
-   * @generated from field: chinesehistory.WarType war_type = 2;
+   * @generated from field: chinesehistory.WarType war_type = 3;
    */
   warType: WarType;
-};
 
-/**
- * Describes the message chinesehistory.SearchWarsRequest.
- * Use `create(SearchWarsRequestSchema)` to create a new message.
- */
-export const SearchWarsRequestSchema: GenMessage<SearchWarsRequest> = /*@__PURE__*/
-  messageDesc(file_war, 4);
-
-/**
- * 搜索战争响应
- *
- * @generated from message chinesehistory.SearchWarsResponse
- */
-export type SearchWarsResponse = Message<"chinesehistory.SearchWarsResponse"> & {
   /**
-   * @generated from field: repeated chinesehistory.War wars = 1;
-   */
-  wars: War[];
-};
-
-/**
- * Describes the message chinesehistory.SearchWarsResponse.
- * Use `create(SearchWarsResponseSchema)` to create a new message.
- */
-export const SearchWarsResponseSchema: GenMessage<SearchWarsResponse> = /*@__PURE__*/
-  messageDesc(file_war, 5);
-
-/**
- * 获取特定时期的战争列表请求
- *
- * @generated from message chinesehistory.GetWarsByPeriodRequest
- */
-export type GetWarsByPeriodRequest = Message<"chinesehistory.GetWarsByPeriodRequest"> & {
-  /**
-   * 开始日期
+   * 开始日期（可选）
    *
-   * @generated from field: chinesehistory.GregorianDate start_date = 1;
+   * @generated from field: chinesehistory.GregorianDate start_date = 4;
    */
   startDate?: GregorianDate;
 
   /**
-   * 结束日期
+   * 结束日期（可选）
    *
-   * @generated from field: chinesehistory.GregorianDate end_date = 2;
+   * @generated from field: chinesehistory.GregorianDate end_date = 5;
    */
   endDate?: GregorianDate;
 
   /**
    * 战争类型过滤（可选）
    *
-   * @generated from field: repeated chinesehistory.WarType war_types = 3;
+   * @generated from field: repeated chinesehistory.WarType war_types = 6;
    */
   warTypes: WarType[];
+
+  /**
+   * 标签过滤（可选）
+   *
+   * @generated from field: repeated string tags = 7;
+   */
+  tags: string[];
 };
 
 /**
- * Describes the message chinesehistory.GetWarsByPeriodRequest.
- * Use `create(GetWarsByPeriodRequestSchema)` to create a new message.
+ * Describes the message chinesehistory.FindWarsRequest.
+ * Use `create(FindWarsRequestSchema)` to create a new message.
  */
-export const GetWarsByPeriodRequestSchema: GenMessage<GetWarsByPeriodRequest> = /*@__PURE__*/
-  messageDesc(file_war, 6);
+export const FindWarsRequestSchema: GenMessage<FindWarsRequest> = /*@__PURE__*/
+  messageDesc(file_war, 3);
 
 /**
- * 获取特定时期的战争列表响应
+ * 批量战争操作请求
  *
- * @generated from message chinesehistory.GetWarsByPeriodResponse
+ * @generated from message chinesehistory.UpsertWarsRequest
  */
-export type GetWarsByPeriodResponse = Message<"chinesehistory.GetWarsByPeriodResponse"> & {
+export type UpsertWarsRequest = Message<"chinesehistory.UpsertWarsRequest"> & {
   /**
-   * 该时期的战争列表
+   * 要插入或更新的战争列表
    *
    * @generated from field: repeated chinesehistory.War wars = 1;
    */
@@ -247,11 +205,32 @@ export type GetWarsByPeriodResponse = Message<"chinesehistory.GetWarsByPeriodRes
 };
 
 /**
- * Describes the message chinesehistory.GetWarsByPeriodResponse.
- * Use `create(GetWarsByPeriodResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.UpsertWarsRequest.
+ * Use `create(UpsertWarsRequestSchema)` to create a new message.
  */
-export const GetWarsByPeriodResponseSchema: GenMessage<GetWarsByPeriodResponse> = /*@__PURE__*/
-  messageDesc(file_war, 7);
+export const UpsertWarsRequestSchema: GenMessage<UpsertWarsRequest> = /*@__PURE__*/
+  messageDesc(file_war, 4);
+
+/**
+ * 批量删除战争请求
+ *
+ * @generated from message chinesehistory.DeleteWarsRequest
+ */
+export type DeleteWarsRequest = Message<"chinesehistory.DeleteWarsRequest"> & {
+  /**
+   * 要删除的战争ID列表
+   *
+   * @generated from field: repeated string war_ids = 1;
+   */
+  warIds: string[];
+};
+
+/**
+ * Describes the message chinesehistory.DeleteWarsRequest.
+ * Use `create(DeleteWarsRequestSchema)` to create a new message.
+ */
+export const DeleteWarsRequestSchema: GenMessage<DeleteWarsRequest> = /*@__PURE__*/
+  messageDesc(file_war, 5);
 
 /**
  * 战争类型枚举
@@ -334,36 +313,46 @@ export const WarTypeSchema: GenEnum<WarType> = /*@__PURE__*/
  */
 export const WarService: GenService<{
   /**
+   * ============== 查询操作 ==============
+   * 获取所有战争
+   *
    * @generated from rpc chinesehistory.WarService.GetWars
    */
   getWars: {
     methodKind: "unary";
-    input: typeof GetWarsResponseSchema;
+    input: typeof GetWarsRequestSchema;
     output: typeof GetWarsResponseSchema;
   },
   /**
-   * @generated from rpc chinesehistory.WarService.GetWarById
+   * 查找战争（根据条件）
+   *
+   * @generated from rpc chinesehistory.WarService.FindWars
    */
-  getWarById: {
+  findWars: {
     methodKind: "unary";
-    input: typeof GetWarByIdRequestSchema;
-    output: typeof GetWarResponseSchema;
+    input: typeof FindWarsRequestSchema;
+    output: typeof GetWarsResponseSchema;
   },
   /**
-   * @generated from rpc chinesehistory.WarService.SearchWars
+   * ============== 批量CRUD操作 ==============
+   * 批量插入或更新战争
+   *
+   * @generated from rpc chinesehistory.WarService.UpsertWars
    */
-  searchWars: {
+  upsertWars: {
     methodKind: "unary";
-    input: typeof SearchWarsRequestSchema;
-    output: typeof SearchWarsResponseSchema;
+    input: typeof UpsertWarsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
   },
   /**
-   * @generated from rpc chinesehistory.WarService.GetWarsByPeriod
+   * 批量删除战争
+   *
+   * @generated from rpc chinesehistory.WarService.DeleteWars
    */
-  getWarsByPeriod: {
+  deleteWars: {
     methodKind: "unary";
-    input: typeof GetWarsByPeriodRequestSchema;
-    output: typeof GetWarsByPeriodResponseSchema;
+    input: typeof DeleteWarsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_war, 0);

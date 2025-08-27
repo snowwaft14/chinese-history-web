@@ -50,55 +50,84 @@ enum AdministrativeLevel {
   PASS = 10;                            // 关隘（如虎牢关、函谷关）
 }
 
-// 获取所有城市响应
+// 获取多个城市响应（统一用于GetCities和FindCities）
 message GetCitiesResponse {
   repeated City cities = 1;
 }
 
-// 获取单个城市响应
-message GetCityResponse {
-  City city = 1;
+// 获取多个城市历史响应（统一用于GetCityHistories和FindCityHistories）
+message GetCityHistoriesResponse {
+  repeated CityHistory city_histories = 1;
 }
 
-// 获取城市历史轨迹响应
-message GetCityHistoryResponse {
-  repeated CityHistory history = 1;
+// 获取城市请求（无查询条件）
+message GetCitiesRequest {
+  // 空请求，获取所有城市
 }
 
-// 获取城市请求
-message GetCityByIdRequest {
-  string city_id = 1;                   // 城市ID
+// 获取城市历史请求（无查询条件）
+message GetCityHistoriesRequest {
+  // 空请求，获取所有城市历史
 }
 
-// 获取城市历史轨迹请求
-message GetCityHistoryRequest {
-  string city_id = 1;                   // 城市ID
-  GregorianDate start_date = 2;         // 开始日期（可选）
-  GregorianDate end_date = 3;           // 结束日期（可选）
-  CityStatus status = 4;                // 城市状态过滤（可选）
+// 查找城市请求（包含所有可能的查询条件）
+message FindCitiesRequest {
+  string city_id = 1;                    // 城市ID（可选）
+  string name = 2;                       // 城市名称（支持模糊搜索）（可选）
+  string dynasty_name = 3;               // 朝代名称（可选）
+  AdministrativeLevel admin_level = 4;   // 行政级别（可选）
+  CityStatus status = 5;                 // 城市状态过滤（可选）
+  repeated string tags = 6;              // 标签过滤（可选）
 }
 
-// 根据名称搜索城市请求
-message SearchCitiesRequest {
-  string name = 1;                      // 城市名称（支持模糊搜索）
-  string dynasty_name = 2;              // 朝代名称（可选）
-  AdministrativeLevel admin_level = 3;  // 行政级别（可选）
-  CityStatus status = 4;                // 城市状态过滤（可选）
+// 查找城市历史请求（包含所有可能的查询条件）
+message FindCityHistoriesRequest {
+  string city_id = 1;                    // 城市ID（可选）
+  GregorianDate start_date = 2;          // 开始日期（可选）
+  GregorianDate end_date = 3;            // 结束日期（可选）
+  CityStatus status = 4;                 // 城市状态过滤（可选）
+  GregorianDate date = 5;                // 历史日期（可选）
+  repeated AdministrativeLevel admin_levels = 6; // 行政级别过滤（可选）
 }
 
-// 搜索城市响应
-message SearchCitiesResponse {
-  repeated City cities = 1;
+// =========================== 批量CRUD操作 ===========================
+
+// 批量城市操作请求
+message UpsertCitiesRequest {
+  repeated City cities = 1;              // 要插入或更新的城市列表
 }
 
-// 获取特定时期的城市列表请求
-message GetCitiesByPeriodRequest {
-  GregorianDate date = 1;               // 历史日期
-  repeated AdministrativeLevel admin_levels = 2; // 行政级别过滤（可选）
-  CityStatus status = 3;                // 城市状态过滤（可选）
+// 批量删除城市请求
+message DeleteCitiesRequest {
+  repeated string city_ids = 1;          // 要删除的城市ID列表
 }
 
-// 获取特定时期的城市列表响应
-message GetCitiesByPeriodResponse {
-  repeated CityHistory city_states = 1; // 该时期的城市状态列表
-} 
+// 批量城市历史操作请求
+message UpsertCityHistoriesRequest {
+  repeated CityHistory city_histories = 1; // 要插入或更新的城市历史列表
+}
+
+service CityService {
+  // ============== 查询操作 ==============
+  // 获取所有城市
+  rpc GetCities(GetCitiesRequest) returns (GetCitiesResponse);
+  
+  // 查找城市（根据条件）
+  rpc FindCities(FindCitiesRequest) returns (GetCitiesResponse);
+  
+  // 获取所有城市历史
+  rpc GetCityHistories(GetCityHistoriesRequest) returns (GetCityHistoriesResponse);
+  
+  // 查找城市历史（根据条件）
+  rpc FindCityHistories(FindCityHistoriesRequest) returns (GetCityHistoriesResponse);
+  
+  // ============== 批量CRUD操作 ==============
+  // 批量插入或更新城市
+  rpc UpsertCities(UpsertCitiesRequest) returns (BatchOperationResponse);
+  
+  // 批量删除城市
+  rpc DeleteCities(DeleteCitiesRequest) returns (BatchOperationResponse);
+  
+  // 批量插入或更新城市历史
+  rpc UpsertCityHistories(UpsertCityHistoriesRequest) returns (BatchOperationResponse);
+}

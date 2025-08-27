@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GregorianDate, HistoricalDate } from "./common_pb";
+import type { BatchOperationResponseSchema, GregorianDate, HistoricalDate } from "./common_pb";
 import { file_common } from "./common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file layer.proto.
  */
 export const file_layer: GenFile = /*@__PURE__*/
-  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3Rvcnki1wEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgGIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSDAoEdGFncxgHIAMoCSJuChBHZXRMYXllcnNSZXF1ZXN0Ei0KBXN0YXJ0GAEgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUSKwoDZW5kGAIgASgLMh4uY2hpbmVzZWhpc3RvcnkuSGlzdG9yaWNhbERhdGUiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0qXgoJTGF5ZXJUeXBlEgsKB0RFRkFVTFQQABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEEgcKA1dBUhAFEgwKCERJU0FTVEVSEAYyYAoMTGF5ZXJTZXJ2aWNlElAKCUdldExheWVycxIgLmNoaW5lc2VoaXN0b3J5LkdldExheWVyc1JlcXVlc3QaIS5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXNwb25zZUIwqgItTmV3aW5mb3NvZnQuQ2hpbmVzZUhpc3RvcnkuU2VydmVyLlNlcnZpY2VCYXNlYgZwcm90bzM", [file_common]);
+  fileDesc("CgtsYXllci5wcm90bxIOY2hpbmVzZWhpc3Rvcnki1wEKCUxheWVySXRlbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEicKBHR5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSFQoNZ2VvbWV0cnlfanNvbhgEIAEoCRIxCgpzdGFydF9kYXRlGAUgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIvCghlbmRfZGF0ZRgGIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSDAoEdGFncxgHIAMoCSISChBHZXRMYXllcnNSZXF1ZXN0IvsBChFGaW5kTGF5ZXJzUmVxdWVzdBItCgVzdGFydBgBIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEisKA2VuZBgCIAEoCzIeLmNoaW5lc2VoaXN0b3J5Lkhpc3RvcmljYWxEYXRlEi0KCmxheWVyX3R5cGUYAyABKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSLgoLbGF5ZXJfdHlwZXMYBCADKA4yGS5jaGluZXNlaGlzdG9yeS5MYXllclR5cGUSDwoHaXRlbV9pZBgFIAEoCRIMCgRuYW1lGAYgASgJEgwKBHRhZ3MYByADKAkiPQoRR2V0TGF5ZXJzUmVzcG9uc2USKAoFaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0iSQoXVXBzZXJ0TGF5ZXJJdGVtc1JlcXVlc3QSLgoLbGF5ZXJfaXRlbXMYASADKAsyGS5jaGluZXNlaGlzdG9yeS5MYXllckl0ZW0iMQoXRGVsZXRlTGF5ZXJJdGVtc1JlcXVlc3QSFgoObGF5ZXJfaXRlbV9pZHMYASADKAkqXgoJTGF5ZXJUeXBlEgsKB0RFRkFVTFQQABIICgRDSVRZEAESCQoFRVZFTlQQAhINCglURVJSSVRPUlkQAxIJCgVST1VURRAEEgcKA1dBUhAFEgwKCERJU0FTVEVSEAYy/gIKDExheWVyU2VydmljZRJQCglHZXRMYXllcnMSIC5jaGluZXNlaGlzdG9yeS5HZXRMYXllcnNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVzcG9uc2USUgoKRmluZExheWVycxIhLmNoaW5lc2VoaXN0b3J5LkZpbmRMYXllcnNSZXF1ZXN0GiEuY2hpbmVzZWhpc3RvcnkuR2V0TGF5ZXJzUmVzcG9uc2USYwoQVXBzZXJ0TGF5ZXJJdGVtcxInLmNoaW5lc2VoaXN0b3J5LlVwc2VydExheWVySXRlbXNSZXF1ZXN0GiYuY2hpbmVzZWhpc3RvcnkuQmF0Y2hPcGVyYXRpb25SZXNwb25zZRJjChBEZWxldGVMYXllckl0ZW1zEicuY2hpbmVzZWhpc3RvcnkuRGVsZXRlTGF5ZXJJdGVtc1JlcXVlc3QaJi5jaGluZXNlaGlzdG9yeS5CYXRjaE9wZXJhdGlvblJlc3BvbnNlQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw", [file_common]);
 
 /**
  * 图层元素结构
@@ -64,24 +64,13 @@ export const LayerItemSchema: GenMessage<LayerItem> = /*@__PURE__*/
   messageDesc(file_layer, 0);
 
 /**
- * 请求结构：按历史时间范围获取图层
+ * 获取图层请求（无查询条件）
+ *
+ * 空请求，获取所有图层
  *
  * @generated from message chinesehistory.GetLayersRequest
  */
 export type GetLayersRequest = Message<"chinesehistory.GetLayersRequest"> & {
-  /**
-   * 起始时间
-   *
-   * @generated from field: chinesehistory.HistoricalDate start = 1;
-   */
-  start?: HistoricalDate;
-
-  /**
-   * 结束时间
-   *
-   * @generated from field: chinesehistory.HistoricalDate end = 2;
-   */
-  end?: HistoricalDate;
 };
 
 /**
@@ -90,6 +79,69 @@ export type GetLayersRequest = Message<"chinesehistory.GetLayersRequest"> & {
  */
 export const GetLayersRequestSchema: GenMessage<GetLayersRequest> = /*@__PURE__*/
   messageDesc(file_layer, 1);
+
+/**
+ * 查找图层请求（包含所有可能的查询条件）
+ *
+ * @generated from message chinesehistory.FindLayersRequest
+ */
+export type FindLayersRequest = Message<"chinesehistory.FindLayersRequest"> & {
+  /**
+   * 起始时间（可选）
+   *
+   * @generated from field: chinesehistory.HistoricalDate start = 1;
+   */
+  start?: HistoricalDate;
+
+  /**
+   * 结束时间（可选）
+   *
+   * @generated from field: chinesehistory.HistoricalDate end = 2;
+   */
+  end?: HistoricalDate;
+
+  /**
+   * 图层类型（可选）
+   *
+   * @generated from field: chinesehistory.LayerType layer_type = 3;
+   */
+  layerType: LayerType;
+
+  /**
+   * 图层类型过滤（可选）
+   *
+   * @generated from field: repeated chinesehistory.LayerType layer_types = 4;
+   */
+  layerTypes: LayerType[];
+
+  /**
+   * 图层项目ID（可选）
+   *
+   * @generated from field: string item_id = 5;
+   */
+  itemId: string;
+
+  /**
+   * 图层项目名称（可选）
+   *
+   * @generated from field: string name = 6;
+   */
+  name: string;
+
+  /**
+   * 标签过滤（可选）
+   *
+   * @generated from field: repeated string tags = 7;
+   */
+  tags: string[];
+};
+
+/**
+ * Describes the message chinesehistory.FindLayersRequest.
+ * Use `create(FindLayersRequestSchema)` to create a new message.
+ */
+export const FindLayersRequestSchema: GenMessage<FindLayersRequest> = /*@__PURE__*/
+  messageDesc(file_layer, 2);
 
 /**
  * 返回结构
@@ -108,7 +160,49 @@ export type GetLayersResponse = Message<"chinesehistory.GetLayersResponse"> & {
  * Use `create(GetLayersResponseSchema)` to create a new message.
  */
 export const GetLayersResponseSchema: GenMessage<GetLayersResponse> = /*@__PURE__*/
-  messageDesc(file_layer, 2);
+  messageDesc(file_layer, 3);
+
+/**
+ * 批量图层项目操作请求
+ *
+ * @generated from message chinesehistory.UpsertLayerItemsRequest
+ */
+export type UpsertLayerItemsRequest = Message<"chinesehistory.UpsertLayerItemsRequest"> & {
+  /**
+   * 要插入或更新的图层项目列表
+   *
+   * @generated from field: repeated chinesehistory.LayerItem layer_items = 1;
+   */
+  layerItems: LayerItem[];
+};
+
+/**
+ * Describes the message chinesehistory.UpsertLayerItemsRequest.
+ * Use `create(UpsertLayerItemsRequestSchema)` to create a new message.
+ */
+export const UpsertLayerItemsRequestSchema: GenMessage<UpsertLayerItemsRequest> = /*@__PURE__*/
+  messageDesc(file_layer, 4);
+
+/**
+ * 批量删除图层项目请求
+ *
+ * @generated from message chinesehistory.DeleteLayerItemsRequest
+ */
+export type DeleteLayerItemsRequest = Message<"chinesehistory.DeleteLayerItemsRequest"> & {
+  /**
+   * 要删除的图层项目ID列表
+   *
+   * @generated from field: repeated string layer_item_ids = 1;
+   */
+  layerItemIds: string[];
+};
+
+/**
+ * Describes the message chinesehistory.DeleteLayerItemsRequest.
+ * Use `create(DeleteLayerItemsRequestSchema)` to create a new message.
+ */
+export const DeleteLayerItemsRequestSchema: GenMessage<DeleteLayerItemsRequest> = /*@__PURE__*/
+  messageDesc(file_layer, 5);
 
 /**
  * 枚举：图层类型
@@ -175,12 +269,46 @@ export const LayerTypeSchema: GenEnum<LayerType> = /*@__PURE__*/
  */
 export const LayerService: GenService<{
   /**
+   * ============== 查询操作 ==============
+   * 获取所有图层
+   *
    * @generated from rpc chinesehistory.LayerService.GetLayers
    */
   getLayers: {
     methodKind: "unary";
     input: typeof GetLayersRequestSchema;
     output: typeof GetLayersResponseSchema;
+  },
+  /**
+   * 查找图层（根据条件）
+   *
+   * @generated from rpc chinesehistory.LayerService.FindLayers
+   */
+  findLayers: {
+    methodKind: "unary";
+    input: typeof FindLayersRequestSchema;
+    output: typeof GetLayersResponseSchema;
+  },
+  /**
+   * ============== 批量CRUD操作 ==============
+   * 批量插入或更新图层项目
+   *
+   * @generated from rpc chinesehistory.LayerService.UpsertLayerItems
+   */
+  upsertLayerItems: {
+    methodKind: "unary";
+    input: typeof UpsertLayerItemsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量删除图层项目
+   *
+   * @generated from rpc chinesehistory.LayerService.DeleteLayerItems
+   */
+  deleteLayerItems: {
+    methodKind: "unary";
+    input: typeof DeleteLayerItemsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_layer, 0);

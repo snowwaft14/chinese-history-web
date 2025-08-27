@@ -32,47 +32,51 @@ enum WarType {
   CONQUEST_WAR = 8;                     // 征服战争
 }
 
-// 获取所有战争响应
+// 获取多个战争响应（统一用于GetWars和FindWars）
 message GetWarsResponse {
   repeated War wars = 1;
 }
 
-// 获取单个战争响应
-message GetWarResponse {
-  War war = 1;
+// 获取战争请求（无查询条件）
+message GetWarsRequest {
+  // 空请求，获取所有战争
 }
 
-// 获取战争请求
-message GetWarByIdRequest {
-  string war_id = 1;                    // 战争ID
+// 查找战争请求（包含所有可能的查询条件）
+message FindWarsRequest {
+  string war_id = 1;                     // 战争ID（可选）
+  string name = 2;                       // 战争名称（支持模糊搜索）（可选）
+  WarType war_type = 3;                  // 战争类型（可选）
+  GregorianDate start_date = 4;          // 开始日期（可选）
+  GregorianDate end_date = 5;            // 结束日期（可选）
+  repeated WarType war_types = 6;        // 战争类型过滤（可选）
+  repeated string tags = 7;              // 标签过滤（可选）
 }
 
-// 根据名称搜索战争请求
-message SearchWarsRequest {
-  string name = 1;                      // 战争名称（支持模糊搜索）
-  WarType war_type = 2;                 // 战争类型（可选）
+// =========================== 批量CRUD操作 ===========================
+
+// 批量战争操作请求
+message UpsertWarsRequest {
+  repeated War wars = 1;                 // 要插入或更新的战争列表
 }
 
-// 搜索战争响应
-message SearchWarsResponse {
-  repeated War wars = 1;
-}
-
-// 获取特定时期的战争列表请求
-message GetWarsByPeriodRequest {
-  GregorianDate start_date = 1;         // 开始日期
-  GregorianDate end_date = 2;           // 结束日期
-  repeated WarType war_types = 3;       // 战争类型过滤（可选）
-}
-
-// 获取特定时期的战争列表响应
-message GetWarsByPeriodResponse {
-  repeated War wars = 1;                // 该时期的战争列表
+// 批量删除战争请求
+message DeleteWarsRequest {
+  repeated string war_ids = 1;           // 要删除的战争ID列表
 }
 
 service WarService {
-  rpc GetWars(GetWarsResponse) returns (GetWarsResponse);
-  rpc GetWarById(GetWarByIdRequest) returns (GetWarResponse);
-  rpc SearchWars(SearchWarsRequest) returns (SearchWarsResponse);
-  rpc GetWarsByPeriod(GetWarsByPeriodRequest) returns (GetWarsByPeriodResponse);
+  // ============== 查询操作 ==============
+  // 获取所有战争
+  rpc GetWars(GetWarsRequest) returns (GetWarsResponse);
+  
+  // 查找战争（根据条件）
+  rpc FindWars(FindWarsRequest) returns (GetWarsResponse);
+  
+  // ============== 批量CRUD操作 ==============
+  // 批量插入或更新战争
+  rpc UpsertWars(UpsertWarsRequest) returns (BatchOperationResponse);
+  
+  // 批量删除战争
+  rpc DeleteWars(DeleteWarsRequest) returns (BatchOperationResponse);
 }

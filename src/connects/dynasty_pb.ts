@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { GregorianDate } from "./common_pb";
+import type { BatchOperationResponseSchema, GregorianDate } from "./common_pb";
 import { file_common } from "./common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file dynasty.proto.
  */
 export const file_dynasty: GenFile = /*@__PURE__*/
-  fileDesc("Cg1keW5hc3R5LnByb3RvEg5jaGluZXNlaGlzdG9yeSLLAQoHRHluYXN0eRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhIKCnN0YXJ0X3llYXIYAyABKAUSEAoIZW5kX3llYXIYBCABKAUSJwoHcGVyaW9kcxgFIAMoCzIWLmNoaW5lc2VoaXN0b3J5LlBlcmlvZBIpCghlbXBlcm9ycxgGIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVtcGVyb3ISDAoEdGFncxgHIAMoCRIVCg1zZWFyY2hfdmFsdWVzGAggAygJIpwBCgZQZXJpb2QSDAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCRIsCgVzdGFydBgDIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSKgoDZW5kGAQgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIVCg1zZWFyY2hfdmFsdWVzGAUgAygJIrwDCgdFbXBlcm9yEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLdGVtcGxlX25hbWUYAyABKAkSFwoPcG9zdGh1bW91c19uYW1lGAQgASgJEhUKDWNvdXJ0ZXN5X25hbWUYBSABKAkSFAoMZHluYXN0eV9uYW1lGAYgASgJEioKCWVyYV9uYW1lcxgHIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVyYU5hbWUSMgoLcmVpZ25fc3RhcnQYCCABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEjAKCXJlaWduX2VuZBgJIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLAoFYmlydGgYCiABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEiwKBWRlYXRoGAsgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRISCgpiaXJ0aHBsYWNlGAwgASgJEhQKDGJ1cmlhbF9wbGFjZRgNIAEoCRINCgVub3RlcxgOIAEoCRIVCg1zZWFyY2hfdmFsdWVzGA8gAygJIqABCgdFcmFOYW1lEgwKBG5hbWUYASABKAkSMQoKc3RhcnRfZGF0ZRgCIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYAyABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEgwKBG5vdGUYBCABKAkSFQoNc2VhcmNoX3ZhbHVlcxgFIAMoCSJCChRHZXREeW5hc3RpZXNSZXNwb25zZRIqCglkeW5hc3RpZXMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5EeW5hc3R5Ij4KEkdldER5bmFzdHlSZXNwb25zZRIoCgdkeW5hc3R5GAEgASgLMhcuY2hpbmVzZWhpc3RvcnkuRHluYXN0eSJAChNHZXRFbXBlcm9yc1Jlc3BvbnNlEikKCGVtcGVyb3JzGAEgAygLMhcuY2hpbmVzZWhpc3RvcnkuRW1wZXJvciI+ChJHZXRFbXBlcm9yUmVzcG9uc2USKAoHZW1wZXJvchgBIAEoCzIXLmNoaW5lc2VoaXN0b3J5LkVtcGVyb3IiPQoPR2V0RXJhc1Jlc3BvbnNlEioKCWVyYV9uYW1lcxgBIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVyYU5hbWUiGAoWR2V0QWxsRHluYXN0aWVzUmVxdWVzdCIrChVHZXRFbXBlcm9yQnlJZFJlcXVlc3QSEgoKZW1wZXJvcl9pZBgBIAEoCSIrChVHZXREeW5hc3R5QnlJZFJlcXVlc3QSEgoKZHluYXN0eV9pZBgBIAEoCSIxChtHZXRFbXBlcm9yc0J5RHluYXN0eVJlcXVlc3QSEgoKZHluYXN0eV9pZBgBIAEoCSItChdHZXRFcmFzQnlEeW5hc3R5UmVxdWVzdBISCgpkeW5hc3R5X2lkGAEgASgJIi0KF0dldEVyYXNCeUVtcGVyb3JSZXF1ZXN0EhIKCmVtcGVyb3JfaWQYASABKAkiOwoTR2V0RXJhQnlOYW1lUmVxdWVzdBISCgpkeW5hc3R5X2lkGAEgASgJEhAKCGVyYV9uYW1lGAIgASgJIjsKDkdldEVyYVJlc3BvbnNlEikKCGVyYV9uYW1lGAEgASgLMhcuY2hpbmVzZWhpc3RvcnkuRXJhTmFtZTKiBQoORHluYXN0eVNlcnZpY2USXwoPR2V0QWxsRHluYXN0aWVzEiYuY2hpbmVzZWhpc3RvcnkuR2V0QWxsRHluYXN0aWVzUmVxdWVzdBokLmNoaW5lc2VoaXN0b3J5LkdldER5bmFzdGllc1Jlc3BvbnNlElsKDkdldER5bmFzdHlCeUlkEiUuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0eUJ5SWRSZXF1ZXN0GiIuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0eVJlc3BvbnNlEmgKFEdldEVtcGVyb3JzQnlEeW5hc3R5EisuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvcnNCeUR5bmFzdHlSZXF1ZXN0GiMuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvcnNSZXNwb25zZRJXCgpHZXRFbXBlcm9yEiUuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvckJ5SWRSZXF1ZXN0GiIuY2hpbmVzZWhpc3RvcnkuR2V0RW1wZXJvclJlc3BvbnNlElwKEEdldEVyYXNCeUVtcGVyb3ISJy5jaGluZXNlaGlzdG9yeS5HZXRFcmFzQnlFbXBlcm9yUmVxdWVzdBofLmNoaW5lc2VoaXN0b3J5LkdldEVyYXNSZXNwb25zZRJcChBHZXRFcmFzQnlEeW5hc3R5EicuY2hpbmVzZWhpc3RvcnkuR2V0RXJhc0J5RHluYXN0eVJlcXVlc3QaHy5jaGluZXNlaGlzdG9yeS5HZXRFcmFzUmVzcG9uc2USUwoMR2V0RXJhQnlOYW1lEiMuY2hpbmVzZWhpc3RvcnkuR2V0RXJhQnlOYW1lUmVxdWVzdBoeLmNoaW5lc2VoaXN0b3J5LkdldEVyYVJlc3BvbnNlQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw", [file_common]);
+  fileDesc("Cg1keW5hc3R5LnByb3RvEg5jaGluZXNlaGlzdG9yeSLLAQoHRHluYXN0eRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhIKCnN0YXJ0X3llYXIYAyABKAUSEAoIZW5kX3llYXIYBCABKAUSJwoHcGVyaW9kcxgFIAMoCzIWLmNoaW5lc2VoaXN0b3J5LlBlcmlvZBIpCghlbXBlcm9ycxgGIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVtcGVyb3ISDAoEdGFncxgHIAMoCRIVCg1zZWFyY2hfdmFsdWVzGAggAygJIpwBCgZQZXJpb2QSDAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCRIsCgVzdGFydBgDIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSKgoDZW5kGAQgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRIVCg1zZWFyY2hfdmFsdWVzGAUgAygJIrwDCgdFbXBlcm9yEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLdGVtcGxlX25hbWUYAyABKAkSFwoPcG9zdGh1bW91c19uYW1lGAQgASgJEhUKDWNvdXJ0ZXN5X25hbWUYBSABKAkSFAoMZHluYXN0eV9uYW1lGAYgASgJEioKCWVyYV9uYW1lcxgHIAMoCzIXLmNoaW5lc2VoaXN0b3J5LkVyYU5hbWUSMgoLcmVpZ25fc3RhcnQYCCABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEjAKCXJlaWduX2VuZBgJIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLAoFYmlydGgYCiABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEiwKBWRlYXRoGAsgASgLMh0uY2hpbmVzZWhpc3RvcnkuR3JlZ29yaWFuRGF0ZRISCgpiaXJ0aHBsYWNlGAwgASgJEhQKDGJ1cmlhbF9wbGFjZRgNIAEoCRINCgVub3RlcxgOIAEoCRIVCg1zZWFyY2hfdmFsdWVzGA8gAygJIqABCgdFcmFOYW1lEgwKBG5hbWUYASABKAkSMQoKc3RhcnRfZGF0ZRgCIAEoCzIdLmNoaW5lc2VoaXN0b3J5LkdyZWdvcmlhbkRhdGUSLwoIZW5kX2RhdGUYAyABKAsyHS5jaGluZXNlaGlzdG9yeS5HcmVnb3JpYW5EYXRlEgwKBG5vdGUYBCABKAkSFQoNc2VhcmNoX3ZhbHVlcxgFIAMoCSJCChRHZXREeW5hc3RpZXNSZXNwb25zZRIqCglkeW5hc3RpZXMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5EeW5hc3R5IkAKE0dldEVtcGVyb3JzUmVzcG9uc2USKQoIZW1wZXJvcnMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5FbXBlcm9yIj0KD0dldEVyYXNSZXNwb25zZRIqCgllcmFfbmFtZXMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5FcmFOYW1lIhUKE0dldER5bmFzdGllc1JlcXVlc3QibAoURmluZER5bmFzdGllc1JlcXVlc3QSEgoKZHluYXN0eV9pZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKCnN0YXJ0X3llYXIYAyABKAUSEAoIZW5kX3llYXIYBCABKAUSDAoEdGFncxgFIAMoCSJiChNGaW5kRW1wZXJvcnNSZXF1ZXN0EhIKCmVtcGVyb3JfaWQYASABKAkSFAoMZHluYXN0eV9uYW1lGAIgASgJEgwKBG5hbWUYAyABKAkSEwoLdGVtcGxlX25hbWUYBCABKAkiSwoPRmluZEVyYXNSZXF1ZXN0EhIKCmR5bmFzdHlfaWQYASABKAkSEgoKZW1wZXJvcl9pZBgCIAEoCRIQCghlcmFfbmFtZRgDIAEoCSIUChJHZXRFbXBlcm9yc1JlcXVlc3QiEAoOR2V0RXJhc1JlcXVlc3QiRAoWVXBzZXJ0RHluYXN0aWVzUmVxdWVzdBIqCglkeW5hc3RpZXMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5EeW5hc3R5Ii8KFkRlbGV0ZUR5bmFzdGllc1JlcXVlc3QSFQoNZHluYXN0eV9uYW1lcxgBIAMoCSJCChVVcHNlcnRFbXBlcm9yc1JlcXVlc3QSKQoIZW1wZXJvcnMYASADKAsyFy5jaGluZXNlaGlzdG9yeS5FbXBlcm9yIiwKFURlbGV0ZUVtcGVyb3JzUmVxdWVzdBITCgtlbXBlcm9yX2lkcxgBIAMoCSJVChRVcHNlcnRQZXJpb2RzUmVxdWVzdBInCgdwZXJpb2RzGAEgAygLMhYuY2hpbmVzZWhpc3RvcnkuUGVyaW9kEhQKDGR5bmFzdHlfbmFtZRgCIAEoCSJXChVVcHNlcnRFcmFOYW1lc1JlcXVlc3QSKgoJZXJhX25hbWVzGAEgAygLMhcuY2hpbmVzZWhpc3RvcnkuRXJhTmFtZRISCgplbXBlcm9yX2lkGAIgASgJMtwICg5EeW5hc3R5U2VydmljZRJZCgxHZXREeW5hc3RpZXMSIy5jaGluZXNlaGlzdG9yeS5HZXREeW5hc3RpZXNSZXF1ZXN0GiQuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0aWVzUmVzcG9uc2USWwoNRmluZER5bmFzdGllcxIkLmNoaW5lc2VoaXN0b3J5LkZpbmREeW5hc3RpZXNSZXF1ZXN0GiQuY2hpbmVzZWhpc3RvcnkuR2V0RHluYXN0aWVzUmVzcG9uc2USVgoLR2V0RW1wZXJvcnMSIi5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yc1JlcXVlc3QaIy5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yc1Jlc3BvbnNlElgKDEZpbmRFbXBlcm9ycxIjLmNoaW5lc2VoaXN0b3J5LkZpbmRFbXBlcm9yc1JlcXVlc3QaIy5jaGluZXNlaGlzdG9yeS5HZXRFbXBlcm9yc1Jlc3BvbnNlEkoKB0dldEVyYXMSHi5jaGluZXNlaGlzdG9yeS5HZXRFcmFzUmVxdWVzdBofLmNoaW5lc2VoaXN0b3J5LkdldEVyYXNSZXNwb25zZRJMCghGaW5kRXJhcxIfLmNoaW5lc2VoaXN0b3J5LkZpbmRFcmFzUmVxdWVzdBofLmNoaW5lc2VoaXN0b3J5LkdldEVyYXNSZXNwb25zZRJhCg9VcHNlcnREeW5hc3RpZXMSJi5jaGluZXNlaGlzdG9yeS5VcHNlcnREeW5hc3RpZXNSZXF1ZXN0GiYuY2hpbmVzZWhpc3RvcnkuQmF0Y2hPcGVyYXRpb25SZXNwb25zZRJhCg9EZWxldGVEeW5hc3RpZXMSJi5jaGluZXNlaGlzdG9yeS5EZWxldGVEeW5hc3RpZXNSZXF1ZXN0GiYuY2hpbmVzZWhpc3RvcnkuQmF0Y2hPcGVyYXRpb25SZXNwb25zZRJfCg5VcHNlcnRFbXBlcm9ycxIlLmNoaW5lc2VoaXN0b3J5LlVwc2VydEVtcGVyb3JzUmVxdWVzdBomLmNoaW5lc2VoaXN0b3J5LkJhdGNoT3BlcmF0aW9uUmVzcG9uc2USXwoORGVsZXRlRW1wZXJvcnMSJS5jaGluZXNlaGlzdG9yeS5EZWxldGVFbXBlcm9yc1JlcXVlc3QaJi5jaGluZXNlaGlzdG9yeS5CYXRjaE9wZXJhdGlvblJlc3BvbnNlEl0KDVVwc2VydFBlcmlvZHMSJC5jaGluZXNlaGlzdG9yeS5VcHNlcnRQZXJpb2RzUmVxdWVzdBomLmNoaW5lc2VoaXN0b3J5LkJhdGNoT3BlcmF0aW9uUmVzcG9uc2USXwoOVXBzZXJ0RXJhTmFtZXMSJS5jaGluZXNlaGlzdG9yeS5VcHNlcnRFcmFOYW1lc1JlcXVlc3QaJi5jaGluZXNlaGlzdG9yeS5CYXRjaE9wZXJhdGlvblJlc3BvbnNlQjCqAi1OZXdpbmZvc29mdC5DaGluZXNlSGlzdG9yeS5TZXJ2ZXIuU2VydmljZUJhc2ViBnByb3RvMw", [file_common]);
 
 /**
  * 王朝，例如唐、宋、元、明、清
@@ -305,25 +305,6 @@ export const GetDynastiesResponseSchema: GenMessage<GetDynastiesResponse> = /*@_
   messageDesc(file_dynasty, 4);
 
 /**
- * 获取单个朝代响应
- *
- * @generated from message chinesehistory.GetDynastyResponse
- */
-export type GetDynastyResponse = Message<"chinesehistory.GetDynastyResponse"> & {
-  /**
-   * @generated from field: chinesehistory.Dynasty dynasty = 1;
-   */
-  dynasty?: Dynasty;
-};
-
-/**
- * Describes the message chinesehistory.GetDynastyResponse.
- * Use `create(GetDynastyResponseSchema)` to create a new message.
- */
-export const GetDynastyResponseSchema: GenMessage<GetDynastyResponse> = /*@__PURE__*/
-  messageDesc(file_dynasty, 5);
-
-/**
  * 获取多个皇帝响应
  *
  * @generated from message chinesehistory.GetEmperorsResponse
@@ -340,29 +321,10 @@ export type GetEmperorsResponse = Message<"chinesehistory.GetEmperorsResponse"> 
  * Use `create(GetEmperorsResponseSchema)` to create a new message.
  */
 export const GetEmperorsResponseSchema: GenMessage<GetEmperorsResponse> = /*@__PURE__*/
-  messageDesc(file_dynasty, 6);
+  messageDesc(file_dynasty, 5);
 
 /**
- * 获取单个皇帝响应
- *
- * @generated from message chinesehistory.GetEmperorResponse
- */
-export type GetEmperorResponse = Message<"chinesehistory.GetEmperorResponse"> & {
-  /**
-   * @generated from field: chinesehistory.Emperor emperor = 1;
-   */
-  emperor?: Emperor;
-};
-
-/**
- * Describes the message chinesehistory.GetEmperorResponse.
- * Use `create(GetEmperorResponseSchema)` to create a new message.
- */
-export const GetEmperorResponseSchema: GenMessage<GetEmperorResponse> = /*@__PURE__*/
-  messageDesc(file_dynasty, 7);
-
-/**
- * 获取多个朝代的年号响应
+ * 获取多个年号响应
  *
  * @generated from message chinesehistory.GetErasResponse
  */
@@ -380,174 +342,324 @@ export type GetErasResponse = Message<"chinesehistory.GetErasResponse"> & {
  * Use `create(GetErasResponseSchema)` to create a new message.
  */
 export const GetErasResponseSchema: GenMessage<GetErasResponse> = /*@__PURE__*/
+  messageDesc(file_dynasty, 6);
+
+/**
+ * 获取朝代请求（无查询条件）
+ *
+ * 空请求，获取所有朝代
+ *
+ * @generated from message chinesehistory.GetDynastiesRequest
+ */
+export type GetDynastiesRequest = Message<"chinesehistory.GetDynastiesRequest"> & {
+};
+
+/**
+ * Describes the message chinesehistory.GetDynastiesRequest.
+ * Use `create(GetDynastiesRequestSchema)` to create a new message.
+ */
+export const GetDynastiesRequestSchema: GenMessage<GetDynastiesRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 7);
+
+/**
+ * 查找朝代请求（包含所有可能的查询条件）
+ *
+ * @generated from message chinesehistory.FindDynastiesRequest
+ */
+export type FindDynastiesRequest = Message<"chinesehistory.FindDynastiesRequest"> & {
+  /**
+   * 朝代ID（可选）
+   *
+   * @generated from field: string dynasty_id = 1;
+   */
+  dynastyId: string;
+
+  /**
+   * 朝代名称（可选）
+   *
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * 开始年份（可选）
+   *
+   * @generated from field: int32 start_year = 3;
+   */
+  startYear: number;
+
+  /**
+   * 结束年份（可选）
+   *
+   * @generated from field: int32 end_year = 4;
+   */
+  endYear: number;
+
+  /**
+   * 标签过滤（可选）
+   *
+   * @generated from field: repeated string tags = 5;
+   */
+  tags: string[];
+};
+
+/**
+ * Describes the message chinesehistory.FindDynastiesRequest.
+ * Use `create(FindDynastiesRequestSchema)` to create a new message.
+ */
+export const FindDynastiesRequestSchema: GenMessage<FindDynastiesRequest> = /*@__PURE__*/
   messageDesc(file_dynasty, 8);
 
 /**
- * @generated from message chinesehistory.GetAllDynastiesRequest
+ * 查找皇帝请求（包含所有可能的查询条件）
+ *
+ * @generated from message chinesehistory.FindEmperorsRequest
  */
-export type GetAllDynastiesRequest = Message<"chinesehistory.GetAllDynastiesRequest"> & {
+export type FindEmperorsRequest = Message<"chinesehistory.FindEmperorsRequest"> & {
+  /**
+   * 皇帝ID（可选）
+   *
+   * @generated from field: string emperor_id = 1;
+   */
+  emperorId: string;
+
+  /**
+   * 朝代名称（可选）
+   *
+   * @generated from field: string dynasty_name = 2;
+   */
+  dynastyName: string;
+
+  /**
+   * 皇帝姓名（可选）
+   *
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * 庙号（可选）
+   *
+   * @generated from field: string temple_name = 4;
+   */
+  templeName: string;
 };
 
 /**
- * Describes the message chinesehistory.GetAllDynastiesRequest.
- * Use `create(GetAllDynastiesRequestSchema)` to create a new message.
+ * Describes the message chinesehistory.FindEmperorsRequest.
+ * Use `create(FindEmperorsRequestSchema)` to create a new message.
  */
-export const GetAllDynastiesRequestSchema: GenMessage<GetAllDynastiesRequest> = /*@__PURE__*/
+export const FindEmperorsRequestSchema: GenMessage<FindEmperorsRequest> = /*@__PURE__*/
   messageDesc(file_dynasty, 9);
 
 /**
- * 获取皇帝详情请求
+ * 查找年号请求（包含所有可能的查询条件）
  *
- * @generated from message chinesehistory.GetEmperorByIdRequest
+ * @generated from message chinesehistory.FindErasRequest
  */
-export type GetEmperorByIdRequest = Message<"chinesehistory.GetEmperorByIdRequest"> & {
+export type FindErasRequest = Message<"chinesehistory.FindErasRequest"> & {
   /**
-   * 皇帝ID
+   * 朝代ID（可选）
    *
-   * @generated from field: string emperor_id = 1;
+   * @generated from field: string dynasty_id = 1;
+   */
+  dynastyId: string;
+
+  /**
+   * 皇帝ID（可选）
+   *
+   * @generated from field: string emperor_id = 2;
    */
   emperorId: string;
-};
-
-/**
- * Describes the message chinesehistory.GetEmperorByIdRequest.
- * Use `create(GetEmperorByIdRequestSchema)` to create a new message.
- */
-export const GetEmperorByIdRequestSchema: GenMessage<GetEmperorByIdRequest> = /*@__PURE__*/
-  messageDesc(file_dynasty, 10);
-
-/**
- * 获取单个朝代详情请求
- *
- * @generated from message chinesehistory.GetDynastyByIdRequest
- */
-export type GetDynastyByIdRequest = Message<"chinesehistory.GetDynastyByIdRequest"> & {
-  /**
-   * 朝代ID
-   *
-   * @generated from field: string dynasty_id = 1;
-   */
-  dynastyId: string;
-};
-
-/**
- * Describes the message chinesehistory.GetDynastyByIdRequest.
- * Use `create(GetDynastyByIdRequestSchema)` to create a new message.
- */
-export const GetDynastyByIdRequestSchema: GenMessage<GetDynastyByIdRequest> = /*@__PURE__*/
-  messageDesc(file_dynasty, 11);
-
-/**
- * 获取朝代皇帝请求
- *
- * @generated from message chinesehistory.GetEmperorsByDynastyRequest
- */
-export type GetEmperorsByDynastyRequest = Message<"chinesehistory.GetEmperorsByDynastyRequest"> & {
-  /**
-   * 朝代ID
-   *
-   * @generated from field: string dynasty_id = 1;
-   */
-  dynastyId: string;
-};
-
-/**
- * Describes the message chinesehistory.GetEmperorsByDynastyRequest.
- * Use `create(GetEmperorsByDynastyRequestSchema)` to create a new message.
- */
-export const GetEmperorsByDynastyRequestSchema: GenMessage<GetEmperorsByDynastyRequest> = /*@__PURE__*/
-  messageDesc(file_dynasty, 12);
-
-/**
- * 获取朝代年号请求
- *
- * @generated from message chinesehistory.GetErasByDynastyRequest
- */
-export type GetErasByDynastyRequest = Message<"chinesehistory.GetErasByDynastyRequest"> & {
-  /**
-   * 朝代ID
-   *
-   * @generated from field: string dynasty_id = 1;
-   */
-  dynastyId: string;
-};
-
-/**
- * Describes the message chinesehistory.GetErasByDynastyRequest.
- * Use `create(GetErasByDynastyRequestSchema)` to create a new message.
- */
-export const GetErasByDynastyRequestSchema: GenMessage<GetErasByDynastyRequest> = /*@__PURE__*/
-  messageDesc(file_dynasty, 13);
-
-/**
- * 获取朝代皇帝请求
- *
- * @generated from message chinesehistory.GetErasByEmperorRequest
- */
-export type GetErasByEmperorRequest = Message<"chinesehistory.GetErasByEmperorRequest"> & {
-  /**
-   * 皇帝ID
-   *
-   * @generated from field: string emperor_id = 1;
-   */
-  emperorId: string;
-};
-
-/**
- * Describes the message chinesehistory.GetErasByEmperorRequest.
- * Use `create(GetErasByEmperorRequestSchema)` to create a new message.
- */
-export const GetErasByEmperorRequestSchema: GenMessage<GetErasByEmperorRequest> = /*@__PURE__*/
-  messageDesc(file_dynasty, 14);
-
-/**
- * 获取特定年号请求
- *
- * @generated from message chinesehistory.GetEraByNameRequest
- */
-export type GetEraByNameRequest = Message<"chinesehistory.GetEraByNameRequest"> & {
-  /**
-   * 朝代ID
-   *
-   * @generated from field: string dynasty_id = 1;
-   */
-  dynastyId: string;
 
   /**
-   * 年号名称
+   * 年号名称（可选）
    *
-   * @generated from field: string era_name = 2;
+   * @generated from field: string era_name = 3;
    */
   eraName: string;
 };
 
 /**
- * Describes the message chinesehistory.GetEraByNameRequest.
- * Use `create(GetEraByNameRequestSchema)` to create a new message.
+ * Describes the message chinesehistory.FindErasRequest.
+ * Use `create(FindErasRequestSchema)` to create a new message.
  */
-export const GetEraByNameRequestSchema: GenMessage<GetEraByNameRequest> = /*@__PURE__*/
-  messageDesc(file_dynasty, 15);
+export const FindErasRequestSchema: GenMessage<FindErasRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 10);
 
 /**
- * 获取单个年号响应
+ * 获取皇帝请求（无查询条件）
  *
- * @generated from message chinesehistory.GetEraResponse
+ * 空请求，获取所有皇帝
+ *
+ * @generated from message chinesehistory.GetEmperorsRequest
  */
-export type GetEraResponse = Message<"chinesehistory.GetEraResponse"> & {
-  /**
-   * 年号信息
-   *
-   * @generated from field: chinesehistory.EraName era_name = 1;
-   */
-  eraName?: EraName;
+export type GetEmperorsRequest = Message<"chinesehistory.GetEmperorsRequest"> & {
 };
 
 /**
- * Describes the message chinesehistory.GetEraResponse.
- * Use `create(GetEraResponseSchema)` to create a new message.
+ * Describes the message chinesehistory.GetEmperorsRequest.
+ * Use `create(GetEmperorsRequestSchema)` to create a new message.
  */
-export const GetEraResponseSchema: GenMessage<GetEraResponse> = /*@__PURE__*/
+export const GetEmperorsRequestSchema: GenMessage<GetEmperorsRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 11);
+
+/**
+ * 获取年号请求（无查询条件）
+ *
+ * 空请求，获取所有年号
+ *
+ * @generated from message chinesehistory.GetErasRequest
+ */
+export type GetErasRequest = Message<"chinesehistory.GetErasRequest"> & {
+};
+
+/**
+ * Describes the message chinesehistory.GetErasRequest.
+ * Use `create(GetErasRequestSchema)` to create a new message.
+ */
+export const GetErasRequestSchema: GenMessage<GetErasRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 12);
+
+/**
+ * 批量朝代操作请求
+ *
+ * @generated from message chinesehistory.UpsertDynastiesRequest
+ */
+export type UpsertDynastiesRequest = Message<"chinesehistory.UpsertDynastiesRequest"> & {
+  /**
+   * 要插入或更新的朝代列表
+   *
+   * @generated from field: repeated chinesehistory.Dynasty dynasties = 1;
+   */
+  dynasties: Dynasty[];
+};
+
+/**
+ * Describes the message chinesehistory.UpsertDynastiesRequest.
+ * Use `create(UpsertDynastiesRequestSchema)` to create a new message.
+ */
+export const UpsertDynastiesRequestSchema: GenMessage<UpsertDynastiesRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 13);
+
+/**
+ * 批量删除朝代请求
+ *
+ * @generated from message chinesehistory.DeleteDynastiesRequest
+ */
+export type DeleteDynastiesRequest = Message<"chinesehistory.DeleteDynastiesRequest"> & {
+  /**
+   * 要删除的朝代名称列表
+   *
+   * @generated from field: repeated string dynasty_names = 1;
+   */
+  dynastyNames: string[];
+};
+
+/**
+ * Describes the message chinesehistory.DeleteDynastiesRequest.
+ * Use `create(DeleteDynastiesRequestSchema)` to create a new message.
+ */
+export const DeleteDynastiesRequestSchema: GenMessage<DeleteDynastiesRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 14);
+
+/**
+ * 批量皇帝操作请求
+ *
+ * @generated from message chinesehistory.UpsertEmperorsRequest
+ */
+export type UpsertEmperorsRequest = Message<"chinesehistory.UpsertEmperorsRequest"> & {
+  /**
+   * 要插入或更新的皇帝列表
+   *
+   * @generated from field: repeated chinesehistory.Emperor emperors = 1;
+   */
+  emperors: Emperor[];
+};
+
+/**
+ * Describes the message chinesehistory.UpsertEmperorsRequest.
+ * Use `create(UpsertEmperorsRequestSchema)` to create a new message.
+ */
+export const UpsertEmperorsRequestSchema: GenMessage<UpsertEmperorsRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 15);
+
+/**
+ * 批量删除皇帝请求
+ *
+ * @generated from message chinesehistory.DeleteEmperorsRequest
+ */
+export type DeleteEmperorsRequest = Message<"chinesehistory.DeleteEmperorsRequest"> & {
+  /**
+   * 要删除的皇帝ID列表
+   *
+   * @generated from field: repeated string emperor_ids = 1;
+   */
+  emperorIds: string[];
+};
+
+/**
+ * Describes the message chinesehistory.DeleteEmperorsRequest.
+ * Use `create(DeleteEmperorsRequestSchema)` to create a new message.
+ */
+export const DeleteEmperorsRequestSchema: GenMessage<DeleteEmperorsRequest> = /*@__PURE__*/
   messageDesc(file_dynasty, 16);
+
+/**
+ * 批量时期操作请求
+ *
+ * @generated from message chinesehistory.UpsertPeriodsRequest
+ */
+export type UpsertPeriodsRequest = Message<"chinesehistory.UpsertPeriodsRequest"> & {
+  /**
+   * 要插入或更新的时期列表
+   *
+   * @generated from field: repeated chinesehistory.Period periods = 1;
+   */
+  periods: Period[];
+
+  /**
+   * 所属朝代名称
+   *
+   * @generated from field: string dynasty_name = 2;
+   */
+  dynastyName: string;
+};
+
+/**
+ * Describes the message chinesehistory.UpsertPeriodsRequest.
+ * Use `create(UpsertPeriodsRequestSchema)` to create a new message.
+ */
+export const UpsertPeriodsRequestSchema: GenMessage<UpsertPeriodsRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 17);
+
+/**
+ * 批量年号操作请求
+ *
+ * @generated from message chinesehistory.UpsertEraNamesRequest
+ */
+export type UpsertEraNamesRequest = Message<"chinesehistory.UpsertEraNamesRequest"> & {
+  /**
+   * 要插入或更新的年号列表
+   *
+   * @generated from field: repeated chinesehistory.EraName era_names = 1;
+   */
+  eraNames: EraName[];
+
+  /**
+   * 所属皇帝ID
+   *
+   * @generated from field: string emperor_id = 2;
+   */
+  emperorId: string;
+};
+
+/**
+ * Describes the message chinesehistory.UpsertEraNamesRequest.
+ * Use `create(UpsertEraNamesRequestSchema)` to create a new message.
+ */
+export const UpsertEraNamesRequestSchema: GenMessage<UpsertEraNamesRequest> = /*@__PURE__*/
+  messageDesc(file_dynasty, 18);
 
 /**
  * 朝代服务
@@ -556,74 +668,126 @@ export const GetEraResponseSchema: GenMessage<GetEraResponse> = /*@__PURE__*/
  */
 export const DynastyService: GenService<{
   /**
+   * ============== 查询操作 ==============
    * 获取所有朝代
    *
-   * @generated from rpc chinesehistory.DynastyService.GetAllDynasties
+   * @generated from rpc chinesehistory.DynastyService.GetDynasties
    */
-  getAllDynasties: {
+  getDynasties: {
     methodKind: "unary";
-    input: typeof GetAllDynastiesRequestSchema;
+    input: typeof GetDynastiesRequestSchema;
     output: typeof GetDynastiesResponseSchema;
   },
   /**
-   * 获取单个朝代详情
+   * 查找朝代（根据条件）
    *
-   * @generated from rpc chinesehistory.DynastyService.GetDynastyById
+   * @generated from rpc chinesehistory.DynastyService.FindDynasties
    */
-  getDynastyById: {
+  findDynasties: {
     methodKind: "unary";
-    input: typeof GetDynastyByIdRequestSchema;
-    output: typeof GetDynastyResponseSchema;
+    input: typeof FindDynastiesRequestSchema;
+    output: typeof GetDynastiesResponseSchema;
   },
   /**
-   * 获取某个朝代下的皇帝
+   * 获取所有皇帝
    *
-   * @generated from rpc chinesehistory.DynastyService.GetEmperorsByDynasty
+   * @generated from rpc chinesehistory.DynastyService.GetEmperors
    */
-  getEmperorsByDynasty: {
+  getEmperors: {
     methodKind: "unary";
-    input: typeof GetEmperorsByDynastyRequestSchema;
+    input: typeof GetEmperorsRequestSchema;
     output: typeof GetEmperorsResponseSchema;
   },
   /**
-   * 获取皇帝详情
+   * 查找皇帝（根据条件）
    *
-   * @generated from rpc chinesehistory.DynastyService.GetEmperor
+   * @generated from rpc chinesehistory.DynastyService.FindEmperors
    */
-  getEmperor: {
+  findEmperors: {
     methodKind: "unary";
-    input: typeof GetEmperorByIdRequestSchema;
-    output: typeof GetEmperorResponseSchema;
+    input: typeof FindEmperorsRequestSchema;
+    output: typeof GetEmperorsResponseSchema;
   },
   /**
-   * 获取某个皇帝下的年号
+   * 获取所有年号
    *
-   * @generated from rpc chinesehistory.DynastyService.GetErasByEmperor
+   * @generated from rpc chinesehistory.DynastyService.GetEras
    */
-  getErasByEmperor: {
+  getEras: {
     methodKind: "unary";
-    input: typeof GetErasByEmperorRequestSchema;
+    input: typeof GetErasRequestSchema;
     output: typeof GetErasResponseSchema;
   },
   /**
-   * 获取朝代下的所有年号
+   * 查找年号（根据条件）
    *
-   * @generated from rpc chinesehistory.DynastyService.GetErasByDynasty
+   * @generated from rpc chinesehistory.DynastyService.FindEras
    */
-  getErasByDynasty: {
+  findEras: {
     methodKind: "unary";
-    input: typeof GetErasByDynastyRequestSchema;
+    input: typeof FindErasRequestSchema;
     output: typeof GetErasResponseSchema;
   },
   /**
-   * 获取特定年号信息
+   * ============== 批量CRUD操作 ==============
+   * 批量插入或更新朝代
    *
-   * @generated from rpc chinesehistory.DynastyService.GetEraByName
+   * @generated from rpc chinesehistory.DynastyService.UpsertDynasties
    */
-  getEraByName: {
+  upsertDynasties: {
     methodKind: "unary";
-    input: typeof GetEraByNameRequestSchema;
-    output: typeof GetEraResponseSchema;
+    input: typeof UpsertDynastiesRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量删除朝代
+   *
+   * @generated from rpc chinesehistory.DynastyService.DeleteDynasties
+   */
+  deleteDynasties: {
+    methodKind: "unary";
+    input: typeof DeleteDynastiesRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量插入或更新皇帝
+   *
+   * @generated from rpc chinesehistory.DynastyService.UpsertEmperors
+   */
+  upsertEmperors: {
+    methodKind: "unary";
+    input: typeof UpsertEmperorsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量删除皇帝
+   *
+   * @generated from rpc chinesehistory.DynastyService.DeleteEmperors
+   */
+  deleteEmperors: {
+    methodKind: "unary";
+    input: typeof DeleteEmperorsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量插入或更新时期
+   *
+   * @generated from rpc chinesehistory.DynastyService.UpsertPeriods
+   */
+  upsertPeriods: {
+    methodKind: "unary";
+    input: typeof UpsertPeriodsRequestSchema;
+    output: typeof BatchOperationResponseSchema;
+  },
+  /**
+   * 批量插入或更新年号
+   *
+   * @generated from rpc chinesehistory.DynastyService.UpsertEraNames
+   */
+  upsertEraNames: {
+    methodKind: "unary";
+    input: typeof UpsertEraNamesRequestSchema;
+    output: typeof BatchOperationResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_dynasty, 0);
